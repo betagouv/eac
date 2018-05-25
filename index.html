@@ -117,7 +117,7 @@ label input[type=checkbox] {
   <header>
     <section class=block>
       <h2>Proche de vous</h2>
-      <div class=cards id=close-pois-list></div>
+      <div class=cards id=closest-pois-list></div>
       <article>
 
       </article>
@@ -125,6 +125,7 @@ label input[type=checkbox] {
 
     <section class=block>
       <h2>Actualité</h2>
+      <div class=cards id=newest-pois-list></div>
     </section>
   </header>
 
@@ -210,7 +211,8 @@ label input[type=checkbox] {
 
   db.load().then(data => {
     console.info('Airtable data are downloaded.')
-    document.querySelector('#close-pois-list').innerHTML = data.pois.slice(0, 3).map(d => renderPoi(d)).join('')
+    document.querySelector('#closest-pois-list').innerHTML = data.pois.slice(0, 3).map(d => renderPoi(d)).join('')
+    document.querySelector('#newest-pois-list').innerHTML = data.pois.sort((a, b) => a.createdTime < b.createdTime).slice(0, 3).map(d => renderPoi(d)).join('')
   })
 
 </script>
