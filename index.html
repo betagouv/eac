@@ -25,8 +25,7 @@ body > header h2 {
   font-weight: 200;
 }
 
-body > header,
-section {
+.block {
   background-color: #fff;
   margin: 0 1em 1em 0;
   padding: 2em;
@@ -41,6 +40,18 @@ main > header section {
   flex: 1;
 }
 
+#search input[type=search] {
+  border-color: #999;
+  box-shadow: 0 0 .1em #ccc;
+  font-size: 1.2em;
+  padding: 1em .7em;
+  transition: box-shadow .3s;
+}
+
+#search input[type=search]:focus {
+  box-shadow: .05em .05em .2em #bbb;
+}
+
 #filters {
   display: flex;
 }
@@ -50,7 +61,7 @@ main > header section {
 }
 </style>
 
-<header>
+<header class=block>
   <img id=logo src=images/logo-eac.jpg alt="Logo de la Pleateforme EAC">
   <h1>Pleateforme EAC</h1>
   <h2>L'Éducation artistique et culturelle à votre portée</h2>
@@ -58,33 +69,33 @@ main > header section {
 
 <main>
   <header>
-    <section>
+    <section class=block>
       <h3>Proche de vous</h3>
     </section>
 
-    <section>
+    <section class=block>
       <h3>Actualité</h3>
     </section>
   </header>
 
-  <section id=search>
+  <section id=search class=block>
     <label for=q>Vous recherchez</label>
     <input type=search name=q id=q value="" required>
     <input type=submit value=Rechercher>
+
+    <section id=filters>
+      <section class=filters>
+        <h3>Type</h3>
+        <label for=sortie><input type=checkbox name=type value=sortie id=sortie>Sortie</label>
+        <label for=intervention><input type=checkbox name=type value=intervention id=intervention>Intervention</label>
+      </section>
+
+      <section class=filters>
+        <h3>Niveau</h3>
+        <label for=1er><input type=checkbox name=type value=1er id=1er>1er niveau</label>
+        <label for=college><input type=checkbox name=type value=college id=college>Collège</label>
+        <label for=lycee><input type=checkbox name=type value=lycee id=lycee>Lycée</label>
+      </section>
+    <section>
   </section>
-
-  <section id=filters>
-    <section class=filters>
-      <h3>Type</h3>
-      <label for=sortie><input type=checkbox name=type value=sortie id=sortie>Sortie</label>
-      <label for=intervention><input type=checkbox name=type value=intervention id=intervention>Intervention</label>
-    </section>
-
-    <section class=filters>
-      <h3>Niveau</h3>
-      <label for=1er><input type=checkbox name=type value=1er id=1er>1er niveau</label>
-      <label for=college><input type=checkbox name=type value=college id=college>Collège</label>
-      <label for=lycee><input type=checkbox name=type value=lycee id=lycee>Lycée</label>
-    </section>
-  <section>
 </main>
