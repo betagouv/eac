@@ -90,7 +90,7 @@ label input[type=checkbox] {
 
   <section id=search class=block>
     <h2>Vous recherchez</h2>
-    <input type=search name=q id=q value="" required>
+    <input type=search name=q id=q value="" required autofocus>
     <input type=submit value=Rechercher>
 
     <section id=filters>
@@ -124,3 +124,41 @@ label input[type=checkbox] {
     <section>
   </section>
 </main>
+
+<script>
+  const apiKey = 'a2V5VnF0SVlyN3l1U1VnTXc='
+  const databaseId = 'appQXPPR2DMoc3B6N'
+  const db = {
+    data: {},
+
+    async load() {
+      try {
+        this.data = {
+          schools: await this.callAirtable('Etablissements'),
+          pois: await this.callAirtable('Acteurs Culturels'),
+        }
+      }
+      catch (e) {
+        console.error(e)
+      }
+      return this.data
+    },
+
+    callAirtable(table, options) {
+      return fetch(`https://api.airtable.com/v0/${databaseId}/${table}/?view=Grid%20view`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${atob(apiKey)}`,
+        },
+      })
+      .then(r => r.json())
+      .then(collection => collection.records.map(row => Object.assign({id: row.id, createdTime: row.createdTime}, row.fields)))
+      .catch(console.error.bind(console))
+    }
+  }
+
+  db.load().then(data => {
+    console.log('Airtable is downloaded')
+  })
+
+</script>
