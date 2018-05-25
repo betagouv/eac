@@ -1,0 +1,90 @@
+<!doctype html>
+<meta charset=utf-8>
+<link rel=stylesheet href=//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic>
+<link rel=stylesheet href=//cdn.rawgit.com/necolas/normalize.css/master/normalize.css>
+<link rel=stylesheet href=./css/milligram.min.css>
+
+<style>
+body {
+  background-color: #f8f8f8;
+}
+
+#logo {
+  max-height: 5em;
+  float: left;
+}
+body > header {
+  padding: .5rem !important;
+}
+body > header h1 {
+  font-size: 2em;
+  margin: .4em 0 0 0;
+}
+body > header h2 {
+  font-size: 1em;
+  font-weight: 200;
+}
+
+body > header,
+section {
+  background-color: #fff;
+  margin: 0 1em 1em 0;
+  padding: 2em;
+  box-shadow: .3em .3em .2em #eee;
+}
+
+main > header {
+  display: flex;
+}
+main > header section {
+  display: flex;
+  flex: 1;
+}
+
+#filters {
+  display: flex;
+}
+
+.filters {
+  flex: 1;
+}
+</style>
+
+<header>
+  <img id=logo src=images/logo-eac.jpg alt="Logo de la Pleateforme EAC">
+  <h1>Pleateforme EAC</h1>
+  <h2>L'Éducation artistique et culturelle à votre portée</h2>
+</header>
+
+<main>
+  <header>
+    <section>
+      <h3>Proche de vous</h3>
+    </section>
+
+    <section>
+      <h3>Actualité</h3>
+    </section>
+  </header>
+
+  <section id=search>
+    <label for=q>Vous recherchez</label>
+    <input type=search name=q id=q value="" required>
+    <input type=submit value=Rechercher>
+  </section>
+
+  <section id=filters>
+    <section class=filters>
+      <h3>Type</h3>
+      <label for=sortie><input type=checkbox name=type value=sortie id=sortie>Sortie</label>
+      <label for=intervention><input type=checkbox name=type value=intervention id=intervention>Intervention</label>
+    </section>
+
+    <section class=filters>
+      <h3>Niveau</h3>
+      <label for=1er><input type=checkbox name=type value=1er id=1er>1er niveau</label>
+      <label for=college><input type=checkbox name=type value=college id=college>Collège</label>
+      <label for=lycee><input type=checkbox name=type value=lycee id=lycee>Lycée</label>
+    </section>
+  <section>
+</main>
