@@ -31,13 +31,49 @@ body > header h2 {
   padding: 2em;
   box-shadow: .3em .3em .2em #eee;
 }
+main .block h2 {
+  text-align: center;
+}
 
 main > header {
   display: flex;
 }
 main > header section {
-  display: flex;
   flex: 1;
+}
+
+.cards {
+  display: flex;
+}
+
+.poiCard {
+  position: relative;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  width: 30%;
+  margin-right: 3%;
+}
+.poiCard h3 {
+  font-size: 1.2em;
+  margin-bottom: 1rem;
+}
+
+.poiCard .tags,
+.poiCard .tags li {
+  margin-bottom: 0;
+  text-align: right;
+}
+.poiCard .tags li {
+  list-style: none;
+  display: inline-block;
+  font-size: 1.1rem;
+  font-style: italic;
+  background: #eee;
+  padding: .3rem 1rem;
+  border-radius: .3rem;
+}
+.poiCard .tags li:not(:last-of-type) {
+  margin-right: 1rem;
 }
 
 #search h2 {
@@ -80,11 +116,15 @@ label input[type=checkbox] {
 <main>
   <header>
     <section class=block>
-      <h3>Proche de vous</h3>
+      <h2>Proche de vous</h2>
+      <div class=cards id=close-pois-list></div>
+      <article>
+
+      </article>
     </section>
 
     <section class=block>
-      <h3>Actualité</h3>
+      <h2>Actualité</h2>
     </section>
   </header>
 
@@ -126,6 +166,19 @@ label input[type=checkbox] {
 </main>
 
 <script>
+  function renderPoi(data) {
+    return `
+      <div class=poiCard>
+        <h3>${data.Nom}</h3>
+        <p>${data.Description.substr(0, 80)}…</p>
+        <!--<address>${data['Adresse Postal']} ${data['Code Postal']}</address>-->
+        <ul class=tags>
+          ${data.Type.map(type => `<li>${type}</li>`).join('')}
+        </ul>
+      </div>
+    `
+  }
+
   const apiKey = 'a2V5VnF0SVlyN3l1U1VnTXc='
   const databaseId = 'appQXPPR2DMoc3B6N'
   const db = {
@@ -138,9 +191,7 @@ label input[type=checkbox] {
           pois: await this.callAirtable('Acteurs Culturels'),
         }
       }
-      catch (e) {
-        console.error(e)
-      }
+      catch (e) {console.error(e)}
       return this.data
     },
 
@@ -158,7 +209,8 @@ label input[type=checkbox] {
   }
 
   db.load().then(data => {
-    console.log('Airtable is downloaded')
+    console.info('Airtable data are downloaded.')
+    document.querySelector('#close-pois-list').innerHTML = data.pois.slice(0, 3).map(d => renderPoi(d)).join('')
   })
 
 </script>
