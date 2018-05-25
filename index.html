@@ -35,10 +35,10 @@ main .block h2 {
   text-align: center;
 }
 
-main > header {
+#home > header {
   display: flex;
 }
-main > header section {
+#home > header section {
   flex: 1;
 }
 
@@ -52,6 +52,7 @@ main > header section {
   padding: 1rem;
   width: 30%;
   margin-right: 3%;
+  margin-bottom: 1rem;
 }
 .poiCard h3 {
   font-size: 1.2em;
@@ -114,75 +115,72 @@ label input[type=checkbox] {
 </header>
 
 <main>
-  <header>
-    <section class=block>
-      <h2>Proche de vous</h2>
-      <div class=cards id=closest-pois-list></div>
-      <article>
+  <div class=page id=home>
+    <header>
+      <section class=block>
+        <h2>Proche de vous</h2>
+        <div class=cards id=closest-pois-list></div>
+        <article>
 
-      </article>
+        </article>
+      </section>
+
+      <section class=block>
+        <h2>Actualité</h2>
+        <div class=cards id=newest-pois-list></div>
+      </section>
+    </header>
+
+    <section id=search class=block>
+      <h2>Vous recherchez</h2>
+      <form action=/search>
+        <input type=search name=q id=q value="" required autofocus>
+        <input type=submit value=Rechercher>
+      <form>
+
+      <section id=filters>
+        <section class=filters>
+          <h3>Type</h3>
+          <label for=sortie><input type=checkbox name=type value=sortie id=sortie>Sortie</label>
+          <label for=intervention><input type=checkbox name=type value=intervention id=intervention>Intervention</label>
+        </section>
+
+        <section class=filters>
+          <h3>Niveau</h3>
+          <label for=1er><input type=checkbox name=type value=1er id=1er>1er niveau</label>
+          <label for=college><input type=checkbox name=type value=college id=college>Collège</label>
+          <label for=lycee><input type=checkbox name=type value=lycee id=lycee>Lycée</label>
+        </section>
+
+        <section class=filters>
+          <h3>Domaine</h3>
+          <label for=danse><input type=checkbox name=type value=danse id=danse>Danse</label>
+          <label for=theatre><input type=checkbox name=type value=theatre id=theatre>Theatre</label>
+          <label for=sciences><input type=checkbox name=type value=sciences id=sciences>Culture scientifique et technique</label>
+          <label for=plastique><input type=checkbox name=type value=plastique id=plastique>Arts plastiques</label>
+        </section>
+
+        <section class=filters>
+          <h3>Compétences PEAC</h3>
+          <label for=1><input type=checkbox name=type value=1 id=1>Cultiver sa sensibilité</label>
+          <label for=2><input type=checkbox name=type value=2 id=2>Échanger avec un artiste</label>
+          <label for=3><input type=checkbox name=type value=3 id=3>Appréhender des oeuvres</label>
+        </section>
+      <section>
     </section>
+  </div>
 
+  <div class=page id=search-page>
     <section class=block>
-      <h2>Actualité</h2>
-      <div class=cards id=newest-pois-list></div>
+      <div>Aucun résultat n'est disponible</div>
+      <a class=button href=#>Retour</a>
     </section>
-  </header>
-
-  <section id=search class=block>
-    <h2>Vous recherchez</h2>
-    <form>
-      <input type=search name=q id=q value="" required autofocus>
-      <input type=submit value=Rechercher>
-    <form>
-
-    <section id=filters>
-      <section class=filters>
-        <h3>Type</h3>
-        <label for=sortie><input type=checkbox name=type value=sortie id=sortie>Sortie</label>
-        <label for=intervention><input type=checkbox name=type value=intervention id=intervention>Intervention</label>
-      </section>
-
-      <section class=filters>
-        <h3>Niveau</h3>
-        <label for=1er><input type=checkbox name=type value=1er id=1er>1er niveau</label>
-        <label for=college><input type=checkbox name=type value=college id=college>Collège</label>
-        <label for=lycee><input type=checkbox name=type value=lycee id=lycee>Lycée</label>
-      </section>
-
-      <section class=filters>
-        <h3>Domaine</h3>
-        <label for=danse><input type=checkbox name=type value=danse id=danse>Danse</label>
-        <label for=theatre><input type=checkbox name=type value=theatre id=theatre>Theatre</label>
-        <label for=sciences><input type=checkbox name=type value=sciences id=sciences>Culture scientifique et technique</label>
-        <label for=plastique><input type=checkbox name=type value=plastique id=plastique>Arts plastiques</label>
-      </section>
-
-      <section class=filters>
-        <h3>Compétences PEAC</h3>
-        <label for=1><input type=checkbox name=type value=1 id=1>Cultiver sa sensibilité</label>
-        <label for=2><input type=checkbox name=type value=2 id=2>Échanger avec un artiste</label>
-        <label for=3><input type=checkbox name=type value=3 id=3>Appréhender des oeuvres</label>
-      </section>
-    <section>
-  </section>
+  </div>
 </main>
 
 <script src=./js/fuse.min.js></script>
+<script src=./js/route.min.js></script>
 <script>
-  function renderPoi(data) {
-    return `
-      <div class=poiCard>
-        <h3>${data.Nom}</h3>
-        <p>${data.Description.substr(0, 80)}…</p>
-        <!--<address>${data['Adresse Postal']} ${data['Code Postal']}</address>-->
-        <ul class=tags>
-          ${data.Type.map(type => `<li>${type}</li>`).join('')}
-        </ul>
-      </div>
-    `
-  }
-
   const apiKey = 'a2V5VnF0SVlyN3l1U1VnTXc='
   const databaseId = 'appQXPPR2DMoc3B6N'
   var searchablePois = null
@@ -233,10 +231,35 @@ label input[type=checkbox] {
     searchablePois = new Fuse(data.pois, searchablePoisOptions)
   })
 
+  function renderPoi(data) {
+    return `
+      <div class=poiCard>
+        <h3>${data.Nom}</h3>
+        <p>${data.Description.substr(0, 80)}…</p>
+        <!--<address>${data['Adresse Postal']} ${data['Code Postal']}</address>-->
+        <ul class=tags>
+          ${data.Type.map(type => `<li>${type}</li>`).join('')}
+        </ul>
+      </div>`
+  }
+
   document.querySelector('#search form').addEventListener('submit', event => {
     event.preventDefault()
-    const results = searchablePois.search(event.target.q.value)
-    console.debug(`results for ${event.target.value}`, results)
+    const q = event.target.q.value
+    route(`/search/${q}`)
   })
+
+  route('/', () => {
+    console.debug('home page')
+    document.querySelectorAll('.page').forEach(e => {e.style.display = 'none'})
+    document.querySelector('.page#home').style.display = 'block'
+  })
+  route('/search/*', (q) => {
+    document.querySelectorAll('.page').forEach(e => {e.style.display = 'none'})
+    const page = document.querySelector('#search-page')
+    page.style.display = 'block'
+  })
+  route.base('#!/')
+  route.start(true)
 
 </script>
