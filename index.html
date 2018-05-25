@@ -131,8 +131,10 @@ label input[type=checkbox] {
 
   <section id=search class=block>
     <h2>Vous recherchez</h2>
-    <input type=search name=q id=q value="" required autofocus>
-    <input type=submit value=Rechercher>
+    <form>
+      <input type=search name=q id=q value="" required autofocus>
+      <input type=submit value=Rechercher>
+    <form>
 
     <section id=filters>
       <section class=filters>
@@ -166,6 +168,7 @@ label input[type=checkbox] {
   </section>
 </main>
 
+<script src=./js/fuse.min.js></script>
 <script>
   function renderPoi(data) {
     return `
@@ -182,6 +185,19 @@ label input[type=checkbox] {
 
   const apiKey = 'a2V5VnF0SVlyN3l1U1VnTXc='
   const databaseId = 'appQXPPR2DMoc3B6N'
+  var searchablePois = null
+  const searchablePoisOptions = {
+    keys: [{
+      name: 'Nom',
+      weight: 0.8
+    }, {
+      name: 'Type',
+      weight: 0.5
+    }, {
+      name: 'Description',
+      weight: 0.3
+    }]
+  }
   const db = {
     data: {},
 
@@ -209,10 +225,18 @@ label input[type=checkbox] {
     }
   }
 
+
   db.load().then(data => {
     console.info('Airtable data are downloaded.')
     document.querySelector('#closest-pois-list').innerHTML = data.pois.slice(0, 3).map(d => renderPoi(d)).join('')
     document.querySelector('#newest-pois-list').innerHTML = data.pois.sort((a, b) => a.createdTime < b.createdTime).slice(0, 3).map(d => renderPoi(d)).join('')
+    searchablePois = new Fuse(data.pois, searchablePoisOptions)
+  })
+
+  document.querySelector('#search form').addEventListener('submit', event => {
+    event.preventDefault()
+    const results = searchablePois.search(event.target.q.value)
+    console.debug(`results for ${event.target.value}`, results)
   })
 
 </script>
