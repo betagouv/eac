@@ -58,4 +58,11 @@
     this.closests = this.opts.data.slice(0, 3)
     this.newests = this.opts.data.sort((a, b) => a.createdTime < b.createdTime).slice(0, 3)
   </script>
+
+  <style scoped>
+    header {
+      display: flex;
+      flex: 1;
+    }
+  </style>
 </page-home>

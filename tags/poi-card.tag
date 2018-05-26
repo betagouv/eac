@@ -7,21 +7,26 @@
   </nav>
 
   <style scoped>
-    :root {
-      position: relative;
-      border: 1px solid #ddd;
-      padding: 1rem;
-      width: 30%;
-      margin-right: 3%;
-      margin-bottom: 1rem;
+    :scope {
+      display: grid;
+      grid-template-areas:
+        "title        tags"
+        "description  description"
+        ;
     }
 
     h3 {
+      grid-area: title;
       font-size: 1.2em;
       margin-bottom: 1rem;
     }
 
+    p {
+      grid-area: description;
+    }
+
     .tags {
+      grid-area: tags;
       text-align: right;
     }
     .tags a {
