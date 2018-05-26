@@ -35,10 +35,10 @@ main .block h2 {
   text-align: center;
 }
 
-#home > header {
+#page-home > header {
   display: flex;
 }
-#home > header section {
+#page-home > header section {
   flex: 1;
 }
 
@@ -108,6 +108,7 @@ label input[type=checkbox] {
 }
 </style>
 
+
 <header class=block>
   <img id=logo src=images/logo-eac.jpg alt="Logo de la Pleateforme EAC">
   <h1>Pleateforme EAC</h1>
@@ -115,60 +116,7 @@ label input[type=checkbox] {
 </header>
 
 <main>
-  <div class=page id=home>
-    <header>
-      <section class=block>
-        <h2>Proche de vous</h2>
-        <div class=cards id=closest-pois-list></div>
-        <article>
-
-        </article>
-      </section>
-
-      <section class=block>
-        <h2>Actualité</h2>
-        <div class=cards id=newest-pois-list></div>
-      </section>
-    </header>
-
-    <section id=search class=block>
-      <h2>Vous recherchez</h2>
-      <form action=/search>
-        <input type=search name=q id=q value="" required autofocus>
-        <input type=submit value=Rechercher>
-      <form>
-
-      <section id=filters>
-        <section class=filters>
-          <h3>Type</h3>
-          <label for=sortie><input type=checkbox name=type value=sortie id=sortie>Sortie</label>
-          <label for=intervention><input type=checkbox name=type value=intervention id=intervention>Intervention</label>
-        </section>
-
-        <section class=filters>
-          <h3>Niveau</h3>
-          <label for=1er><input type=checkbox name=type value=1er id=1er>1er niveau</label>
-          <label for=college><input type=checkbox name=type value=college id=college>Collège</label>
-          <label for=lycee><input type=checkbox name=type value=lycee id=lycee>Lycée</label>
-        </section>
-
-        <section class=filters>
-          <h3>Domaine</h3>
-          <label for=danse><input type=checkbox name=type value=danse id=danse>Danse</label>
-          <label for=theatre><input type=checkbox name=type value=theatre id=theatre>Theatre</label>
-          <label for=sciences><input type=checkbox name=type value=sciences id=sciences>Culture scientifique et technique</label>
-          <label for=plastique><input type=checkbox name=type value=plastique id=plastique>Arts plastiques</label>
-        </section>
-
-        <section class=filters>
-          <h3>Compétences PEAC</h3>
-          <label for=1><input type=checkbox name=type value=1 id=1>Cultiver sa sensibilité</label>
-          <label for=2><input type=checkbox name=type value=2 id=2>Échanger avec un artiste</label>
-          <label for=3><input type=checkbox name=type value=3 id=3>Appréhender des oeuvres</label>
-        </section>
-      <section>
-    </section>
-  </div>
+  <page-home></page-home>
 
   <div class=page id=search-page>
     <section class=block>
@@ -178,6 +126,8 @@ label input[type=checkbox] {
   </div>
 </main>
 
+<script type=riot/tag src=./tags/page-home.tag></script>
+<script src=./js/riot+compiler.min.js></script>
 <script src=./js/fuse.min.js></script>
 <script src=./js/route.min.js></script>
 <script>
@@ -197,14 +147,17 @@ label input[type=checkbox] {
     }]
   }
   const db = {
+    loaded: false,
     data: {},
 
     async load() {
+      if(this.loaded) return this.data
       try {
         this.data = {
           schools: await this.callAirtable('Etablissements'),
           pois: await this.callAirtable('Acteurs Culturels'),
         }
+        this.loaded = true
       }
       catch (e) {console.error(e)}
       return this.data
@@ -252,7 +205,7 @@ label input[type=checkbox] {
   route('/', () => {
     console.debug('home page')
     document.querySelectorAll('.page').forEach(e => {e.style.display = 'none'})
-    document.querySelector('.page#home').style.display = 'block'
+    document.querySelector('.page#page-home').style.display = 'block'
   })
   route('/search/*', (q) => {
     document.querySelectorAll('.page').forEach(e => {e.style.display = 'none'})
@@ -264,5 +217,9 @@ label input[type=checkbox] {
   })
   route.base('#!/')
   route.start(true)
+
+
+  riot.mount('*', { db })
+
 
 </script>

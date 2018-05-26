@@ -1,0 +1,128 @@
+<!doctype html>
+<meta charset=utf-8>
+<link rel=stylesheet href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+<link rel=stylesheet href=//cdn.rawgit.com/necolas/normalize.css/master/normalize.css>
+<link rel=stylesheet href=./css/milligram.min.css>
+
+<style>
+body {
+  background-color: #f8f8f8;
+}
+
+#logo {
+  max-height: 5em;
+  float: left;
+}
+body > header {
+  padding: .5rem !important;
+}
+body > header h1 {
+  font-size: 2em;
+  margin: .4em 0 0 0;
+}
+body > header h2 {
+  font-size: 1em;
+  font-weight: 200;
+}
+
+.block {
+  background-color: #fff;
+  margin: 0 1em 1em 0;
+  padding: 2em;
+  box-shadow: .3em .3em .2em #eee;
+}
+main .block h2 {
+  text-align: center;
+}
+
+#page-home > header {
+  display: flex;
+}
+#page-home > header section {
+  flex: 1;
+}
+
+.cards {
+  display: flex;
+}
+
+#search h2 {
+  text-align: center;
+}
+#search input[type=search] {
+  border-color: #999;
+  box-shadow: 0 0 .1em #ccc;
+  font-size: 1.2em;
+  padding: 1em .7em;
+  transition: box-shadow .3s;
+}
+#search input[type=search]:focus {
+  box-shadow: .05em .05em .2em #bbb;
+}
+#search input[type=submit] {
+  display: block;
+  margin: 0 auto;
+}
+
+#filters {
+  display: flex;
+  margin-top: 2rem;
+}
+
+.filters {
+  flex: 1;
+}
+label input[type=checkbox] {
+  margin-right: .8rem;
+}
+</style>
+
+
+<header class=block>
+  <img id=logo src=images/logo-eac.jpg alt="Logo de la Pleateforme EAC">
+  <h1>Pleateforme EAC</h1>
+  <h2>L'Éducation artistique et culturelle à votre portée</h2>
+</header>
+
+<main>
+  <page-home></page-home>
+</main>
+
+<script type=riot/tag src=./tags/page-home.tag></script>
+<script type=riot/tag src=./tags/poi-card.tag></script>
+<script src=./js/riot+compiler.min.js></script>
+<script src=./js/fuse.min.js></script>
+<script src=./js/route.min.js></script>
+<script src=./js/db.js></script>
+<script>
+  const apiKey = 'a2V5VnF0SVlyN3l1U1VnTXc='
+  const databaseId = 'appQXPPR2DMoc3B6N'
+  var searchablePois = null
+  const container = document.querySelector('main')
+  const searchablePoisOptions = {
+    keys: [{
+      name: 'Nom',
+      weight: 0.8
+    }, {
+      name: 'Type',
+      weight: 0.5
+    }, {
+      name: 'Description',
+      weight: 0.3
+    }]
+  }
+
+  db.load().then(data => {
+    searchablePois = new Fuse(data.pois, searchablePoisOptions)
+    console.debug('> db is loaded', data)
+    riot.mount('page-home', { data: data.pois })
+  })
+
+  route('/', () => {
+    console.debug('>>> home')
+  })
+  route('/search/*', (q) => {
+  })
+  route.base('#!/')
+  route.start(true)
+</script>
