@@ -22,6 +22,7 @@
 
     p {
       grid-area: description;
+      margin: 0;
     }
 
     .tags {

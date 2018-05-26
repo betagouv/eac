@@ -2,13 +2,11 @@
   <header>
     <section class=block>
       <h2>Proche de vous</h2>
-      <div class=cards id=closest-pois-list></div>
-      <poi-card each={ closests } data={ this }></poi-card>
+      <poi-cards data={ closests }></poi-cards>
     </section>
-
     <section class=block>
       <h2>Actualité</h2>
-      <poi-card each={ newests } data={ this }></poi-card>
+      <poi-cards data={ newests }></poi-cards>
     </section>
   </header>
 
