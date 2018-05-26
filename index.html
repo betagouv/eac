@@ -258,6 +258,9 @@ label input[type=checkbox] {
     document.querySelectorAll('.page').forEach(e => {e.style.display = 'none'})
     const page = document.querySelector('#search-page')
     page.style.display = 'block'
+    const results = searchablePois.search(q)
+    console.info(results.length, 'results')
+    if(results.length) page.querySelector('section div').innerHTML = results.map(poi => renderPoi(poi)).join('')
   })
   route.base('#!/')
   route.start(true)
