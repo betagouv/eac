@@ -3,6 +3,11 @@
     <section class=block>
       <h2>Proche de vous</h2>
       <poi-cards data={ closests }></poi-cards>
+      <p if={ !closests.length }>Veuillez saisir l'établissement auquel vous êtes rataché·e.</p>
+      <select ref=schoolSelector onchange={ changeSchool } value={ school && school.id }>
+          <option value="">Sélectionnez votre établissement</option>
+          <option each={ school in opts.schools } value={ school.id }>{ school.appellation_officielle }</option>
+      </select>
     </section>
     <section class=block>
       <h2>Actualité</h2>
@@ -47,14 +52,41 @@
 
   <script>
     const pois = this.opts.data
-    this.closests = pois.slice(0, 3)
+    this.closests = []
     this.newests = pois.sort((a, b) => a.createdTime < b.createdTime).slice(0, 3)
     this.filters = {
-      type: [...new Set(Array.concat(...pois.map(p => p.Type)))].sort(),
+      type: [...new Set(Array.concat(...pois.map(p => p.Type)))].sort()
+    }
 
+    setSchool(schoolId) {
+      const school = this.opts.schools.find(school => school.id === schoolId)
+      if(school) {
+        updatePoisDistance([school.latitude, school.longitude])
+        localStorage.setItem('schoolId', school.id)
+        this.closests = pois.sort((a, b) => a.distance > b.distance).slice(0, 3)
+      }
+      else {
+        updatePoisDistance(null)
+        localStorage.removeItem('schoolId')
+        this.closests = []
+      }
+      this.school = school
+      this.update()
+    }
+
+    function updatePoisDistance(latlng) {
+      pois.forEach((poi, i) => {
+        pois[i].distance = latlng ? Math.round(distance(latlng, [poi.latitude, poi.longitude])) : null
+      })
+    }
+
+    changeSchool(event) {
+      this.setSchool(this.refs.schoolSelector.value)
     }
 
     this.on('mount', () => {
+      this.setSchool(localStorage.getItem('schoolId'))
+
       this.refs.form.addEventListener('submit', event => {
         event.preventDefault()
         const form = event.target
@@ -69,6 +101,8 @@
   <style scoped>
     header {
       display: flex;
+    }
+    header > * {
       flex: 1;
     }
     input[type=search] {
@@ -98,6 +132,12 @@
     }
     label input[type=checkbox] {
       margin-right: .8rem;
+    }
+
+    select {
+      display: block;
+      padding-left: 35px;
+      background: url(images/gps.icon.png) no-repeat 7px center;
     }
   </style>
 </page-home>

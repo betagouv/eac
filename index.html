@@ -95,7 +95,8 @@ body > header h2 {
 
   route('/', () => {
     container.innerHTML = '<page-home></page-home>'
-    riot.mount('page-home', { data: db.data.pois })
+    console.log(db.data.schools)
+    riot.mount('page-home', { data: db.data.pois, schools: db.data.schools })
   })
   route('/search?q=..', () => {
     container.innerHTML = '<page-search></page-search>'

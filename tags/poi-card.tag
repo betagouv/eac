@@ -6,12 +6,15 @@
     <a each={ tag in opts.data.Type }>{ tag }</a>
   </nav>
 
+  <geo if={ opts.data.distance && !opts['hidedistance'] }>{ opts.data.distance }km</geo>
+
   <style scoped>
     :scope {
       display: grid;
-      grid-template-areas:
+      grid-template:
         "title        tags"
-        "description  description";
+        "description  geo"
+        / 1fr auto;
     }
 
     h3 {
@@ -41,6 +44,12 @@
     }
     .tags a:not(:last-of-type) {
       margin-right: 1rem;
+    }
+    geo {
+      grid-area: geo;
+      align-self: end;
+      font-size: 1rem;
+      text-align: right;
     }
   </style>
 </poi-card>
