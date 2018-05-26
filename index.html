@@ -31,80 +31,8 @@ body > header h2 {
   padding: 2em;
   box-shadow: .3em .3em .2em #eee;
 }
-main .block h2 {
+.block h2 {
   text-align: center;
-}
-
-#page-home > header {
-  display: flex;
-}
-#page-home > header section {
-  flex: 1;
-}
-
-.cards {
-  display: flex;
-}
-
-.poiCard {
-  position: relative;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  width: 30%;
-  margin-right: 3%;
-  margin-bottom: 1rem;
-}
-.poiCard h3 {
-  font-size: 1.2em;
-  margin-bottom: 1rem;
-}
-
-.poiCard .tags,
-.poiCard .tags li {
-  margin-bottom: 0;
-  text-align: right;
-}
-.poiCard .tags li {
-  list-style: none;
-  display: inline-block;
-  font-size: 1.1rem;
-  font-style: italic;
-  background: #eee;
-  padding: .3rem 1rem;
-  border-radius: .3rem;
-}
-.poiCard .tags li:not(:last-of-type) {
-  margin-right: 1rem;
-}
-
-#search h2 {
-  text-align: center;
-}
-#search input[type=search] {
-  border-color: #999;
-  box-shadow: 0 0 .1em #ccc;
-  font-size: 1.2em;
-  padding: 1em .7em;
-  transition: box-shadow .3s;
-}
-#search input[type=search]:focus {
-  box-shadow: .05em .05em .2em #bbb;
-}
-#search input[type=submit] {
-  display: block;
-  margin: 0 auto;
-}
-
-#filters {
-  display: flex;
-  margin-top: 2rem;
-}
-
-.filters {
-  flex: 1;
-}
-label input[type=checkbox] {
-  margin-right: .8rem;
 }
 </style>
 
@@ -116,24 +44,21 @@ label input[type=checkbox] {
 </header>
 
 <main>
-  <page-home></page-home>
-
-  <div class=page id=search-page>
-    <section class=block>
-      <div>Aucun résultat n'est disponible</div>
-      <a class=button href=#>Retour</a>
-    </section>
-  </div>
 </main>
 
 <script type=riot/tag src=./tags/page-home.tag></script>
+<script type=riot/tag src=./tags/page-search.tag></script>
+<script type=riot/tag src=./tags/poi-card.tag></script>
+<script type=riot/tag src=./tags/poi-cards.tag></script>
 <script src=./js/riot+compiler.min.js></script>
 <script src=./js/fuse.min.js></script>
 <script src=./js/route.min.js></script>
+<script src=./js/db.js></script>
 <script>
   const apiKey = 'a2V5VnF0SVlyN3l1U1VnTXc='
   const databaseId = 'appQXPPR2DMoc3B6N'
   var searchablePois = null
+  const container = document.querySelector('main')
   const searchablePoisOptions = {
     keys: [{
       name: 'Nom',
@@ -146,80 +71,20 @@ label input[type=checkbox] {
       weight: 0.3
     }]
   }
-  const db = {
-    loaded: false,
-    data: {},
-
-    async load() {
-      if(this.loaded) return this.data
-      try {
-        this.data = {
-          schools: await this.callAirtable('Etablissements'),
-          pois: await this.callAirtable('Acteurs Culturels'),
-        }
-        this.loaded = true
-      }
-      catch (e) {console.error(e)}
-      return this.data
-    },
-
-    callAirtable(table, options) {
-      return fetch(`https://api.airtable.com/v0/${databaseId}/${table}/?view=Grid%20view`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${atob(apiKey)}`,
-        },
-      })
-      .then(r => r.json())
-      .then(collection => collection.records.map(row => Object.assign({id: row.id, createdTime: row.createdTime}, row.fields)))
-      .catch(console.error.bind(console))
-    }
-  }
-
-
-  db.load().then(data => {
-    console.info('Airtable data are downloaded.')
-    document.querySelector('#closest-pois-list').innerHTML = data.pois.slice(0, 3).map(d => renderPoi(d)).join('')
-    document.querySelector('#newest-pois-list').innerHTML = data.pois.sort((a, b) => a.createdTime < b.createdTime).slice(0, 3).map(d => renderPoi(d)).join('')
-    searchablePois = new Fuse(data.pois, searchablePoisOptions)
-  })
-
-  function renderPoi(data) {
-    return `
-      <div class=poiCard>
-        <h3>${data.Nom}</h3>
-        <p>${data.Description.substr(0, 80)}…</p>
-        <!--<address>${data['Adresse Postal']} ${data['Code Postal']}</address>-->
-        <ul class=tags>
-          ${data.Type.map(type => `<li>${type}</li>`).join('')}
-        </ul>
-      </div>`
-  }
-
-  document.querySelector('#search form').addEventListener('submit', event => {
-    event.preventDefault()
-    const q = event.target.q.value
-    route(`/search/${q}`)
-  })
 
   route('/', () => {
-    console.debug('home page')
-    document.querySelectorAll('.page').forEach(e => {e.style.display = 'none'})
-    document.querySelector('.page#page-home').style.display = 'block'
+    container.innerHTML = '<page-home></page-home>'
+    riot.mount('page-home', { data: db.data.pois })
   })
   route('/search/*', (q) => {
-    document.querySelectorAll('.page').forEach(e => {e.style.display = 'none'})
-    const page = document.querySelector('#search-page')
-    page.style.display = 'block'
-    const results = searchablePois.search(q)
-    console.info(results.length, 'results')
-    if(results.length) page.querySelector('section div').innerHTML = results.map(poi => renderPoi(poi)).join('')
+    container.innerHTML = '<page-search></page-search>'
+    riot.mount('page-search', { q, data: db.data.pois })
   })
   route.base('#!/')
-  route.start(true)
 
-
-  riot.mount('*', { db })
-
-
+  db.load().then(data => {
+    searchablePois = new Fuse(data.pois, searchablePoisOptions)
+    console.info('db is loaded', data)
+    route.start(true)
+  })
 </script>
