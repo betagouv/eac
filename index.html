@@ -9,18 +9,28 @@ body {
   background-color: #f8f8f8;
 }
 
-#logo {
-  max-height: 5em;
-  float: left;
-}
 body > header {
   padding: .5rem !important;
 }
+body > header {
+  display: grid;
+  grid-template:
+    ". logo title ."
+    ". logo baseline ."
+    / 1fr 150px auto 1fr
+    ;
+}
+body > header #logo {
+  grid-area: logo;
+}
 body > header h1 {
+  grid-area: title;
   font-size: 2em;
   margin: .4em 0 0 0;
+  align-self: end;
 }
 body > header h2 {
+  grid-area: baseline;
   font-size: 1em;
   font-weight: 200;
 }
@@ -48,7 +58,7 @@ body > header h2 {
 
 
 <header class=block>
-  <img id=logo src=images/logo-eac.jpg alt="Logo de la Pleateforme EAC">
+  <img id=logo src=images/logo-eac.gif alt="Logo de la Pleateforme EAC">
   <h1>Pleateforme EAC</h1>
   <h2>L'Éducation artistique et culturelle à votre portée</h2>
 </header>
