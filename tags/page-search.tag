@@ -8,7 +8,11 @@
   </section>
 
   <script>
+    let results = searchablePois.search(opts.q)
     const types = opts.filters.type
-    this.results = searchablePois.search(opts.q).filter(result => result.Type.some(type => types.includes(type)))
+    if(types.length) {
+      results = results.filter(result => result.Type.some(type => types.includes(type)))
+    }
+    this.results = results
   </script>
 </page-search>
