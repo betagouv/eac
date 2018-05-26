@@ -1,6 +1,6 @@
 <poi-card>
   <h3>{ opts.data.Nom }</h3>
-  <p>{ opts.data.Description.substr(0, 80) }…</p>
+  <p>{ opts.data.Description.length < 80 ? opts.data.Description : opts.data.Description.substr(0, 80) + '…' }</p>
   <!--<address>{ opts.data['Adresse  Postal']} { opts.data['Code  Postal']}</address>-->
   <nav class=tags>
     <a each={ tag in opts.data.Type }>{ tag }</a>
@@ -11,8 +11,7 @@
       display: grid;
       grid-template-areas:
         "title        tags"
-        "description  description"
-        ;
+        "description  description";
     }
 
     h3 {
