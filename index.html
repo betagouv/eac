@@ -34,6 +34,16 @@ body > header h2 {
 .block h2 {
   text-align: center;
 }
+
+.disabled {opacity: .3}
+.loading {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: url(images/loading.gif) no-repeat center center;
+  top: calc(50% - 150px);
+  left: calc(50% - 150px);
+}
 </style>
 
 
@@ -43,9 +53,9 @@ body > header h2 {
   <h2>L'Éducation artistique et culturelle à votre portée</h2>
 </header>
 
-<main>
-</main>
+<main><div class=loading></div></main>
 
+<script type=riot/tag src=./tags/checkbox.tag></script>
 <script type=riot/tag src=./tags/page-home.tag></script>
 <script type=riot/tag src=./tags/page-search.tag></script>
 <script type=riot/tag src=./tags/poi-card.tag></script>
