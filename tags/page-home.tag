@@ -3,23 +3,19 @@
     <section class=block>
       <h2>Proche de vous</h2>
       <div class=cards id=closest-pois-list></div>
-      <virtual each={ data in closests }>
-        <poi-card data={ data }></poi-card>
-      </virtual>
+      <poi-card each={ closests } data={ this }></poi-card>
     </section>
 
     <section class=block>
       <h2>Actualité</h2>
-      <virtual each={ data in newests }>
-        <poi-card data={ data }></poi-card>
-      </virtual>
+      <poi-card each={ newests } data={ this }></poi-card>
     </section>
   </header>
 
-  <section id=search class=block>
+  <section class=block>
     <h2>Vous recherchez</h2>
-    <form action=/search>
-      <input type=search name=q id=q value="" required autofocus>
+    <form ref=form action=/search>
+      <input type=search name=q id=q required autofocus>
       <input type=submit value=Rechercher>
     </form>
 
@@ -57,6 +53,13 @@
   <script>
     this.closests = this.opts.data.slice(0, 3)
     this.newests = this.opts.data.sort((a, b) => a.createdTime < b.createdTime).slice(0, 3)
+
+    this.on('mount', () => {
+      this.refs.form.addEventListener('submit', event => {
+        event.preventDefault()
+        route(`/search/${event.target.q.value}`)
+      })
+    })
   </script>
 
   <style scoped>

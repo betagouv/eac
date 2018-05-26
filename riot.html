@@ -44,10 +44,10 @@ body > header h2 {
 </header>
 
 <main>
-  <page-home></page-home>
 </main>
 
 <script type=riot/tag src=./tags/page-home.tag></script>
+<script type=riot/tag src=./tags/page-search.tag></script>
 <script type=riot/tag src=./tags/poi-card.tag></script>
 <script src=./js/riot+compiler.min.js></script>
 <script src=./js/fuse.min.js></script>
@@ -71,17 +71,19 @@ body > header h2 {
     }]
   }
 
-  db.load().then(data => {
-    searchablePois = new Fuse(data.pois, searchablePoisOptions)
-    console.debug('> db is loaded', data)
-    riot.mount('page-home', { data: data.pois })
-  })
-
   route('/', () => {
-    console.debug('>>> home')
+    container.innerHTML = '<page-home></page-home>'
+    riot.mount('page-home', { data: db.data.pois })
   })
   route('/search/*', (q) => {
+    container.innerHTML = '<page-search></page-search>'
+    riot.mount('page-search', { q, data: db.data.pois })
   })
   route.base('#!/')
-  route.start(true)
+
+  db.load().then(data => {
+    searchablePois = new Fuse(data.pois, searchablePoisOptions)
+    console.info('db is loaded', data)
+    route.start(true)
+  })
 </script>
