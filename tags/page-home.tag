@@ -57,7 +57,11 @@
     this.on('mount', () => {
       this.refs.form.addEventListener('submit', event => {
         event.preventDefault()
-        route(`/search/${event.target.q.value}`)
+        const form = event.target
+        const filters = {
+          type: Array.from(form.type).filter(input => input.checked).map(input => input.value)
+        }
+        route(`/search?q=${encodeURI(form.q.value)}&filters=${JSON.stringify(filters)}`)
       })
     })
   </script>

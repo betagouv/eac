@@ -96,9 +96,14 @@ body > header h2 {
     container.innerHTML = '<page-home></page-home>'
     riot.mount('page-home', { data: db.data.pois })
   })
-  route('/search/*', (q) => {
+  route('/search?q=..', () => {
     container.innerHTML = '<page-search></page-search>'
-    riot.mount('page-search', { q, data: db.data.pois })
+    const filters = JSON.parse(decodeURI(route.query().filters))
+    riot.mount('page-search', {
+      filters,
+      q: decodeURI(route.query().q),
+      data: db.data.pois
+    })
   })
   route.base('#!/')
 
