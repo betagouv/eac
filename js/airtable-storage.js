@@ -4,6 +4,10 @@ class AirtableStorage {
     this.apiDatabase = apiDatabase
     this.loaded = false
     this.data = {}
+    this.schemas = {
+      schools: ['id', 'appellation_officielle', 'latitude', 'longitude'],
+      pois: ['id', 'createdTime', 'latitude', 'longitude', 'Nom', 'Type', 'Description', 'Code Postal', 'Adresse Postal']
+    }
   }
 
   async load() {
@@ -13,10 +17,24 @@ class AirtableStorage {
         schools: await this.callAPI('Etablissements'),
         pois: await this.callAPI('Acteurs Culturels')
       }
-      this.loaded = true
     }
     catch (e) { console.error(e) }
+    this.validateSchemas()
+    this.loaded = true
     return this.data
+  }
+
+  /**
+  * Check that the API received expected columns.
+  */
+  validateSchemas() {
+    Object.keys(this.schemas).forEach(table => {
+      const dataKeys = Object.keys(this.data[table][0])
+      if(!this.schemas[table].every(key => dataKeys.includes(key))) {
+        throw new Error(`The API table "${table}" may have changed.
+        This application could therefore not function as expected.`)
+      }
+    })
   }
 
   async callAPI(table) {
