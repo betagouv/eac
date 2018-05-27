@@ -74,10 +74,9 @@ body > header h2 {
 <script src=./js/utils.js></script>
 <script src=./js/fuse.min.js></script>
 <script src=./js/route.min.js></script>
-<script src=./js/db.js></script>
+<script src=./js/airtable-storage.js></script>
 <script>
-  const apiKey = 'a2V5VnF0SVlyN3l1U1VnTXc='
-  const databaseId = 'appQXPPR2DMoc3B6N'
+  const db = new AirtableStorage('a2V5VnF0SVlyN3l1U1VnTXc=', 'appQXPPR2DMoc3B6N')
   var searchablePois = null
   const container = document.querySelector('main')
   const searchablePoisOptions = {
