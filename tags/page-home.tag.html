@@ -55,7 +55,7 @@
     this.closests = []
     this.newests = pois.sort((a, b) => a.createdTime < b.createdTime).slice(0, 3)
     this.filters = {
-      type: [...new Set(Array.concat(...pois.map(p => p.Type)))].sort()
+      type: [...new Set([].concat(...pois.map(p => p.Type)))].sort()
     }
 
     setSchool(schoolId) {
@@ -137,6 +137,9 @@
     @media (min-width: 60rem) {
       header {
         display: flex;
+      }
+      header > * {
+        flex: 1;
       }
     }
   </style>
