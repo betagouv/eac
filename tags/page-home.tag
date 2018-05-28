@@ -99,12 +99,6 @@
   </script>
 
   <style scoped>
-    header {
-      display: flex;
-    }
-    header > * {
-      flex: 1;
-    }
     input[type=search] {
       border-color: #999;
       box-shadow: 0 0 .1em #ccc;
@@ -138,6 +132,12 @@
       display: block;
       padding-left: 35px;
       background: url(images/gps.icon.png) no-repeat 7px center;
+    }
+
+    @media (min-width: 60rem) {
+      header {
+        display: flex;
+      }
     }
   </style>
 </page-home>
