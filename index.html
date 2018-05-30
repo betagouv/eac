@@ -83,50 +83,45 @@ body > header h2 {
 <script type=riot/tag src=./tags/checkbox.tag.html></script>
 <script type=riot/tag src=./tags/page-home.tag.html></script>
 <script type=riot/tag src=./tags/page-search.tag.html></script>
-<script type=riot/tag src=./tags/poi-card.tag.html></script>
-<script type=riot/tag src=./tags/poi-cards.tag.html></script>
+<script type=riot/tag src=./tags/action-card.tag.html></script>
+<script type=riot/tag src=./tags/action-cards.tag.html></script>
 <script src=./js/riot+compiler.min.js></script>
 <script src=./js/utils.js></script>
 <script src=./js/fuse.min.js></script>
 <script src=./js/route.min.js></script>
 <script src=./js/airtable-storage.js></script>
 <script>
-  const db = new AirtableStorage('a2V5VnF0SVlyN3l1U1VnTXc=', 'appQXPPR2DMoc3B6N')
-  var searchablePois = null
+  const airtable = new AirtableStorage('a2V5VnF0SVlyN3l1U1VnTXc=', 'appQXPPR2DMoc3B6N')
+  let db = {}
+  var searchableActors = null
   const container = document.querySelector('main')
-  const searchablePoisOptions = {
-    keys: [{
-      name: 'Nom',
-      weight: 0.8
-    }, {
-      name: 'Type',
-      weight: 0.5
-    }, {
-      name: 'Description',
-      weight: 0.3
-    }]
+  const searchableActorsOptions = {
+    keys: [{name: 'Nom', weight: 0.8},
+           {name: 'Type', weight: 0.5},
+           {name: 'Description', weight: 0.3}]
   }
-  var store = {}
+
+  riot.mixin({
+    init(opts) {
+      this.db = db
+    }
+  })
 
   route('/', () => {
     container.innerHTML = '<page-home></page-home>'
-    console.log(db.data.schools)
-    riot.mount('page-home', { data: db.data.pois, schools: db.data.schools })
+    riot.mount('page-home')
   })
   route('/search?q=..', () => {
     container.innerHTML = '<page-search></page-search>'
     const filters = JSON.parse(decodeURI(route.query().filters))
-    riot.mount('page-search', {
-      filters,
-      q: decodeURI(route.query().q),
-      data: db.data.pois
-    })
+    riot.mount('page-search', { filters, q: decodeURI(route.query().q) })
   })
   route.base('#!/')
 
-  db.load().then(data => {
-    searchablePois = new Fuse(data.pois, searchablePoisOptions)
+  airtable.load().then(data => {
+    searchableActors = new Fuse(data.actors, searchableActorsOptions)
     console.info('db is loaded', data)
+    db = data
     route.start(true)
   })
   .catch(e => alert(e))

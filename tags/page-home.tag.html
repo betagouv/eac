@@ -2,16 +2,16 @@
   <header>
     <section class=block>
       <h2>Proche de vous</h2>
-      <poi-cards data={ closests }></poi-cards>
+      <action-cards actions={ closests }></action-cards>
       <p if={ !closests.length }>Veuillez saisir l'établissement auquel vous êtes rataché·e.</p>
       <select ref=schoolSelector onchange={ changeSchool } value={ school && school.id }>
           <option value="">Sélectionnez votre établissement</option>
-          <option each={ school in opts.schools } value={ school.id }>{ school.appellation_officielle }</option>
+          <option each={ school in this.schools } value={ school.id }>{ school.appellation_officielle }</option>
       </select>
     </section>
     <section class=block>
       <h2>Actualité</h2>
-      <poi-cards data={ newests }></poi-cards>
+      <action-cards actions={ newests }></action-cards>
     </section>
   </header>
 
@@ -51,22 +51,26 @@
   </section>
 
   <script>
-    const pois = this.opts.data
+    const db = this.db
     this.closests = []
-    this.newests = pois.sort((a, b) => a.createdTime < b.createdTime).slice(0, 3)
+    this.newests = db.actions.sort((a, b) => a.createdTime < b.createdTime).slice(0, 3)
+    this.schools = db.schools.sort((a, b) => a.appellation_officielle > b.appellation_officielle)
     this.filters = {
-      type: [...new Set([].concat(...pois.map(p => p.Type)))].sort()
+      type: [...new Set([].concat(...db.actions.map(a => a.Type)))].sort(),
+      domain: [...new Set([].concat(...db.actions.map(a => a.Domaine)))].sort(),
     }
 
     setSchool(schoolId) {
-      const school = this.opts.schools.find(school => school.id === schoolId)
+      const school = db.schools.find(school => school.id === schoolId)
       if(school) {
-        updatePoisDistance([school.latitude, school.longitude])
+        updateActorsDistance([school.latitude, school.longitude])
         localStorage.setItem('schoolId', school.id)
-        this.closests = pois.sort((a, b) => a.distance > b.distance).slice(0, 3)
+        // const closestActorIds = db.actors.sort((a, b) => a.distance > b.distance).slice(0, 3).map(actor => actor.id)
+        // debugger
+        // this.closests = db.actions.filter(action => action.id in closestActorIds))
       }
       else {
-        updatePoisDistance(null)
+        updateActorsDistance(null)
         localStorage.removeItem('schoolId')
         this.closests = []
       }
@@ -74,9 +78,9 @@
       this.update()
     }
 
-    function updatePoisDistance(latlng) {
-      pois.forEach((poi, i) => {
-        pois[i].distance = latlng ? Math.round(distance(latlng, [poi.latitude, poi.longitude])) : null
+    function updateActorsDistance(latlng) {
+      db.actors.forEach((actor, i) => {
+        // db.actors[i].distance = latlng ? Math.round(distance(latlng, [actor.latitude, actor.longitude])) : null
       })
     }
 

@@ -16,7 +16,7 @@
   </section>
 
   <script>
-    let results = searchablePois.search(opts.q)
+    let results = searchableActors.search(opts.q)
     const types = opts.filters.type
     if(types.length) {
       results = results.filter(result => result.Type.some(type => types.includes(type)))
