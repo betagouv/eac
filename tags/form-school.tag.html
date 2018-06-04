@@ -1,0 +1,19 @@
+<form-school>
+  <select name=school onchange={ this.addSchoolLocation }>
+    <option each={ school in schools } value="{ school.id }">{ school.appellation_officielle }</option>
+  </select>
+
+  <script>
+    this.schools = db.schools.sort(s => s.appellation_officielle)
+
+    this.addSchoolLocation = (event) => {
+      const school = db.schools.find(s => s.id === event.target.value)
+      const latLng = [school.latitude, school.longitude]
+      store.user.location = latLng
+      db.actors.forEach((a, i) => {
+        db.actors[i].distance = distance(latLng, [a.latitude, a.longitude])
+      })
+      this.update()
+    }
+  </script>
+</form-school>

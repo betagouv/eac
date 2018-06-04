@@ -11,7 +11,7 @@
     </a>
   </address>
 
-  <geo if={ actor.distance }>{ actor.distance }km</geo>
+  <geo if={ actor.distance }>{ Math.ceil(actor.distance) }km</geo>
 
   <script>
     this.actor = opts.actor

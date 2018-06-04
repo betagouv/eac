@@ -82,6 +82,7 @@ body > header h2 {
 <script type=riot/tag src=./tags/checkbox.tag.html></script>
 <script type=riot/tag src=./tags/page-home.tag.html></script>
 <script type=riot/tag src=./tags/form-search.tag.html></script>
+<script type=riot/tag src=./tags/form-school.tag.html></script>
 <script type=riot/tag src=./tags/actor-card.tag.html></script>
 <script src=./js/riot+compiler.min.js></script>
 <script src=./js/utils.js></script>
@@ -91,6 +92,9 @@ body > header h2 {
 <script>
   const airtable = new AirtableStorage('a2V5VnF0SVlyN3l1U1VnTXc=', 'appQXPPR2DMoc3B6N')
   let db = {}
+  const store = {
+    user: {location: []}
+  }
   const app = document.querySelector('main')
   const searchableActorsOptions = {
     keys: [{name: 'Nom', weight: 0.8},
