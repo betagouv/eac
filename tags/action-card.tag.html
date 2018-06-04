@@ -15,7 +15,6 @@
 
   <script>
     this.action = opts.action
-    console.error('>>> hey, this.actor should be set in action-card !!!')
     this.actor = db.actors.find(actor => actor.Actions.includes(this.action.id))
     this.address = this.action['Adresse Postale'] && this.action['Adresse Postal'].split(',')
     this.maxlength = this.opts.maxlength || 80

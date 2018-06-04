@@ -1,0 +1,33 @@
+<form-search>
+  <form ref=form action=/search>
+    <input type=search name=q id=q value={ opts.q } required autofocus>
+    <input type=submit value=Rechercher>
+  </form>
+
+  <script>
+    this.on('mount', () => {
+      this.refs.form.addEventListener('submit', event => {
+        event.preventDefault()
+        const form = event.target
+        route(`/search?q=${encodeURI(form.q.value)}&filters=[]`)
+      })
+    })
+  </script>
+
+  <style scoped>
+    input[type=search] {
+      border-color: #999;
+      box-shadow: 0 0 .1em #ccc;
+      font-size: 1.2em;
+      padding: 1em .7em;
+      transition: box-shadow .3s;
+    }
+    input[type=search]:focus {
+      box-shadow: .05em .05em .2em #bbb;
+    }
+    input[type=submit] {
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</form-search>

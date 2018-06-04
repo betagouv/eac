@@ -1,150 +1,26 @@
 <page-home>
-  <header>
-    <section class=block>
-      <h2>Proche de vous</h2>
-      <action-cards actions={ closests }></action-cards>
-      <p if={ !closests.length }>Veuillez saisir l'établissement auquel vous êtes rataché·e.</p>
-      <select ref=schoolSelector onchange={ changeSchool } value={ school && school.id }>
-          <option value="">Sélectionnez votre établissement</option>
-          <option each={ school in this.schools } value={ school.id }>{ school.appellation_officielle }</option>
-      </select>
-    </section>
-    <section class=block>
-      <h2>Actualité</h2>
-      <action-cards actions={ newests }></action-cards>
-    </section>
-  </header>
-
-  <form ref=form action=/search class=block>
+  <section class=block>
     <h2>Vous recherchez</h2>
-      <input type=search name=q id=q required autofocus>
-      <input type=submit value=Rechercher>
+    <form-search q={ this.q }></form-search>
+  </section>
 
-    <section id=filters>
-      <section>
-        <h3>Type</h3>
-        <checkbox each={ item in filters.type } name=type label={ item }></checkbox>
-      </section>
-
-      <section class=disabled>
-        <h3>Niveau</h3>
-        <label for=1er><input type=checkbox name=type value=1er id=1er>1er niveau</label>
-        <label for=college><input type=checkbox name=type value=college id=college>Collège</label>
-        <label for=lycee><input type=checkbox name=type value=lycee id=lycee>Lycée</label>
-      </section>
-
-      <section class=disabled>
-        <h3>Domaine</h3>
-        <label for=danse><input type=checkbox name=type value=danse id=danse>Danse</label>
-        <label for=theatre><input type=checkbox name=type value=theatre id=theatre>Theatre</label>
-        <label for=sciences><input type=checkbox name=type value=sciences id=sciences>Culture scientifique et technique</label>
-        <label for=plastique><input type=checkbox name=type value=plastique id=plastique>Arts plastiques</label>
-      </section>
-
-      <section class=disabled>
-        <h3>Compétences PEAC</h3>
-        <label for=1><input type=checkbox name=type value=1 id=1>Cultiver sa sensibilité</label>
-        <label for=2><input type=checkbox name=type value=2 id=2>Échanger avec un artiste</label>
-        <label for=3><input type=checkbox name=type value=3 id=3>Appréhender des oeuvres</label>
-      </section>
-    </form>
+  <section class=block if={ this.q }>
+    <h2>Résultats pour « { this.q } »</h2>
+    <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche.</p>
+    <actor-card each={ actor in this.actors } actor={ actor }></actor-card>
   </section>
 
   <script>
-    const db = this.db
-    this.closests = []
-    this.newests = db.actions.sort((a, b) => a.createdTime < b.createdTime).slice(0, 3)
-    this.schools = db.schools.sort((a, b) => a.appellation_officielle > b.appellation_officielle)
-    this.filters = {
-      type: [...new Set([].concat(...db.actions.map(a => a.Type)))].sort(),
-      domain: [...new Set([].concat(...db.actions.map(a => a.Domaine)))].sort(),
-    }
-
-    setSchool(schoolId) {
-      const school = db.schools.find(school => school.id === schoolId)
-      if(school) {
-        updateActorsDistance([school.latitude, school.longitude])
-        localStorage.setItem('schoolId', school.id)
-        // const closestActorIds = db.actors.sort((a, b) => a.distance > b.distance).slice(0, 3).map(actor => actor.id)
-        // debugger
-        // this.closests = db.actions.filter(action => action.id in closestActorIds))
-      }
-      else {
-        updateActorsDistance(null)
-        localStorage.removeItem('schoolId')
-        this.closests = []
-      }
-      this.school = school
-      this.update()
-    }
-
-    function updateActorsDistance(latlng) {
-      db.actors.forEach((actor, i) => {
-        // db.actors[i].distance = latlng ? Math.round(distance(latlng, [actor.latitude, actor.longitude])) : null
-      })
-    }
-
-    changeSchool(event) {
-      this.setSchool(this.refs.schoolSelector.value)
-    }
-
-    this.on('mount', () => {
-      this.setSchool(localStorage.getItem('schoolId'))
-
-      this.refs.form.addEventListener('submit', event => {
-        event.preventDefault()
-        const form = event.target
-        const filters = {
-          type: Array.from(form.type).filter(input => input.checked).map(input => input.value)
-        }
-        route(`/search?q=${encodeURI(form.q.value)}&filters=${JSON.stringify(filters)}`)
-      })
-    })
+    this.q = opts.q
+    this.actors = opts.actors
   </script>
 
   <style scoped>
-    input[type=search] {
-      border-color: #999;
-      box-shadow: 0 0 .1em #ccc;
-      font-size: 1.2em;
-      padding: 1em .7em;
-      transition: box-shadow .3s;
-    }
-    input[type=search]:focus {
-      box-shadow: .05em .05em .2em #bbb;
-    }
-    input[type=submit] {
-      display: block;
-      margin: 0 auto;
-    }
-
-    #filters {
-      display: flex;
-      margin-top: 2rem;
-    }
-    #filters section {
-      flex: 1;
-    }
-    #filters label {
-      font-weight: normal;
-    }
-    label input[type=checkbox] {
-      margin-right: .8rem;
-    }
-
-    select {
-      display: block;
-      padding-left: 35px;
-      background: url(images/gps.icon.png) no-repeat 7px center;
-    }
-
-    @media (min-width: 60rem) {
-      header {
-        display: flex;
-      }
-      header > * {
-        flex: 1;
-      }
+    actor-card {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
     }
   </style>
 </page-home>

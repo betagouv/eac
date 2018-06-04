@@ -1,14 +1,8 @@
 <page-search>
-  <section class=block>
+  <section>
     <h2>Résultats pour "{ opts.q }"</h2>
 
-    <section id=filters>
-      <h4>Types</h4>
-      <span class=tag each={ type in opts.filters.type }>{ type }</span>
-      </ul>
-    </section>
-
-    <poi-card each={ poi in results } data={ poi } maxlength=300 address></poi-card>
+    <action-card each={ action in results } maxlength=300 address></action-card>
 
     <p if={ !results || !results.length }>Aucun résultat ne correspond à votre recherche.</p>
 
@@ -16,9 +10,9 @@
   </section>
 
   <script>
-    let results = searchableActors.search(opts.q)
+    let results = this.searchableActors.search(opts.q)
     const types = opts.filters.type
-    if(types.length) {
+    if(types && types.length) {
       results = results.filter(result => result.Type.some(type => types.includes(type)))
     }
     this.results = results
