@@ -15,7 +15,7 @@
 
   <script>
     this.q = opts.q
-    this.actors = opts.actors.sort((a, b) => a.distance > b.distance)
+    this.actors = opts.actors && opts.actors.sort((a, b) => a.distance > b.distance)
   </script>
 
   <style scoped>
