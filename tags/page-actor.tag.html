@@ -9,7 +9,8 @@
     </section>
 
     <section class="block actions">
-      <h2>Actions proposées</h2>
+      <h2 if={ this.actions.length <= 1 }>{this.actions.length} action proposée</h2>
+      <h2 if={ this.actions.length > 1 }>{this.actions.length} actions proposées</h2>
       <article each={ action in this.actions }>
         <h3>{ action.Nom }</h3>
         <nav class=tags>
@@ -60,7 +61,7 @@
       grid-area: aside;
     }
 
-    .actions article {
+    .actions article:not(:last-of-type) {
       padding-bottom: 1rem;
       margin-bottom: 1rem;
       border-bottom: 1px solid #ccc;
