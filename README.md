@@ -17,7 +17,7 @@ De retirer les complexités et les facteurs tiers de [non-](https://github.com/w
 Téléchargez les sources:
 
 ```sh
-git clone https://github.com/vinyll/eac.git
+git clone https://github.com/betagouv/eac.git
 ```
 
 Et ouvrez le fichier eac/index.html avec votre navigateur web.
