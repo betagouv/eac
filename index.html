@@ -81,6 +81,7 @@ body > header h2 {
 
 <script type=riot/tag src=./tags/checkbox.tag.html></script>
 <script type=riot/tag src=./tags/page-home.tag.html></script>
+<script type=riot/tag src=./tags/page-actor.tag.html></script>
 <script type=riot/tag src=./tags/form-search.tag.html></script>
 <script type=riot/tag src=./tags/form-school.tag.html></script>
 <script type=riot/tag src=./tags/actor-card.tag.html></script>
@@ -121,6 +122,12 @@ body > header h2 {
     const filters = JSON.parse(decodeURI(route.query().filters))
     const actors = searchableActors.search(q)
     riot.mount('page-home', { filters, actors, q })
+  })
+
+  route('/actor/*', (id) => {
+    app.innerHTML = '<page-actor></page-actor>'
+    const actor = db.actors.find(a => a.id === id)
+    riot.mount('page-actor', { actor })
   })
 
   route.base('#!/')

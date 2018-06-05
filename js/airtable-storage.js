@@ -7,7 +7,8 @@ class AirtableStorage {
     this.schemas = {
       schools: ['id', 'appellation_officielle', 'latitude', 'longitude'],
       actors: ['id', 'createdTime', 'latitude', 'longitude', 'Nom', 'Type', 'Description', 'Code Postal', 'Adresse Postal', 'Actions'],
-      actions: ['id', 'createdTime', 'Nom', 'Domaine', 'Nb Eleves', 'Type', 'Nom Etablissement']
+      actions: ['id', 'createdTime', 'Nom', 'Domaine', 'Nb Eleves', 'Type', 'Nom Etablissement'],
+      levels: ['id', 'Name'],
     }
   }
 
@@ -18,6 +19,7 @@ class AirtableStorage {
         schools: await this.callAPI('Etablissements'),
         actors: await this.callAPI('Acteurs Culturels'),
         actions: await this.callAPI('Actions'),
+        levels: await this.callAPI('Niveaux'),
       }
     }
     catch (e) { console.error(e) }

@@ -13,19 +13,39 @@
 
   <geo if={ actor.distance }>{ Math.ceil(actor.distance) }km</geo>
 
+  <a href=#!/actor/{ actor.id }></a>
+
   <script>
     this.actor = opts.actor
     this.address = this.actor['Adresse Postale'] && this.actor['Adresse Postal'].split(',')
     this.maxlength = this.opts.maxlength || 80
+
+    this.showDetails = (event) => {
+      console.log(event)
+      route(event.target.href)
+    }
   </script>
 
   <style scoped>
     :scope {
+      position: relative;
       display: grid;
       grid-template:
         "title        tags"
         "description  geo"
-        / 1fr auto;
+        / 5fr auto;
+    }
+    :scope > a {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+    :scope:hover {
+      color: #111;
+      transition: color .3s;
     }
 
     h3 {
