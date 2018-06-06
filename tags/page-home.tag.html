@@ -24,7 +24,7 @@
     })
 
     function sortedActors() {
-      return opts.actors.sort((a, b) => a.distance > b.distance)
+      return opts.actors && opts.actors.sort((a, b) => a.distance > b.distance)
     }
   </script>
 
