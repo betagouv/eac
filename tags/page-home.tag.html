@@ -1,8 +1,10 @@
 <page-home>
   <section class=block>
-    <!-- <h2>Votre établissement</h2>
-    <form-school onupdate={ update }></form-school> -->
+    <h2>Votre établissement</h2>
+    <form-school></form-school>
+  </section>
 
+  <section class=block>
     <h2>Vous recherchez</h2>
     <form-search q={ this.q }></form-search>
   </section>
@@ -15,7 +17,15 @@
 
   <script>
     this.q = opts.q
-    this.actors = opts.actors && opts.actors.sort((a, b) => a.distance > b.distance)
+    this.actors = sortedActors()
+
+    this.on('update', event => {
+      this.actors = sortedActors()
+    })
+
+    function sortedActors() {
+      return opts.actors.sort((a, b) => a.distance > b.distance)
+    }
   </script>
 
   <style scoped>

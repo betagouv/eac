@@ -2,7 +2,7 @@
   <h3>{ actor.Nom }</h3>
   <p>{ this.actor.Description.length < this.maxlength ? this.actor.Description : this.actor.Description.substr(0, this.maxlength) + '…' }</p>
   <nav class=tags>
-    <a class=tag each={ tag in this.actor.Type }>{ tag }</a>
+    <a class=tag each={ tag in this.actor.Activite }>{ tag }</a>
   </nav>
 
   <address if={ 'address' in opts }>
