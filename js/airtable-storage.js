@@ -6,7 +6,7 @@ class AirtableStorage {
     this.data = {}
     this.schemas = {
       schools: ['id', 'appellation_officielle', 'latitude', 'longitude'],
-      actors: ['id', 'createdTime', 'latitude', 'longitude', 'Nom', 'Type', 'Description', 'Code Postal', 'Adresse Postal', 'Actions'],
+      actors: ['id', 'createdTime', 'latitude', 'longitude', 'Nom', 'Activite', 'Description', 'Code Postal', 'Adresse Postal', 'Actions'],
       actions: ['id', 'createdTime', 'Nom', 'Domaine', 'Nb Eleves', 'Type', 'Nom Etablissement'],
       levels: ['id', 'Name'],
     }
