@@ -88,7 +88,7 @@ body > header h2 {
 <script src=./js/riot+compiler.min.js></script>
 <script src=./js/utils.js></script>
 <script src=./js/fuse.min.js></script>
-<script src=./js/route.min.js></script>
+<script src=./js/page.js></script>
 <script src=./js/airtable-storage.js></script>
 <script>
   const airtable = new AirtableStorage('a2V5VnF0SVlyN3l1U1VnTXc=', 'appQXPPR2DMoc3B6N')
@@ -111,32 +111,30 @@ body > header h2 {
     }
   })
 
-  route('/', () => {
+  page('/', () => {
     app.innerHTML = '<page-home></page-home>'
     riot.mount('page-home')
   })
 
-  route('/search?q=..', () => {
+  page('/search', () => {
     app.innerHTML = '<page-home></page-home>'
-    const q = decodeURI(route.query().q)
-    const filters = JSON.parse(decodeURI(route.query().filters))
+    const q = decodeURI(page.query().q)
+    const filters = JSON.parse(decodeURI(page.query().filters))
     const actors = searchableActors.search(q)
     riot.mount('page-home', { filters, actors, q })
   })
 
-  route('/actor/*', (id) => {
+  page('/actor/*', (id) => {
     app.innerHTML = '<page-actor></page-actor>'
     const actor = db.actors.find(a => a.id === id)
     riot.mount('page-actor', { actor })
   })
 
-  route.base('#!/')
-
   airtable.load().then(data => {
     searchableActors = new Fuse(data.actors, searchableActorsOptions)
     console.info('db is loaded', data)
     db = data
-    route.start(true)
+    page({hashbang: true})
   })
   .catch(e => alert(`Could not load data. ${e}`))
 </script>
