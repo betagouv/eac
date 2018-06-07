@@ -89,6 +89,7 @@ body > header h2 {
 <script src=./js/utils.js></script>
 <script src=./js/fuse.min.js></script>
 <script src=./js/page.js></script>
+<script src=./js/page.query.js></script>
 <script src=./js/airtable-storage.js></script>
 <script>
   const airtable = new AirtableStorage('a2V5VnF0SVlyN3l1U1VnTXc=', 'appQXPPR2DMoc3B6N')
@@ -111,15 +112,26 @@ body > header h2 {
     }
   })
 
+  /**
+  * Make query string available to ctx.
+  */
+  page('*', (ctx, next) => {
+    const hash = location.hash
+    if(hash.indexOf('?') >= 0)
+      ctx.query = qs.parse(hash.slice(hash.indexOf('?') + 1))
+    next()
+  })
+
   page('/', () => {
     app.innerHTML = '<page-home></page-home>'
     riot.mount('page-home')
   })
 
-  page('/search', () => {
+  page('/search', (ctx) => {
     app.innerHTML = '<page-home></page-home>'
-    const q = decodeURI(page.query().q)
-    const filters = JSON.parse(decodeURI(page.query().filters))
+    debugger
+    const q = decodeURI(ctx.query.q)
+    const filters = JSON.parse(decodeURI(ctx.query.filters))
     const actors = searchableActors.search(q)
     riot.mount('page-home', { filters, actors, q })
   })
