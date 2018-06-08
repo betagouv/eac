@@ -106,13 +106,6 @@ body > header h2 {
   }
   let searchableActors = null
 
-  riot.mixin({
-    init(opts) {
-      this.db = db
-      this.searchableActors = searchableActors
-    }
-  })
-
   /**
   * Make query string available to ctx.
   */

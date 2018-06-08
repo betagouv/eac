@@ -5,19 +5,12 @@
     <a class=tag each={ tag in this.actor.Activite }>{ tag }</a>
   </nav>
 
-  <address if={ 'address' in opts }>
-    <a href="https://www.openstreetmap.org/?mlat={ actor.latitude }&mlon={ actor.longitude }#map=15/{ actor.latitude }/{ actor.longitude }&layers=T" target=_blank>
-      { address[0] }<br>{ address[1] }
-    </a>
-  </address>
+  <geo if={ this.actor.distance }>{ Math.ceil(this.actor.distance) }km</geo>
 
-  <geo if={ actor.distance }>{ Math.ceil(actor.distance) }km</geo>
-
-  <a href=#!/actor/{ actor.id }></a>
+  <a href=/actor/{ this.actor.id }></a>
 
   <script>
     this.actor = opts.actor
-    this.address = this.actor['Adresse Postale'] && this.actor['Adresse Postal'].split(',')
     this.maxlength = this.opts.maxlength || 80
 
     this.showDetails = (event) => {
