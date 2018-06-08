@@ -1,6 +1,18 @@
 <checkbox>
   <label>
-    <input type=checkbox name={ opts.name } value={ opts.label }>
+    <input ref=checkbox type=checkbox name={ opts.name } value={ opts.label }>
     { opts.label }
   </label>
+
+  <script>
+    this.on('mount', () => {
+      this.refs.checkbox.addEventListener('change', opts.onchange)
+    })
+  </script>
+
+  <style scoped>
+    label {
+      font-weight: normal;
+    }
+  </style>
 </checkbox>

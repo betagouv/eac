@@ -9,7 +9,7 @@
       this.refs.form.addEventListener('submit', event => {
         event.preventDefault()
         const form = event.target
-        route(`/search?q=${encodeURI(form.q.value)}&filters=[]`)
+        page(`/search/${encodeURI(form.q.value)}/{}`)
       })
     })
   </script>

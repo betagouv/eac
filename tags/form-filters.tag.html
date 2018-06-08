@@ -1,0 +1,70 @@
+<form-filters>
+  <details title=Domaine open>
+    <summary>Filtrer par domaine</summary>
+    <label>
+      <input type=checkbox name=Domaine value=Intervention onchange={ submit }>
+      Intervention
+    </label>
+    <label>
+      <input type=checkbox name=Domaine value=sortie onchange={ submit }>
+      sortie
+    </label>
+  </details>
+
+  <details title=Niveaux open>
+    <summary>Filtrer par niveau</summary>
+    <label>
+      <input type=checkbox name=Niveaux value="2ème" onchange={ submit }>
+      2ème
+    </label>
+    <label>
+      <input type=checkbox name=Niveaux value="3ème" onchange={ submit }>
+      3ème
+    </label>
+    <label>
+      <input type=checkbox name=Niveaux value="4ème" onchange={ submit }>
+      4ème
+    </label>
+    <label>
+      <input type=checkbox name=Niveaux value="5ème" onchange={ submit }>
+      5ème
+    </label>
+    <label>
+      <input type=checkbox name=Niveaux value="6ème" onchange={ submit }>
+      6ème
+    </label>
+  </details>
+
+  <script>
+    const filters = opts.filters || {}
+
+    this.on('mount', () => {
+      Object.keys(filters).forEach(name => {
+        filters[name].forEach(value => {
+          this.root.querySelector(`[value="${value}"]`).checked = true
+        })
+      })
+    })
+
+    this.submit = (event) => {
+      const q = opts.q
+      const category = event.target.name
+      const value = event.target.value
+      const activate = event.target.checked
+
+      if(!filters[category]) filters[category] = []
+      if(activate) {
+        if(filters[category].indexOf(value) < 0) filters[category].push(value)
+      }
+      else filters[category].splice(filters[category].indexOf(value), 1)
+      if(!filters[category].length) delete filters[category]
+      page(`/search/${q}/${JSON.stringify(filters)}`)
+    }
+  </script>
+
+  <style scoped>
+    label {
+      font-weight: normal;
+    }
+  </style>
+</form-filters>
