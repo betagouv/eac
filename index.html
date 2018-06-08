@@ -13,24 +13,25 @@ body {
 body > header {
   padding: .5rem !important;
 }
-body > header {
+body > header > a {
   display: grid;
   grid-template:
     ". logo title ."
     ". logo baseline ."
     / 1fr 150px auto 1fr
     ;
+  color: inherit;
 }
-body > header #logo {
+body > header > a #logo {
   grid-area: logo;
 }
-body > header h1 {
+body > header > a h1 {
   grid-area: title;
   font-size: 2em;
   margin: .4em 0 0 0;
   align-self: end;
 }
-body > header h2 {
+body > header > a h2 {
   grid-area: baseline;
   font-size: 1em;
   font-weight: 200;
@@ -72,9 +73,11 @@ body > header h2 {
 
 
 <header class=block>
-  <img id=logo src=images/logo-eac.gif alt="Logo de la Plateforme EAC">
-  <h1>Plateforme EAC</h1>
-  <h2>L'Éducation artistique et culturelle à votre portée</h2>
+  <a href=/>
+    <img id=logo src=images/logo-eac.gif alt="Logo de la Plateforme EAC">
+    <h1>Plateforme EAC</h1>
+    <h2>L'Éducation artistique et culturelle à votre portée</h2>
+  </a>
 </header>
 
 <main><div class=loading></div></main>
