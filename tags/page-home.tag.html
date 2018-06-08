@@ -1,22 +1,30 @@
 <page-home>
-  <section class=block>
+  <section class=block id=school>
     <h2>Votre établissement</h2>
     <form-school></form-school>
   </section>
 
-  <section class=block>
+  <section class=block id=search>
     <h2>Vous recherchez</h2>
     <form-search q={ this.q }></form-search>
   </section>
 
-  <section class=block if={ this.q }>
-    <h2>Résultats pour « { this.q } »</h2>
-    <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche.</p>
-    <actor-card each={ actor in this.actors } actor={ actor }></actor-card>
-  </section>
+  <virtual if={ this.q }>
+    <section class=block id=filters>
+      <form-filters q={ this.q } filters={ this.filters }></form-filters>
+    </section>
+
+    <section class=block id=results>
+
+      <h2>Résultats pour « { this.q } »</h2>
+      <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche.</p>
+      <actor-card each={ actor in this.actors } actor={ actor }></actor-card>
+    </section>
+  </virtual>
 
   <script>
     this.q = opts.q
+    this.filters = opts.filters
     this.actors = sortedActors()
 
     this.on('update', event => {
@@ -26,14 +34,50 @@
     function sortedActors() {
       return opts.actors && opts.actors.sort((a, b) => a.distance > b.distance)
     }
+
+    this.filter = (event) => {
+      const filters = opts.filters || {}
+      const category = event.target.name
+      const value = event.target.value
+      if(!filters[category]) filters[category] = []
+      if(event.target.checked && filters[category].indexOf(value) < 0) filters[category].push(value)
+      else if(event.target.checked) filters[category].splice(filters[category].indexOf(value), 1)
+      page(`/search/${this.q}/${JSON.stringify(filters)}`)
+    }
   </script>
 
   <style scoped>
+    :scope {
+      display: grid;
+      grid-template:
+        'school school'
+        'search search'
+        'filters results'
+        / 1fr auto;
+    }
+
+    #school {
+      grid-area: school;
+    }
+    #search {
+      grid-area: search;
+    }
+    #filters {
+      grid-area: filters;
+    }
+    #results {
+      grid-area: results;
+    }
+
     actor-card {
       border-bottom: 1px solid #ddd;
       padding-bottom: 1.5rem;
       margin-bottom: 1.5rem;
       border-bottom: 1px solid #eee;
+    }
+
+    summary {
+      font-weight: bold;
     }
   </style>
 </page-home>
