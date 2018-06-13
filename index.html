@@ -127,7 +127,7 @@ body > header > a h2 {
     riot.mount('page-home')
   })
 
-  page('/search/:query/:filters', (ctx) => {
+  page('/search/:query/:filters', ctx => {
     app.innerHTML = '<page-home></page-home>'
     const q = ctx.params.query
     const filters = JSON.parse(decodeURI(ctx.params.filters))
@@ -135,9 +135,11 @@ body > header > a h2 {
     riot.mount('page-home', { filters, actors, q })
   })
 
-  page('/actor/:id', (ctx) => {
+  page('/actor/:id', async (ctx) => {
     app.innerHTML = '<page-actor></page-actor>'
-    const actor = db.actors.find(a => a.id === ctx.params.id)
+    const actor = db.actors = await fetch(`http://localhost:3000/actors/${ctx.params.id}`, {
+      mode: 'cors'
+    }).then(r => r.json())
     riot.mount('page-actor', { actor })
   })
 
