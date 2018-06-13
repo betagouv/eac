@@ -1,47 +1,37 @@
 <page-actor>
   <article>
     <section class="block actor">
-      <h2>{ this.actor.Nom }</h2>
+      <h2>{ this.actor.name }</h2>
       <nav class=tags>
         <a class=tag each={ tag in this.actor.Activite }>{ tag }</a>
       </nav>
-      <p>{ this.actor.Description }</p>
+      <p>{ this.actor.description }</p>
     </section>
 
-    <section class="block actions">
-      <h2 if={ this.actions.length <= 1 }>{this.actions.length} action proposée</h2>
-      <h2 if={ this.actions.length > 1 }>{this.actions.length} actions proposées</h2>
-      <article each={ action in this.actions }>
-        <h3>{ action.Nom }</h3>
-        <nav class=tags>
-          <a class=tag>{ action.Type }</a>
-          <a class=tag each={ tag in action.Domaine }>{ tag }</a>
-        </nav>
-        <p>
-          <strong>Organisé par :</strong> { action['Nom Etablissement'] }<br>
-          <strong>En partenariat avec :</strong> { action['Partenaires Culturels'] }
-        </p>
-      </section>
-    </article>
+    <section class="block actions" if={ this.actor.actions }>
+      <h2>Actions proposées</h2>
+      <article>
+        <p>{ this.actor.actions }</p>
+      </article>
+    </section>
 
     <aside class=block>
       <address>
         <iframe width=425 height=350 frameborder=0 scrolling=no marginheight=0 marginwidth=0 src="https://www.openstreetmap.org/export/embed.html?bbox={ Number(actor.longitude) - 0.02 }%2C{ Number(actor.latitude) - 0.02 }%2C{ Number(actor.longitude) + 0.02 }%2C{ Number(actor.latitude) + 0.02 }&amp;layer=hot&amp;marker={ actor.latitude }%2C{ actor.longitude }"></iframe><br/>
         <small>
           <a href="https://www.openstreetmap.org/?mlat={ actor.latitude }&mlon={ actor.longitude }#map=15/{ actor.latitude }/{ actor.longitude }&layers=T" target=_blank>
-            { address[0] }<br>{ address[1] }
+            { this.actor.address }<br>
+            { this.actor.postalCode } { this.actor.city }
           </a>
         </small>
       </address>
     </aside>
 
-    <geo if={ actor.distance }>{ Math.ceil(actor.distance) }km</geo>
+    <geo if={ this.actor.distance }>{ Math.ceil(this.actor.distance) }km</geo>
   </article>
 
   <script>
     this.actor = opts.actor
-    this.address = this.actor['Adresse Postal'] && this.actor['Adresse Postal'].split(',')
-    this.actions = this.actor.Actions.map(id => db.actions.find(a => a.id === id)).filter(a => a)
   </script>
 
   <style scoped>

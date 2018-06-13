@@ -1,8 +1,8 @@
 <actor-card>
-  <h3>{ actor.Nom }</h3>
-  <p>{ this.actor.Description.length < this.maxlength ? this.actor.Description : this.actor.Description.substr(0, this.maxlength) + '…' }</p>
+  <h3>{ actor.name }</h3>
+  <p>{ this.actor.description.length < this.maxlength ? this.actor.description : this.actor.description.substr(0, this.maxlength) + '…' }</p>
   <nav class=tags>
-    <a class=tag each={ tag in this.actor.Activite }>{ tag }</a>
+    <a class=tag>{ this.actor.type }</a>
   </nav>
 
   <geo if={ this.actor.distance }>{ Math.ceil(this.actor.distance) }km</geo>
