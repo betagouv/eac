@@ -89,23 +89,26 @@ body > header > a h2 {
 <script type=riot/tag src=./tags/form-filters.tag.html></script>
 <script type=riot/tag src=./tags/form-school.tag.html></script>
 <script type=riot/tag src=./tags/actor-card.tag.html></script>
+
 <script src=./js/riot+compiler.min.js></script>
 <script src=./js/utils.js></script>
 <script src=./js/fuse.min.js></script>
 <script src=./js/page.js></script>
 <script src=./js/page.query.js></script>
-<script src=./js/airtable-storage.js></script>
+<script src=./js/fixtures/schools.js></script>
 <script>
-  const airtable = new AirtableStorage('a2V5VnF0SVlyN3l1U1VnTXc=', 'appQXPPR2DMoc3B6N')
-  let db = {}
+  const db = {
+    actors: [],
+    schools: fixtures.schools  // `fixtures` is a globally imported var.
+  }
   const store = {
     user: {location: []}
   }
   const app = document.querySelector('main')
   const searchableActorsOptions = {
-    keys: [{name: 'Nom', weight: 0.8},
-           {name: 'Type', weight: 0.5},
-           {name: 'Description', weight: 0.3}]
+    keys: [{name: 'name', weight: 0.8},
+           {name: 'domains', weight: 0.5},
+           {name: 'description', weight: 0.3}]
   }
   let searchableActors = null
 
@@ -138,11 +141,14 @@ body > header > a h2 {
     riot.mount('page-actor', { actor })
   })
 
-  airtable.load().then(data => {
-    searchableActors = new Fuse(data.actors, searchableActorsOptions)
-    console.info('db is loaded', data)
-    db = data
+  async function loadData() {
+    db.actors = await fetch('http://localhost:3000/actors', {
+      mode: 'cors'
+    }).then(r => r.json())
+    searchableActors = new Fuse(db.actors, searchableActorsOptions)
+    console.info('db is loaded', db)
     page({hashbang: true})
-  })
-  .catch(e => alert(`Could not load data. ${e}`))
+  }
+
+  loadData()
 </script>
