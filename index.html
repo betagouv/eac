@@ -112,6 +112,12 @@ body > header > a h2 {
   }
   let searchableActors = null
 
+  function api(url) {
+    return fetch(`https://eac-api.herokuapp.com${url}`, {mode: 'cors'})
+      .then(r => r.json())
+      .catch(console.error.bind(console))
+  }
+
   /**
   * Make query string available to ctx.
   */
@@ -127,26 +133,22 @@ body > header > a h2 {
     riot.mount('page-home')
   })
 
-  page('/search/:query/:filters', ctx => {
+  page('/search/:query/:filters', async ctx => {
     app.innerHTML = '<page-home></page-home>'
     const q = ctx.params.query
     const filters = JSON.parse(decodeURI(ctx.params.filters))
-    const actors = searchableActors.search(q)
+    const actors = await api(`/actors/search/${q}`)
     riot.mount('page-home', { filters, actors, q })
   })
 
   page('/actor/:id', async (ctx) => {
     app.innerHTML = '<page-actor></page-actor>'
-    const actor = db.actors = await fetch(`http://localhost:3000/actors/${ctx.params.id}`, {
-      mode: 'cors'
-    }).then(r => r.json())
+    const actor = db.actors = await api(`/actors/${ctx.params.id}`)
     riot.mount('page-actor', { actor })
   })
 
   async function loadData() {
-    db.actors = await fetch('http://localhost:3000/actors', {
-      mode: 'cors'
-    }).then(r => r.json())
+    db.actors = await api('/actors')
     searchableActors = new Fuse(db.actors, searchableActorsOptions)
     console.info('db is loaded', db)
     page({hashbang: true})
