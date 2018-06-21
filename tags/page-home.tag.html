@@ -1,9 +1,4 @@
 <page-home>
-  <section class=block id=school>
-    <h2>Votre établissement</h2>
-    <form-school></form-school>
-  </section>
-
   <section class=block id=search>
     <h2>Vous recherchez</h2>
     <form-search q={ this.q }></form-search>
@@ -50,14 +45,9 @@
     :scope {
       display: grid;
       grid-template:
-        'school school'
         'search search'
         'results results'
         / 1fr auto;
-    }
-
-    #school {
-      grid-area: school;
     }
     #search {
       grid-area: search;

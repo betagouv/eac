@@ -87,7 +87,6 @@ body > header > a h2 {
 <script type=riot/tag src=./tags/page-actor.tag.html></script>
 <script type=riot/tag src=./tags/form-search.tag.html></script>
 <script type=riot/tag src=./tags/form-filters.tag.html></script>
-<script type=riot/tag src=./tags/form-school.tag.html></script>
 <script type=riot/tag src=./tags/actor-card.tag.html></script>
 
 <script src=./js/riot+compiler.min.js></script>
@@ -95,19 +94,15 @@ body > header > a h2 {
 <script src=./js/fuse.min.js></script>
 <script src=./js/page.js></script>
 <script src=./js/page.query.js></script>
-<script src=./js/fixtures/schools.js></script>
 <script>
-  const db = {
-    actors: [],
-    schools: fixtures.schools  // `fixtures` is a globally imported var.
-  }
-  const store = {
-    user: {location: []}
-  }
+  const user = {location: {latitude: 0, longitude: 0}}
   const app = document.querySelector('main')
+  const apiUrl = location.hostname === 'localhost'
+               ? 'http://localhost:3000'
+               : 'https://eac-api.herokuapp.com'
 
   function api(url) {
-    return fetch(`https://eac-api.herokuapp.com${url}`, {mode: 'cors'})
+    return fetch(`${apiUrl}${url}`, {mode: 'cors'})
       .then(r => r.json())
       .catch(console.error.bind(console))
   }
@@ -141,11 +136,9 @@ body > header > a h2 {
     riot.mount('page-actor', { actor })
   })
 
-  async function loadData() {
-    db.actors = await api('/actors')
-    console.info('db is loaded', db)
-    page({hashbang: true})
-  }
+  navigator.geolocation.getCurrentPosition(location => {
+    user.location = location.coords
+  })
 
-  loadData()
+  page({hashbang: true})
 </script>
