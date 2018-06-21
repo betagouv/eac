@@ -1,5 +1,5 @@
 <actor-card>
-  <h3>{ actor.name }</h3>
+  <h3>{ this.actor.name } <small>(dept { this.actor.department })</small></h3>
   <p>{ this.actor.description.length < this.maxlength ? this.actor.description : this.actor.description.substr(0, this.maxlength) + '…' }</p>
   <nav class=tags>
     <a class=tag each={ domain in this.actor.domains }>{ domain }</a>
@@ -41,6 +41,11 @@
       font-size: 1.2em;
       margin: 1rem 0 .2rem 0;
       text-transform: capitalize;
+    }
+    h3 small {
+      text-transform: none;
+      font-style: italic;
+      font-size: .8em;
     }
 
     p {
