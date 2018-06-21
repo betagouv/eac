@@ -126,7 +126,8 @@ body > header > a h2 {
     app.innerHTML = '<page-home></page-home>'
     const q = ctx.params.query
     const filters = JSON.parse(decodeURI(ctx.params.filters))
-    const actors = await api(`/actors/search/${q}`)
+    const params = filters.domains ? `domains=${filters.domains}` : ''
+    const actors = await api(`/actors/search/${q}?${params}`)
     riot.mount('page-home', { filters, actors, q })
   })
 

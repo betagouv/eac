@@ -5,9 +5,9 @@
   </section>
 
   <virtual if={ this.q }>
-    <!-- <section class=block id=filters>
+    <section class=block id=filters>
       <form-filters q={ this.q } filters={ this.filters }></form-filters>
-    </section> -->
+    </section>
 
     <section class=block id=results>
 
@@ -46,8 +46,8 @@
       display: grid;
       grid-template:
         'search search'
-        'results results'
-        / 1fr auto;
+        'filters results'
+        / auto 1fr;
     }
     #search {
       grid-area: search;
