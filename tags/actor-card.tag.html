@@ -2,7 +2,7 @@
   <h3>{ actor.name }</h3>
   <p>{ this.actor.description.length < this.maxlength ? this.actor.description : this.actor.description.substr(0, this.maxlength) + '…' }</p>
   <nav class=tags>
-    <a class=tag each={ domain in this.domains }>{ domain }</a>
+    <a class=tag each={ domain in this.actor.domains }>{ domain }</a>
   </nav>
 
   <geo if={ this.actor.distance }>{ Math.ceil(this.actor.distance) }km</geo>
@@ -11,7 +11,6 @@
 
   <script>
     this.actor = opts.actor
-    this.domains = this.actor.domain.split(',').map(d => d.trim())
     this.maxlength = this.opts.maxlength || 150
   </script>
 

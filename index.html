@@ -132,7 +132,7 @@ body > header > a h2 {
 
   page('/actor/:id', async (ctx) => {
     app.innerHTML = '<page-actor></page-actor>'
-    const actor = db.actors = await api(`/actors/${ctx.params.id}`)
+    const actor = await api(`/actors/${ctx.params.id}`)
     riot.mount('page-actor', { actor })
   })
 
