@@ -105,12 +105,6 @@ body > header > a h2 {
     user: {location: []}
   }
   const app = document.querySelector('main')
-  const searchableActorsOptions = {
-    keys: [{name: 'name', weight: 0.8},
-           {name: 'domains', weight: 0.5},
-           {name: 'description', weight: 0.3}]
-  }
-  let searchableActors = null
 
   function api(url) {
     return fetch(`https://eac-api.herokuapp.com${url}`, {mode: 'cors'})
@@ -149,7 +143,6 @@ body > header > a h2 {
 
   async function loadData() {
     db.actors = await api('/actors')
-    searchableActors = new Fuse(db.actors, searchableActorsOptions)
     console.info('db is loaded', db)
     page({hashbang: true})
   }
