@@ -134,7 +134,7 @@ body > header > a h2 {
 
   page('/actor/:id', async (ctx) => {
     app.innerHTML = '<page-actor></page-actor>'
-    const actor = await api(`/actors/${ctx.params.id}`)
+    const actor = await api(`/actors/${ctx.params.id}?from=${user.location.latitude},${user.location.longitude}`)
     riot.mount('page-actor', { actor })
   })
 

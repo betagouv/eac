@@ -2,7 +2,7 @@
   <details title=Domaine open>
     <summary>Filtrer par domaine</summary>
     <label each={ domain in this.domains }>
-      <input type=checkbox name=domains value={ domain } onchange={ submit } checked={ opts.filters['domains'].includes(domain) }>
+      <input type=checkbox name=domains value={ domain } onchange={ submit } checked={ this.domains && this.domains.includes(domain) }>
       { domain }
     </label>
   </details>
