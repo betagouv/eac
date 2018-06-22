@@ -19,9 +19,9 @@
 
     <aside class=block>
       <address>
-        <iframe width=425 height=350 frameborder=0 scrolling=no marginheight=0 marginwidth=0 src="https://www.openstreetmap.org/export/embed.html?bbox={ Number(actor.longitude) - 0.02 }%2C{ Number(actor.latitude) - 0.02 }%2C{ Number(actor.longitude) + 0.02 }%2C{ Number(actor.latitude) + 0.02 }&amp;layer=hot&amp;marker={ actor.latitude }%2C{ actor.longitude }"></iframe><br/>
+        <iframe width=425 height=350 frameborder=0 scrolling=no marginheight=0 marginwidth=0 src="https://www.openstreetmap.org/export/embed.html?bbox={ Number(this.longitude) - 0.02 }%2C{ Number(this.latitude) - 0.02 }%2C{ Number(this.longitude) + 0.02 }%2C{ Number(this.latitude) + 0.02 }&amp;layer=hot&amp;marker={ this.latitude }%2C{ this.longitude }"></iframe><br/>
         <small>
-          <a href="https://www.openstreetmap.org/?mlat={ actor.latitude }&mlon={ actor.longitude }#map=15/{ actor.latitude }/{ actor.longitude }&layers=T" target=_blank>
+          <a href="https://www.openstreetmap.org/?mlat={ this.latitude }&mlon={ this.longitude }#map=15/{ this.latitude }/{ this.longitude }&layers=T" target=_blank>
             { this.actor.address }<br>
             { this.actor.postalCode } { this.actor.city }
           </a>
@@ -34,6 +34,7 @@
 
   <script>
     this.actor = opts.actor
+    [this.latitude, this.longitude] = this.loc.coordinates[0] && this.loc.coordinates
   </script>
 
   <style scoped>

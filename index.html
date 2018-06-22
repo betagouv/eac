@@ -126,7 +126,8 @@ body > header > a h2 {
     app.innerHTML = '<page-home></page-home>'
     const q = ctx.params.query
     const filters = JSON.parse(decodeURI(ctx.params.filters))
-    const params = filters.domains ? `domains=${filters.domains}` : ''
+    let params = filters.domains ? `domains=${filters.domains}` : ''
+    params += (params ? '&' : '') + `from=${user.location.latitude},${user.location.longitude}`
     const actors = await api(`/actors/search/${q}?${params}`)
     riot.mount('page-home', { filters, actors, q })
   })
@@ -138,6 +139,7 @@ body > header > a h2 {
   })
 
   navigator.geolocation.getCurrentPosition(location => {
+    console.info('geolocalized at', location)
     user.location = location.coords
   })
 
