@@ -127,14 +127,19 @@ body > header > a h2 {
     const q = ctx.params.query
     const filters = JSON.parse(decodeURI(ctx.params.filters))
     let params = filters.domains ? `domains=${filters.domains}` : ''
-    params += (params ? '&' : '') + `from=${user.location.latitude},${user.location.longitude}`
-    const actors = await api(`/actors/search/${q}?${params}`)
+    if(user.location.latitude) {
+      params += (params ? '&' : '?')
+      params += `from=${user.location.latitude},${user.location.longitude}`
+    }
+    const actors = await api(`/actors/search/${q}${params}`)
     riot.mount('page-home', { filters, actors, q })
   })
 
   page('/actor/:id', async (ctx) => {
     app.innerHTML = '<page-actor></page-actor>'
-    const actor = await api(`/actors/${ctx.params.id}?from=${user.location.latitude},${user.location.longitude}`)
+    let params = ''
+    if(user.location.latitude) params = `?from=${user.location.latitude},${user.location.longitude}`
+    const actor = await api(`/actors/${ctx.params.id}${params}`)
     riot.mount('page-actor', { actor })
   })
 
