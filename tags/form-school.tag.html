@@ -1,0 +1,49 @@
+<form-school>
+  <input type=text placeholder="Ex : Lycée Jean Moulin" value="" ref=selector>
+  <script>
+    this.on('mount', () => {
+      let id
+      const completer = new Awesomplete(this.refs.selector, {
+        maxItems: 20,
+        replace: function(suggestion) {
+          this.input.value = suggestion.label
+          id = suggestion.value
+        }
+      })
+      this.refs.selector.addEventListener('input', async event => {
+        const q = event.target.value
+        if(!q) {
+          return
+        }
+        const schools = await api(`/schools/search/${q}`)
+        completer.list = schools && schools.map(s => {
+          return {
+            label: `${s.name} (${s.postalCode} ${s.city})`,
+            value: s._id
+          }
+        })
+      })
+      const schoolId = localStorage.getItem('schoolId')
+      this.updateSchoolLocation(schoolId)
+    })
+
+    this.addSchoolLocation = (event) => {
+      this.updateSchoolLocation(event.target.value)
+    }
+
+    this.updateSchoolLocation = (schoolId) => {
+      // this.refs.selector.value = schoolId
+      localStorage.setItem('schoolId', schoolId)
+      // const school = this.schools.find(s => s.id === schoolId)
+      // const latLng = [school.latitude, school.longitude]
+    }
+  </script>
+
+  <style scoped>
+    .awesomplete {
+      display: block;
+      width: 100%;
+    }
+  </style>
+
+</form-school>
