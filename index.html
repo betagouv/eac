@@ -130,6 +130,9 @@ body > header > a h2 {
   })
 
   page('/search/:query/:filters', async ctx => {
+    if(!school) {
+      page('/')
+    }
     app.innerHTML = '<page-home></page-home>'
     const q = ctx.params.query
     const filters = JSON.parse(decodeURI(ctx.params.filters))

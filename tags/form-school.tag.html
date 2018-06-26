@@ -1,5 +1,5 @@
 <form-school>
-  <input type=text placeholder="Ex : Lycée Jean Moulin" value={ this.displaySchool(this.school) } ref=selector>
+  <input type=text placeholder="Ex : Lycée Jean Moulin" value={ this.school && this.displaySchool(this.school) } ref=selector>
   <script>
     this.school = opts.school
 
