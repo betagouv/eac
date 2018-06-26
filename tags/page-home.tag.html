@@ -1,10 +1,10 @@
 <page-home>
   <section class=block id=school>
-    <h2>Votre établissement scolaire</h2>
-    <form-school></form-school>
+    <h4>Votre établissement scolaire</h4>
+    <form-school school={ this.school }></form-school>
   </section>
 
-  <section class=block id=search>
+  <section class=block id=search if={ this.school }>
     <h2>Vous recherchez</h2>
     <form-search q={ this.q }></form-search>
   </section>
@@ -26,6 +26,7 @@
     this.q = opts.q
     this.filters = opts.filters
     this.actors = opts.actors
+    this.school = opts.school
 
     this.filter = (event) => {
       const filters = opts.filters || {}
@@ -49,6 +50,10 @@
     }
     #school {
       grid-area: school;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-column-gap: 2rem;
+      align-items: center;
     }
     #search {
       grid-area: search;
@@ -58,6 +63,11 @@
     }
     #results {
       grid-area: results;
+    }
+
+    #school h4,
+    #school input {
+      margin-bottom: 0;
     }
 
     actor-card {

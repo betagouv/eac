@@ -1,8 +1,8 @@
 <!doctype html>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<link rel=stylesheet href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-<link rel=stylesheet href=//cdn.rawgit.com/necolas/normalize.css/master/normalize.css>
+<link rel=stylesheet href="./css/roboto.css">
+<link rel=stylesheet href=./css/normalize.css>
 <link rel=stylesheet href=./css/milligram.min.css>
 <link rel=stylesheet href=./js/awesomplete.css>
 
@@ -100,6 +100,7 @@ body > header > a h2 {
   const user = {location: {latitude: 0, longitude: 0}}
   const app = document.querySelector('main')
   const apiUrl = localStorage.getItem('apiUrl') || 'https://eac-api.herokuapp.com'
+  let school = localStorage.getItem('school') && JSON.parse(localStorage.getItem('school'))
 
   function api(url) {
     return fetch(`${apiUrl}${url}`, {mode: 'cors'})
@@ -117,9 +118,15 @@ body > header > a h2 {
     next()
   })
 
+  page('/school/:id', async ctx => {
+    school = await api(`/schools/${ctx.params.id}`)
+    localStorage.setItem('school', JSON.stringify(school))
+    page('/')
+  })
+
   page('/', () => {
     app.innerHTML = '<page-home></page-home>'
-    riot.mount('page-home')
+    riot.mount('page-home', { school })
   })
 
   page('/search/:query/:filters', async ctx => {
@@ -127,26 +134,25 @@ body > header > a h2 {
     const q = ctx.params.query
     const filters = JSON.parse(decodeURI(ctx.params.filters))
     let params = filters.domains ? `?domains=${filters.domains}` : ''
-    if(user.location.latitude) {
+    if(school.loc.coordinates) {
       params += (params ? '&' : '?')
-      params += `from=${user.location.latitude},${user.location.longitude}`
+      params += `from=${school.loc.coordinates[1]},${school.loc.coordinates[0]}`
     }
     const actors = await api(`/actors/search/${q}${params}`)
-    riot.mount('page-home', { filters, actors, q })
+    riot.mount('page-home', { filters, actors, q, school })
   })
 
   page('/actor/:id', async (ctx) => {
     app.innerHTML = '<page-actor></page-actor>'
     let params = ''
-    if(user.location.latitude) params = `?from=${user.location.latitude},${user.location.longitude}`
+    if(school.loc) params = `?from=${school.loc.coordinates[1]},${school.loc.coordinates[0]}`
     const actor = await api(`/actors/${ctx.params.id}${params}`)
-    riot.mount('page-actor', { actor })
+    riot.mount('page-actor', { actor, school })
   })
 
-  navigator.geolocation.getCurrentPosition(location => {
-    console.info('geolocalized at', location)
-    user.location = location.coords
-  })
+  async function init() {
+    page({hashbang: true})
+  }
 
-  page({hashbang: true})
+  init()
 </script>

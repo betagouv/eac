@@ -1,6 +1,12 @@
 <form-school>
-  <input type=text placeholder="Ex : Lycée Jean Moulin" value="" ref=selector>
+  <input type=text placeholder="Ex : Lycée Jean Moulin" value={ this.displaySchool(this.school) } ref=selector>
   <script>
+    this.school = opts.school
+
+    this.displaySchool = (school) => {
+      return `${school.name} (${school.postalCode} ${school.city})`
+    }
+
     this.on('mount', () => {
       let id
       const completer = new Awesomplete(this.refs.selector, {
@@ -18,25 +24,15 @@
         const schools = await api(`/schools/search/${q}`)
         completer.list = schools && schools.map(s => {
           return {
-            label: `${s.name} (${s.postalCode} ${s.city})`,
+            label: this.displaySchool(s),
             value: s._id
           }
         })
       })
-      const schoolId = localStorage.getItem('schoolId')
-      this.updateSchoolLocation(schoolId)
+      this.refs.selector.addEventListener('awesomplete-selectcomplete', event => {
+        page(`/school/${id}`)
+      })
     })
-
-    this.addSchoolLocation = (event) => {
-      this.updateSchoolLocation(event.target.value)
-    }
-
-    this.updateSchoolLocation = (schoolId) => {
-      // this.refs.selector.value = schoolId
-      localStorage.setItem('schoolId', schoolId)
-      // const school = this.schools.find(s => s.id === schoolId)
-      // const latLng = [school.latitude, school.longitude]
-    }
   </script>
 
   <style scoped>
