@@ -1,10 +1,11 @@
-<form-search>
+.<form-search>
   <form ref=form action=/search>
     <input type=search name=q id=q value={ opts.q } required autofocus>
     <input type=submit value=Rechercher>
   </form>
 
   <script>
+    /* global page */
     this.on('mount', () => {
       this.refs.form.addEventListener('submit', event => {
         event.preventDefault()

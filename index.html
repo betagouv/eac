@@ -83,7 +83,6 @@ body > header > a h2 {
 
 <main><div class=loading></div></main>
 
-<script type=riot/tag src=./tags/checkbox.tag.html></script>
 <script type=riot/tag src=./tags/page-home.tag.html></script>
 <script type=riot/tag src=./tags/page-actor.tag.html></script>
 <script type=riot/tag src=./tags/form-search.tag.html></script>
@@ -97,12 +96,19 @@ body > header > a h2 {
 <script src=./js/page.query.js></script>
 <script src=./js/awesomplete.min.js></script>
 <script>
-  const user = {location: {latitude: 0, longitude: 0}}
+  /* global
+    fetch,
+    localStorage,
+    location,
+    page,
+    qs,
+    riot,
+  */
   const app = document.querySelector('main')
   const apiUrl = localStorage.getItem('apiUrl') || 'https://eac-api.herokuapp.com'
   let school = localStorage.getItem('school') && JSON.parse(localStorage.getItem('school'))
 
-  function api(url) {
+  function api (url) {
     return fetch(`${apiUrl}${url}`, {mode: 'cors'})
       .then(r => r.json())
       .catch(console.error.bind(console))
@@ -113,8 +119,7 @@ body > header > a h2 {
   */
   page('*', (ctx, next) => {
     const hash = location.hash
-    if(hash.indexOf('?') >= 0)
-      ctx.query = qs.parse(hash.slice(hash.indexOf('?') + 1))
+    if (hash.indexOf('?') >= 0) { ctx.query = qs.parse(hash.slice(hash.indexOf('?') + 1)) }
     next()
   })
 
@@ -130,14 +135,14 @@ body > header > a h2 {
   })
 
   page('/search/:query/:filters', async ctx => {
-    if(!school) {
+    if (!school) {
       page('/')
     }
     app.innerHTML = '<page-home></page-home>'
     const q = ctx.params.query
     const filters = JSON.parse(decodeURI(ctx.params.filters))
     let params = filters.domains ? `?domains=${filters.domains}` : ''
-    if(school.loc.coordinates) {
+    if (school.loc.coordinates) {
       params += (params ? '&' : '?')
       params += `from=${school.loc.coordinates[1]},${school.loc.coordinates[0]}`
     }
@@ -148,12 +153,12 @@ body > header > a h2 {
   page('/actor/:id', async (ctx) => {
     app.innerHTML = '<page-actor></page-actor>'
     let params = ''
-    if(school.loc) params = `?from=${school.loc.coordinates[1]},${school.loc.coordinates[0]}`
+    if (school.loc) params = `?from=${school.loc.coordinates[1]},${school.loc.coordinates[0]}`
     const actor = await api(`/actors/${ctx.params.id}${params}`)
     riot.mount('page-actor', { actor, school })
   })
 
-  async function init() {
+  async function init () {
     page({hashbang: true})
   }
 

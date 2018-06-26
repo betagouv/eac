@@ -8,6 +8,7 @@
   </details>
 
   <script>
+    /* global api, opts, page */
     (async _ => {
       this.domains = await api('/domains')
       this.filters = opts.filters
@@ -21,12 +22,11 @@
       const value = event.target.value
       const activate = event.target.checked
 
-      if(!filters[category]) filters[category] = []
-      if(activate) {
-        if(filters[category].indexOf(value) < 0) filters[category].push(value)
-      }
-      else filters[category].splice(filters[category].indexOf(value), 1)
-      if(!filters[category].length) delete filters[category]
+      if (!filters[category]) filters[category] = []
+      if (activate) {
+        if (filters[category].indexOf(value) < 0) filters[category].push(value)
+      } else filters[category].splice(filters[category].indexOf(value), 1)
+      if (!filters[category].length) delete filters[category]
       page(`/search/${q}/${JSON.stringify(filters)}`)
     }
   </script>

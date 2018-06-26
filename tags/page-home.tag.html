@@ -23,6 +23,7 @@
   </virtual>
 
   <script>
+    /* global opts, page */
     this.q = opts.q
     this.filters = opts.filters
     this.actors = opts.actors
@@ -32,9 +33,9 @@
       const filters = opts.filters || {}
       const category = event.target.name
       const value = event.target.value
-      if(!filters[category]) filters[category] = []
-      if(event.target.checked && filters[category].indexOf(value) < 0) filters[category].push(value)
-      else if(event.target.checked) filters[category].splice(filters[category].indexOf(value), 1)
+      if (!filters[category]) filters[category] = []
+      if (event.target.checked && filters[category].indexOf(value) < 0) filters[category].push(value)
+      else if (event.target.checked) filters[category].splice(filters[category].indexOf(value), 1)
       page(`/search/${this.q}/${JSON.stringify(filters)}`)
     }
   </script>

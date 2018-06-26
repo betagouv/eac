@@ -1,6 +1,7 @@
 <form-school>
   <input type=text placeholder="Ex : Lycée Jean Moulin" value={ this.school && this.displaySchool(this.school) } ref=selector>
   <script>
+    /* global api, Awesomplete, opts, page */
     this.school = opts.school
 
     this.displaySchool = (school) => {
@@ -11,14 +12,14 @@
       let id
       const completer = new Awesomplete(this.refs.selector, {
         maxItems: 20,
-        replace: function(suggestion) {
+        replace: function (suggestion) {
           this.input.value = suggestion.label
           id = suggestion.value
         }
       })
       this.refs.selector.addEventListener('input', async event => {
         const q = event.target.value
-        if(!q) {
+        if (!q) {
           return
         }
         const schools = await api(`/schools/search/${q}`)
