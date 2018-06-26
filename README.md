@@ -44,3 +44,5 @@ La plateforme est faite en [VanillaJS](http://vanilla-js.com/) saupoudrée de :
 - [RioJS Route](https://riot.js.org/api/route/) pour le routing client
 - [Airtable API](https://airtable.com/api) pour le stockage des données
 - [FuseJS](http://fusejs.io/) pour le moteur de recherche.
+
+Pour nettoyer les sources JS, lancer la commande `npm run lint`

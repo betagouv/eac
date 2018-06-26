@@ -17,6 +17,16 @@
       </article>
     </section>
 
+    <section class=block id=contact>
+      Contacter { this.contact } :
+      <ul>
+        <li>Par téléphone : { this.phone }</li>
+        <li>Par email : { this.email }</li>
+      </ul>
+      <a class=button href="mailto:{ this.email }?subject=À propos de { this.actor.name }&cc=loup.wolff@beta.gouv.fr&body={ this.emailBody }">Envoyer un email</a>
+      <a class=button href="tel:{ this.phone }">Appeler</a>
+    </section>
+
     <aside class=block>
       <geo if={ this.actor.distance }>à { Math.ceil(this.actor.distance) } km</geo>
       <address>
@@ -35,8 +45,19 @@
   <script>
     /* global opts */
     this.actor = opts.actor
-
+    this.phone = this.actor.contactPhone || this.actor.ownerPhone
+    this.email = this.actor.contactEmail || this.actor.ownerEmail
     this.latLng = this.actor.loc.coordinates[0] && this.actor.loc.coordinates
+    this.contact = (this.actor.contactName || this.actor.ownerName).replace(',', '')
+    this.emailBody =
+`
+Bonjour ${this.contact},\n\n
+
+Je vous contacte suite à ma consultation de la fiche ${location.href}.
+
+Questions ou remarques :
+
+`
   </script>
 
   <style scoped>
