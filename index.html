@@ -99,9 +99,7 @@ body > header > a h2 {
 <script>
   const user = {location: {latitude: 0, longitude: 0}}
   const app = document.querySelector('main')
-  const apiUrl = location.hostname === 'localhost'
-               ? 'http://localhost:3000'
-               : 'https://eac-api.herokuapp.com'
+  const apiUrl = localStorage.getItem('apiUrl') || 'https://eac-api.herokuapp.com'
 
   function api(url) {
     return fetch(`${apiUrl}${url}`, {mode: 'cors'})
