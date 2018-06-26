@@ -14,23 +14,20 @@ De retirer les complexités et les facteurs tiers de [non-](https://github.com/w
 
 ## Installation
 
-Téléchargez les sources:
+1. Téléchargez les sources : `git clone https://github.com/betagouv/eac.git`
+2. installez les dépendances de développement (aucune en production) : `npm install`
+3. lancez le serveur : `npm start`
+4. ouvez le navigateur à la page `http://localhost:8080`.
 
-```sh
-git clone https://github.com/betagouv/eac.git
-```
-
-Et ouvrez le fichier eac/index.html avec votre navigateur web.
-
-Il n'y a rien à installer.
-Pas de dépendence externe.
-Pas non plus de transpilation ou post-processeur. [_Ça juste marche_](https://fr.wikipedia.org/wiki/N%C3%A9ologisme).
+Elle dépend également de [l'API EAC](http://github.com/betagouv/eac-api) qui sert
+les données.
+Soit en local, soit directement l'API distance (qui est ouverte et en mode CORS).
 
 
 ## Contraintes
 
 Le prix à payer pour ne pas avoir de transpilation et de pouvoir coder vite et
-propre, c'est d'avoir un navigateur digne de ce nom, et à jour, _future-proof_.
+propre, c'est d'avoir un navigateur à jour.
 [Firefox](https://www.mozilla.org/) 52, [Chromium](https://download-chromium.appspot.com/) 55,
 [Brave](https://brave.com/), [Edge](https://developer.microsoft.com/microsoft-edge/) 16,
 [Safari](https://developer.apple.com/safari/download/) 10.1,
@@ -41,8 +38,7 @@ propre, c'est d'avoir un navigateur digne de ce nom, et à jour, _future-proof_.
 
 La plateforme est faite en [VanillaJS](http://vanilla-js.com/) saupoudrée de :
 - [RiotJS](http://riot.js.org/) pour la partie webcomponents
-- [RioJS Route](https://riot.js.org/api/route/) pour le routing client
-- [Airtable API](https://airtable.com/api) pour le stockage des données
-- [FuseJS](http://fusejs.io/) pour le moteur de recherche.
+- [PageJS](https://visionmedia.github.io/page.js/) pour le routing client
+- [Awesomplete](https://github.com/LeaVerou/awesomplete) pour l'autocompletion
 
 Pour nettoyer les sources JS, lancer la commande `npm run lint`

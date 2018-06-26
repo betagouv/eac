@@ -4,6 +4,7 @@
   "description": "Education Artistique et Culturelle",
   "main": "index.html",
   "scripts": {
+    "start": "http-server",
     "lint": "standard --fix --plugin html '**/*.html'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,8 +18,9 @@
     "url": "https://github.com/betagouv/eac/issues"
   },
   "homepage": "https://github.com/betagouv/eac#readme",
-  "dependencies": {
+  "devDependencies": {
     "eslint-plugin-html": "^4.0.5",
+    "http-server": "^0.11.1",
     "standard": "^11.0.1"
   }
 }
