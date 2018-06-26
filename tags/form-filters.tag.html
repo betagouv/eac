@@ -20,7 +20,7 @@
       const category = event.target.name
       const value = event.target.value
       const activate = event.target.checked
-      
+
       if(!filters[category]) filters[category] = []
       if(activate) {
         if(filters[category].indexOf(value) < 0) filters[category].push(value)
