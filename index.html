@@ -126,7 +126,7 @@ body > header > a h2 {
     app.innerHTML = '<page-home></page-home>'
     const q = ctx.params.query
     const filters = JSON.parse(decodeURI(ctx.params.filters))
-    let params = filters.domains ? `domains=${filters.domains}` : ''
+    let params = filters.domains ? `?domains=${filters.domains}` : ''
     if(user.location.latitude) {
       params += (params ? '&' : '?')
       params += `from=${user.location.latitude},${user.location.longitude}`
