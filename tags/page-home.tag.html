@@ -25,15 +25,7 @@
   <script>
     this.q = opts.q
     this.filters = opts.filters
-    this.actors = sortedActors()
-
-    this.on('update', event => {
-      this.actors = sortedActors()
-    })
-
-    function sortedActors() {
-      return opts.actors && opts.actors.sort((a, b) => a.distance > b.distance)
-    }
+    this.actors = opts.actors
 
     this.filter = (event) => {
       const filters = opts.filters || {}
