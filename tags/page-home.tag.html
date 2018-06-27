@@ -9,16 +9,21 @@
     <form-search q={ this.q }></form-search>
   </section>
 
-  <virtual if={ this.q }>
+  <virtual if={ this.school && this.q }>
     <section class=block id=filters>
       <form-filters q={ this.q } filters={ this.filters }></form-filters>
     </section>
 
-    <section class=block id=results>
-
+    <section if={ this.viewType == 'list' } class=block id=results>
+      <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
       <h2>Résultats pour « { this.q } »</h2>
       <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche.</p>
       <actor-card each={ actor in this.actors } actor={ actor }></actor-card>
+    </section>
+
+    <section if={ this.viewType == 'map' } class=block id=map>
+      <button onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
+      <actors-map lat-lng={ this.school.loc.coordinates.reverse() } actors={ this.actors }></actors-map>
     </section>
   </virtual>
 
@@ -28,6 +33,7 @@
     this.filters = opts.filters
     this.actors = opts.actors
     this.school = opts.school
+    this.viewType = 'list'
 
     this.filter = (event) => {
       const filters = opts.filters || {}
@@ -37,6 +43,10 @@
       if (event.target.checked && filters[category].indexOf(value) < 0) filters[category].push(value)
       else if (event.target.checked) filters[category].splice(filters[category].indexOf(value), 1)
       page(`/search/${this.q}/${JSON.stringify(filters)}`)
+    }
+
+    this.setViewType = (event) => {
+      this.viewType = event.target.value
     }
   </script>
 
@@ -63,6 +73,9 @@
       grid-area: filters;
     }
     #results {
+      grid-area: results;
+    }
+    #map {
       grid-area: results;
     }
 
