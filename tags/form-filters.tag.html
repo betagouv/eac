@@ -1,6 +1,6 @@
 <form-filters>
   <details title=Domaine open>
-    <summary>Filtrer par domaine</summary>
+    <summary>Affiner par domaines</summary>
     <label each={ domain in this.domains }>
       <input type=checkbox name=domains value={ domain } onchange={ this.submit } checked={ this.filters.domains && this.filters.domains.includes(domain) }>
       { domain }
@@ -9,11 +9,10 @@
 
   <script>
     /* global api, opts, page */
-    (async _ => {
-      this.domains = await api('/domains')
-      this.filters = opts.filters
-      this.update()
-    })()
+    this.domains = Array.from(new Set(
+      [].concat(...opts.actors.filter(a => a.domains).map(a => a.domains))
+    )).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+    this.filters = opts.filters
 
     this.submit = (event) => {
       const q = opts.q
@@ -35,6 +34,7 @@
     label {
       font-weight: normal;
       cursor: pointer;
+      text-transform: capitalize;
     }
   </style>
 </form-filters>

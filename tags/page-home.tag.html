@@ -11,7 +11,7 @@
 
   <virtual if={ this.school && this.q }>
     <section class=block id=filters>
-      <form-filters q={ this.q } filters={ this.filters }></form-filters>
+      <form-filters q={ this.q } actors={ this.actors } filters={ this.filters }></form-filters>
     </section>
 
     <section if={ this.viewType == 'list' } class=block id=results>
