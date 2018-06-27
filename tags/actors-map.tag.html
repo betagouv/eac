@@ -2,7 +2,7 @@
   <div ref=map></div>
 
   <script>
-    this.lngLat = opts.latLng.reverse()
+    this.lngLat = [opts.latLng[0], opts.latLng[1]]
     this.on('mount', _ => {
       const map = L.map(this.refs.map).setView(this.lngLat, 9)
 
@@ -23,7 +23,7 @@
           marker.bindPopup(`
             <a href=/actor/${a._id} title="Voir le détail">
               <h4>${a.name}</h4>
-              <p>${a.description.length > 80 ? (a.description.substr(80) + '…') : a.description}</p>
+              <p>${a.description.length > 80 ? (a.description.substr(0, 300) + '…') : a.description}</p>
             </a>
           `)
           return marker
