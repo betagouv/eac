@@ -16,7 +16,7 @@
 
     <section if={ this.viewType == 'list' } class=block id=results>
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
-      <h2>Résultats pour « { this.q } »</h2>
+      <h2>Résultats pour «&nbsp;{ this.q }&nbsp;»</h2>
       <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche.</p>
       <actor-card each={ actor in this.actors } actor={ actor }></actor-card>
     </section>
