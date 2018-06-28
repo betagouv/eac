@@ -2,8 +2,11 @@
   <details title=Domaine open>
     <summary>Affiner par domaines</summary>
     <label each={ domain in this.domains }>
-      <input type=checkbox name=domains value={ domain } onchange={ this.submit } checked={ this.filters.domains && this.filters.domains.includes(domain) }>
-      { domain }
+      <input type=checkbox 
+             name=domains 
+             value={ domain } 
+             onchange={ this.submit } 
+             checked={ this.filters.domains && this.filters.domains.includes(domain) }>{ domain }
     </label>
   </details>
 
@@ -35,6 +38,14 @@
       font-weight: normal;
       cursor: pointer;
       text-transform: capitalize;
+      margin-left: 1.5rem;
+    }
+    label > input {
+      margin-right: 0.75rem;
+    }
+    summary {
+      margin-bottom: 1rem;
+      cursor: pointer;
     }
   </style>
 </form-filters>
