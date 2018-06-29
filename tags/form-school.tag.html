@@ -4,6 +4,11 @@
     /* global api, Awesomplete, opts, page */
     this.school = opts.school
 
+    // Remove all special chars.
+    function normalizeString (str) {
+      return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    }
+
     this.displaySchool = (school) => {
       return `${school.name} (${school.postalCode} ${school.city})`
     }
@@ -11,10 +16,16 @@
     this.on('mount', () => {
       let id
       const completer = new Awesomplete(this.refs.selector, {
-        maxItems: 20,
         replace: function (suggestion) {
           this.input.value = suggestion.label
           id = suggestion.value
+        },
+        filter: function (text, input) {
+          const words = normalizeString(input).split(' ')
+          return words.filter(word => normalizeString(text.label).includes(word)).length === words.length
+        },
+        item: function (text, input) {
+          return Awesomplete.ITEM(text.label, '')
         }
       })
       this.refs.selector.addEventListener('input', async event => {
