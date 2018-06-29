@@ -11,7 +11,7 @@
   </details>
 
   <script>
-    /* global api, opts, page */
+    /* global opts, page */
     this.domains = Array.from(new Set(
       [].concat(...opts.actors.filter(a => a.domains).map(a => a.domains))
     )).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
