@@ -1,0 +1,57 @@
+@import url(../vendors/css/normalize.css);
+@import url(../vendors/css/roboto.css);
+@import url(../vendors/css/milligram.min.css);
+@import url(../vendors/css/awesomplete.css);
+@import url('../vendors/css/leaflet.css');
+
+/* milligram override */
+.button,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  background-color: #E54319;
+  border-color: #D30421;
+}
+
+/* specific */
+
+body {
+  background-color: #f8f8f8;
+}
+
+.loading {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: url(/images/loading.gif) no-repeat center center;
+  top: calc(50% - 150px);
+  left: calc(50% - 150px);
+}
+.ready .loading {
+  display: none;
+}
+
+.block {
+  background-color: #fff;
+  margin: 0 1em 1em 0;
+  padding: 2em;
+  box-shadow: .3em .3em .2em #eee;
+}
+.block h2 {
+  text-align: center;
+}
+
+.tag {
+  display: inline-block;
+  padding: .3rem 1rem;
+  border-radius: .3rem;
+  font-size: 1.1rem;
+  font-style: italic;
+  background: #eee;
+  color: inherit;
+  cursor: default;
+}
+.tag:not(:last-of-type) {
+  margin-right: 1rem;
+}

@@ -1,0 +1,48 @@
+<app>
+  <header class=block>
+    <a href="/">
+      <img id=logo src=images/logo-eac.gif alt="Logo de la Plateforme EAC">
+      <h1>Plateforme EAC</h1>
+      <h2>L'Éducation artistique et culturelle pour tous</h2>
+    </a>
+  </header>
+
+  <main>
+    <yield></yield>
+  </main>
+
+
+  <script>
+    document.body.classList.add('ready')
+  </script>
+
+
+  <style scoped>
+    header {
+      padding: .5rem !important;
+    }
+    header > a {
+      display: grid;
+      grid-template:
+        ". logo title ."
+        ". logo baseline ."
+        / 1fr 150px auto 1fr
+        ;
+      color: inherit;
+    }
+    header > a #logo {
+      grid-area: logo;
+    }
+    header > a h1 {
+      grid-area: title;
+      font-size: 2em;
+      margin: .4em 0 0 0;
+      align-self: end;
+    }
+    header > a h2 {
+      grid-area: baseline;
+      font-size: 1em;
+      font-weight: 200;
+    }
+  </style>
+</app>
