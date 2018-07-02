@@ -2,9 +2,9 @@
   "name": "eac-client",
   "version": "1.0.0",
   "description": "Education Artistique et Culturelle",
-  "main": "index.html",
+  "main": "server.js",
   "scripts": {
-    "start": "http-server",
+    "start": "nodemon -e html,js,css server.js",
     "lint": "standard --fix --plugin html '**/*.html'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,5 +22,8 @@
     "eslint-plugin-html": "^4.0.5",
     "http-server": "^0.11.1",
     "standard": "^11.0.1"
+  },
+  "dependencies": {
+    "nodemon": "^1.17.5"
   }
 }
