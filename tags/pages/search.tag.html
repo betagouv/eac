@@ -11,8 +11,16 @@
     <search-filters actors={ this.actors } q={ this.q } school-id={ this.schoolId }></search-filters>
   </section>
 
-  <section class=block id=results if={ this.actors.length }>
+  <section if={ this.viewType == 'list' } class=block id=results>
+    <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
+    <h2>Résultats pour «&nbsp;{ this.q }&nbsp;»</h2>
+    <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche.</p>
     <actor-card each={ actor in this.actors } actor={ actor } school-id={ this.schoolId }></actor-card>
+  </section>
+
+  <section if={ this.viewType == 'map' } class=block id=map>
+    <button onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
+    <actors-map actors={ this.actors } school-id={ this.schoolId }></actors-map>
   </section>
 
   <script>
@@ -20,6 +28,7 @@
     this.q = opts.q
     this.schoolId = opts.schoolId
     this.actors = []
+    this.viewType = 'list'
 
     ;(async () => {
       this.actors = await api(`/actors/search/${this.q}`)
@@ -33,6 +42,10 @@
         page(`/school/${this.schoolId}/search/${encodeURI(form.q.value)}/{}`)
       })
     })
+
+    this.setViewType = (event) => {
+      this.viewType = event.target.value
+    }
   </script>
 
   <style scoped>

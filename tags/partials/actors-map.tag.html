@@ -1,0 +1,69 @@
+<actors-map>
+  <div ref=map></div>
+
+  <script>
+    /* global opts, L */
+    this.schoolId = opts.schoolId
+    this.actors = opts.actors
+
+    this.on('mount', async () => {
+      const school = await api(`/schools/${this.schoolId}`)
+      const lngLat = school.loc.coordinates.reverse()
+
+      const map = L.map(this.refs.map).setView(lngLat, 9)
+      const actorMarker = L.icon({iconUrl: `/images/marker.svg`, iconSize: [40, 45]})
+
+
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox.streets'
+      }).addTo(map)
+
+      const markers = this.actors
+        .filter(a => a.loc.coordinates[0])
+        .map(a => {
+          const marker = L.marker(a.loc.coordinates, {icon: actorMarker})
+          marker.actor = a
+          marker.bindPopup(`
+            <a href=/school/${this.schoolId}/actor/${a._id} title="Voir le détail">
+              <h4>${a.name}</h4>
+              <p>${a.description.length > 80 ? (a.description.substr(0, 300) + '…') : a.description}</p>
+            </a>
+          `)
+          return marker
+        })
+
+      L.marker(lngLat, {
+        icon: L.divIcon({className: 'leaflet-user', iconSize: [25, 25]})
+      })
+        .bindPopup('Votre établissement scolaire')
+        .addTo(map)
+
+      L.featureGroup(markers)
+        .addTo(map)
+
+    })
+  </script>
+
+  <style scoped>
+    [ref=map] {
+      height: 400px;
+    }
+    .leaflet-popup a {
+      color: inherit;
+    }
+    .leaflet-user {
+      background: red;
+      border: 5px solid rgba(255,255,255,0.5);
+      color: blue;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 50%;
+      line-height: 80px;
+      width: 50px;
+    }
+  </style>
+</actors-map>
