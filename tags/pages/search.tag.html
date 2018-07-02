@@ -7,28 +7,31 @@
     </form>
   </section>
 
-  <section class=block id=filters if={ this.actors.length }>
-    <search-filters actors={ this.actors } q={ this.q } school-id={ this.schoolId }></search-filters>
-  </section>
+  <virtual if={ this.q }>
+    <section class=block id=filters>
+      <search-filters actors={ this.actors } filters={ this.filters } q={ this.q } school-id={ this.schoolId }></search-filters>
+    </section>
 
-  <section if={ this.viewType == 'list' } class=block id=results>
-    <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
-    <h2>Résultats pour «&nbsp;{ this.q }&nbsp;»</h2>
-    <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche.</p>
-    <actor-card each={ actor in this.actors } actor={ actor } school-id={ this.schoolId }></actor-card>
-  </section>
+    <section if={ this.viewType == 'list' } class=block id=results>
+      <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
+      <h2>Résultats pour «&nbsp;{ this.q }&nbsp;»</h2>
+      <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
+      <actor-card each={ actor in this.actors } actor={ actor } school-id={ this.schoolId }></actor-card>
+    </section>
 
-  <section if={ this.viewType == 'map' } class=block id=map>
-    <button onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
-    <actors-map actors={ this.actors } school-id={ this.schoolId }></actors-map>
-  </section>
+    <section if={ this.viewType == 'map' } class=block id=map>
+      <button onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
+      <actors-map actors={ this.actors } school-id={ this.schoolId }></actors-map>
+    </section>
+  </virtual>
 
   <script>
     /* global api, encodeURI, page */
     this.q = opts.q
     this.schoolId = opts.schoolId
+    this.filters = opts.filters ? JSON.parse(opts.filters) : {}
     this.actors = []
-    this.viewType = this.q && 'list'
+    this.viewType = 'list'
 
     ;(async () => {
       this.actors = await api(`/actors/search/${this.q}`)

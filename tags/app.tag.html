@@ -7,42 +7,43 @@
     </a>
   </header>
 
-  <main>
-    <page-school if={ this.page == 'school' }></page-school>
-    <page-search if={ this.page == 'search' } q={ this.q } school-id={ this.schoolId }></page-search>
-    <page-actor if={ this.page == 'actor' } actor-id={ this.actorId }></page-actor>
-  </main>
+  <main ref=container></main>
 
 
   <script>
-    this.page = ''
-
-    this.showPage = (name) => {
-      this.page = name
-      this.update()
-    }
-
-    page('/', () => this.showPage('school'))
+    page('/', () => {
+      this.refs.container.innerHTML = `<page-school></page-school>`
+      riot.mount('page-school')
+    })
 
     page('/school/:school/search', (ctx) => {
-      this.schoolId = ctx.params.school
-      this.showPage('search')
+      this.refs.container.innerHTML = `<page-search school-id="${ctx.params.school}" />`
+      riot.mount('page-search')
     })
+
     page('/school/:school/search/:q/:filters', (ctx) => {
-      this.q = ctx.params.q
-      this.schoolId = ctx.params.school
-      this.filters = JSON.parse(ctx.params.filters)
-      this.showPage('search')
+      this.refs.container.innerHTML = `<page-search
+        school-id="${ctx.params.school}"
+        q="${ctx.params.q}"
+        filters="${ctx.params.filters}"
+        />`
+      riot.mount('page-search')
     })
 
     page('/school/:school/actor/:id', (ctx) => {
       this.schoolId = ctx.params.school
       this.actorId = ctx.params.id
-      this.showPage('actor')
+      this.refs.container.innerHTML = `<page-actor
+        school-id="${ctx.params.school}"
+        actor-id="${ctx.params.id}"
+        />`
+      riot.mount('page-actor')
     })
 
-    page()
-    document.body.classList.add('ready')
+    this.on('mount', () => {
+      page()
+      document.body.classList.add('ready')
+    })
   </script>
 
 
