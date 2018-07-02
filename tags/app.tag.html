@@ -10,23 +10,35 @@
   <main>
     <page-school if={ this.page == 'school' }></page-school>
     <page-search if={ this.page == 'search' } q={ this.q } school-id={ this.schoolId }></page-search>
-    <page-actor if={ this.page == 'actor' }></page-actor>
+    <page-actor if={ this.page == 'actor' } actor-id={ this.actorId }></page-actor>
   </main>
 
 
   <script>
     this.page = ''
 
-    page('/', () => this.page = 'school')
+    this.showPage = (name) => {
+      this.page = name
+      this.update()
+    }
+
+    page('/', () => this.showPage('school'))
+
     page('/school/:school/search', (ctx) => {
       this.schoolId = ctx.params.school
-      this.page = 'search'
+      this.showPage('search')
     })
     page('/school/:school/search/:q/:filters', (ctx) => {
       this.q = ctx.params.q
       this.schoolId = ctx.params.school
-      this.page = 'search'
-      this.update()
+      this.filters = JSON.parse(ctx.params.filters)
+      this.showPage('search')
+    })
+
+    page('/school/:school/actor/:id', (ctx) => {
+      this.schoolId = ctx.params.school
+      this.actorId = ctx.params.id
+      this.showPage('actor')
     })
 
     page()

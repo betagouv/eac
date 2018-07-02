@@ -11,6 +11,7 @@ requireTags([
   '/tags/app.tag.html',
   '/tags/pages/school.tag.html',
   '/tags/pages/search.tag.html',
+  '/tags/pages/actor.tag.html',
   '/tags/partials/search-filters.tag.html',
   '/tags/partials/actor-card.tag.html',
 ])
