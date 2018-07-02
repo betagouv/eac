@@ -29,7 +29,12 @@
     /* global api, encodeURI, page */
     this.q = opts.q
     this.schoolId = opts.schoolId
-    this.filters = JSON.parse(decodeURI(opts.filters) || '{}')
+    try {
+      this.filters = JSON.parse(decodeURI(opts.filters))
+    }
+    catch(e) {
+      this.filters = {}
+    }
     this.actors = []
     this.viewType = 'list'
 
