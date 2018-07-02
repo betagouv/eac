@@ -1,7 +1,7 @@
 <page-search>
   <section class=block id=search>
     <h2>Vous recherchez</h2>
-    <form ref=form action=/search>
+    <form onsubmit={ this.search } action=/search>
       <input type=search name=q id=q value={ this.q } required autofocus>
       <input type=submit value=Rechercher>
     </form>
@@ -9,19 +9,19 @@
 
   <virtual if={ this.q }>
     <section class=block id=filters>
-      <search-filters actors={ this.actors } filters={ this.filters } q={ this.q } school-id={ this.schoolId }></search-filters>
+      <search-filters filters={ this.filters } q={ this.q } school-id={ this.schoolId } actors={ this.actors } />
     </section>
 
     <section if={ this.viewType == 'list' } class=block id=results>
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
       <h2>Résultats pour «&nbsp;{ this.q }&nbsp;»</h2>
       <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
-      <actor-card each={ actor in this.actors } actor={ actor } school-id={ this.schoolId }></actor-card>
+      <actor-card each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
     </section>
 
     <section if={ this.viewType == 'map' } class=block id=map>
       <button onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
-      <actors-map actors={ this.actors } school-id={ this.schoolId }></actors-map>
+      <actors-map actors={ this.actors } school-id={ this.schoolId } />
     </section>
   </virtual>
 
@@ -29,22 +29,21 @@
     /* global api, encodeURI, page */
     this.q = opts.q
     this.schoolId = opts.schoolId
-    this.filters = opts.filters ? JSON.parse(opts.filters) : {}
+    this.filters = JSON.parse(decodeURI(opts.filters) || '{}')
     this.actors = []
     this.viewType = 'list'
 
+    let params = this.filters.domains ? `?domains=${this.filters.domains}` : ''
+
     ;(async () => {
-      this.actors = await api(`/actors/search/${this.q}`)
+      this.actors = await api(`/actors/search/${this.q}${params}`)
       this.update()
     })()
 
-    this.on('mount', () => {
-      this.refs.form.addEventListener('submit', event => {
-        event.preventDefault()
-        const form = event.target
-        page(`/school/${this.schoolId}/search/${encodeURI(form.q.value)}/{}`)
-      })
-    })
+    this.search = (event) => {
+      const form = event.target
+      page(`/school/${this.schoolId}/search/${encodeURI(form.q.value)}/{}`)
+    }
 
     this.setViewType = (event) => {
       this.viewType = event.target.value

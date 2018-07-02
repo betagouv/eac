@@ -25,7 +25,7 @@
       this.refs.container.innerHTML = `<page-search
         school-id="${ctx.params.school}"
         q="${ctx.params.q}"
-        filters="${ctx.params.filters}"
+        filters="${encodeURI(ctx.params.filters)}"
         />`
       riot.mount('page-search')
     })

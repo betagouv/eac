@@ -13,14 +13,21 @@
   <script>
     /* global opts, page */
     this.filters = opts.filters || {}
+    this.actors = opts.actors || []
+    this.q = opts.q
+    this.schoolId = opts.schoolId
 
-    this.domains = Array.from(new Set(
-      [].concat(...opts.actors.filter(a => a.domains).map(a => a.domains))
-    )).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+
+    this.on('update', () => {
+      this.actors = opts.actors
+      this.domains = Array.from(new Set(
+        [].concat(...this.actors.filter(a => a.domains).map(a => a.domains))
+      )).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+    })
 
     this.submit = (event) => {
-      const q = opts.q
-      const schoolId = opts.schoolId
+      const q = this.q
+      const schoolId = this.schoolId
       const filters = this.filters
       const category = event.target.name
       const value = event.target.value
@@ -31,6 +38,7 @@
         if (filters[category].indexOf(value) < 0) filters[category].push(value)
       } else filters[category].splice(filters[category].indexOf(value), 1)
       if (!filters[category].length) delete filters[category]
+
       page(`/school/${schoolId}/search/${q}/${JSON.stringify(filters)}`)
     }
   </script>
