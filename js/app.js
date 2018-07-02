@@ -13,6 +13,7 @@ requireTags([
   '/tags/pages/search.tag.html',
   '/tags/pages/actor.tag.html',
   '/tags/partials/search-filters.tag.html',
+  '/tags/partials/school-card.tag.html',
   '/tags/partials/actor-card.tag.html',
   '/tags/partials/actors-map.tag.html',
 ])

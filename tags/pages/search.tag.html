@@ -51,6 +51,7 @@
     })()
 
     this.search = (event) => {
+      event.preventDefault()
       const form = event.target
       page(`/school/${this.schoolId}/search/${encodeURI(form.q.value)}/{}`)
     }
