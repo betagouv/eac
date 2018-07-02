@@ -48,22 +48,17 @@
     /* global opts, location */
     this.actor = {}
 
-    ;(async () => {
+    this.on('mount', async () => {
       this.actor = await api(`/actors/${opts.actorId}`)
-      this.update()
       this.phone = this.actor.contactPhone || this.actor.ownerPhone
       this.email = this.actor.contactEmail || this.actor.ownerEmail
       this.latLng = this.actor.loc.coordinates[0] && this.actor.loc.coordinates
       this.contact = (this.actor.contactName || this.actor.ownerName).replace(',', '')
-      this.emailBody =
-  `Bonjour ${this.contact},
-
-  Je vous contacte suite à ma consultation de la fiche ${location.href}.
-
-  Questions ou remarques :
-
-  `
-    })()
+      this.emailBody = `Bonjour ${this.contact},\n\n` +
+        `Je vous contacte suite à ma consultation de la fiche ${location.href}.\n\n` +
+        `Questions ou remarques :\n\n\n\n`
+      this.update()
+    })
   </script>
 
   <style scoped>
