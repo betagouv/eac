@@ -8,11 +8,19 @@
   </header>
 
   <main>
-    <yield></yield>
+    <page-school if={ this.page == 'school' }></page-school>
+    <page-search if={ this.page == 'search' }></page-search>
+    <page-actor if={ this.page == 'actor' }></page-actor>
   </main>
 
 
   <script>
+    this.page = ''
+
+    page('/', () => this.page = 'school')
+    page('/:school/search', () => this.page = 'search')
+
+    page()
     document.body.classList.add('ready')
   </script>
 

@@ -1,8 +1,8 @@
 @import url(../vendors/css/normalize.css);
 @import url(../vendors/css/roboto.css);
 @import url(../vendors/css/milligram.min.css);
+@import url(../vendors/css/leaflet.css);
 @import url(../vendors/css/awesomplete.css);
-@import url('../vendors/css/leaflet.css');
 
 /* milligram override */
 .button,

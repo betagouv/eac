@@ -1,7 +1,10 @@
+const apiUrl = localStorage.getItem('apiUrl') || 'https://eac-api.herokuapp.com'
+
 const includeJs = require([
   '/vendors/js/riot+compiler.min.js',
   '/vendors/js/page.js',
-  '/vendors/js/leaflet.js'
+  '/vendors/js/leaflet.js',
+  '/vendors/js/awesomplete.min.js',
 ])
 
 requireTags([
@@ -12,6 +15,11 @@ requireTags([
 
 includeJs.then(() => riot.mount('*'))
 
+function api (url) {
+  return fetch(`${apiUrl}${url}`, {mode: 'cors'})
+    .then(r => r.json())
+    .catch(console.error.bind(console))
+}
 
 function require(sources, type = 'text/javascript') {
   return new Promise((resolve) => {
