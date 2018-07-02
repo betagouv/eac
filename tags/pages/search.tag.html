@@ -38,9 +38,14 @@
     this.actors = []
     this.viewType = 'list'
 
-    let params = this.filters.domains ? `?domains=${this.filters.domains}` : ''
 
     ;(async () => {
+      let params = this.filters.domains ? `?domains=${this.filters.domains}` : ''
+      const school = await api(`/schools/${this.schoolId}`)
+      if (school.loc.coordinates) {
+        params += (params ? '&' : '?')
+        params += `from=${school.loc.coordinates[1]},${school.loc.coordinates[0]}`
+      }
       this.actors = await api(`/actors/search/${this.q}${params}`)
       this.update()
     })()
@@ -89,6 +94,12 @@
     input[type=submit] {
       display: block;
       margin: 0 auto;
+    }
+
+    actor-card {
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #eee;
     }
   </style>
 </page-search>
