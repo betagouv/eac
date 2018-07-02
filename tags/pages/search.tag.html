@@ -1,0 +1,54 @@
+<page-search>
+  <section class=block id=search>
+    <h2>Vous recherchez</h2>
+    <form ref=form action=/search>
+      <input type=search name=q id=q value={ this.q } required autofocus>
+      <input type=submit value=Rechercher>
+    </form>
+  </section>
+
+  <section class=block if={ this.actors.length }>
+    <search-filters actors={ this.actors }></search-filters>
+  </section>
+
+  <section class=block if={ this.actors.length }>
+    <actor-card each={ actor in this.actors } actor={ actor }></actor-card>
+  </section>
+
+  <script>
+    /* global api, encodeURI, page */
+    this.q = opts.q
+    this.schoolId = opts.schoolId
+    this.actors = []
+
+    ;(async () => {
+      this.actors = await api(`/actors/search/${this.q}`)
+      this.update()
+    })()
+
+    this.on('mount', () => {
+      this.refs.form.addEventListener('submit', event => {
+        event.preventDefault()
+        const form = event.target
+        page(`/school/${this.schoolId}/search/${encodeURI(form.q.value)}/{}`)
+      })
+    })
+  </script>
+
+  <style scoped>
+    input[type=search] {
+      border-color: #999;
+      box-shadow: 0 0 .1em #ccc;
+      font-size: 1.2em;
+      padding: 1em .7em;
+      transition: box-shadow .3s;
+    }
+    input[type=search]:focus {
+      box-shadow: .05em .05em .2em #bbb;
+    }
+    input[type=submit] {
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</page-search>

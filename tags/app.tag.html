@@ -1,7 +1,7 @@
 <app>
   <header class=block>
     <a href="/">
-      <img id=logo src=images/logo-eac.gif alt="Logo de la Plateforme EAC">
+      <img id=logo src=/images/logo-eac.gif alt="Logo de la Plateforme EAC">
       <h1>Plateforme EAC</h1>
       <h2>L'Éducation artistique et culturelle pour tous</h2>
     </a>
@@ -9,7 +9,7 @@
 
   <main>
     <page-school if={ this.page == 'school' }></page-school>
-    <page-search if={ this.page == 'search' }></page-search>
+    <page-search if={ this.page == 'search' } q={ this.q } school-id={ this.schoolId }></page-search>
     <page-actor if={ this.page == 'actor' }></page-actor>
   </main>
 
@@ -18,7 +18,16 @@
     this.page = ''
 
     page('/', () => this.page = 'school')
-    page('/:school/search', () => this.page = 'search')
+    page('/school/:school/search', (ctx) => {
+      this.schoolId = ctx.params.school
+      this.page = 'search'
+    })
+    page('/school/:school/search/:q/:filters', (ctx) => {
+      this.q = ctx.params.q
+      this.schoolId = ctx.params.school
+      this.page = 'search'
+      this.update()
+    })
 
     page()
     document.body.classList.add('ready')
