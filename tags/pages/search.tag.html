@@ -7,12 +7,12 @@
     </form>
   </section>
 
-  <section class=block if={ this.actors.length }>
-    <search-filters actors={ this.actors }></search-filters>
+  <section class=block id=filters if={ this.actors.length }>
+    <search-filters actors={ this.actors } q={ this.q } school-id={ this.schoolId }></search-filters>
   </section>
 
-  <section class=block if={ this.actors.length }>
-    <actor-card each={ actor in this.actors } actor={ actor }></actor-card>
+  <section class=block id=results if={ this.actors.length }>
+    <actor-card each={ actor in this.actors } actor={ actor } school-id={ this.schoolId }></actor-card>
   </section>
 
   <script>
@@ -36,6 +36,26 @@
   </script>
 
   <style scoped>
+  :scope {
+      display: grid;
+      grid-template:
+        'search search'
+        'filters results'
+        / minmax(auto, 40%) 1fr;
+    }
+    #search {
+      grid-area: search;
+    }
+    #filters {
+      grid-area: filters;
+    }
+    #results {
+      grid-area: results;
+    }
+    #map {
+      grid-area: results;
+    }
+
     input[type=search] {
       border-color: #999;
       box-shadow: 0 0 .1em #ccc;
