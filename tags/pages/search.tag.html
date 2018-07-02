@@ -28,7 +28,7 @@
     this.q = opts.q
     this.schoolId = opts.schoolId
     this.actors = []
-    this.viewType = 'list'
+    this.viewType = this.q && 'list'
 
     ;(async () => {
       this.actors = await api(`/actors/search/${this.q}`)
