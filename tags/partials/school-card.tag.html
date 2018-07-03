@@ -1,0 +1,19 @@
+<school-card>
+  <h4>Votre établissement : { this.school.name }</h4>
+  <a class=button href="/">Changer d'établissement</a>
+
+  <script>
+    /* globals api, opts */
+    (async () => {
+      this.school = await api(`/schools/${opts.schoolId}`)
+      this.update()
+    })()
+  </script>
+
+  <style>
+    :scope {
+      display: grid;
+      grid-template-columns: 1fr auto;
+    }
+  </style>
+</school-card>

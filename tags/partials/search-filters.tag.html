@@ -1,25 +1,33 @@
-<form-filters>
+<search-filters>
   <details title=Domaine open>
     <summary>Affiner par domaines</summary>
     <label each={ domain in this.domains }>
-      <input type=checkbox 
-             name=domains 
-             value={ domain } 
-             onchange={ this.submit } 
+      <input type=checkbox
+             name=domains
+             value={ domain }
+             onchange={ this.submit }
              checked={ this.filters.domains && this.filters.domains.includes(domain) }>{ domain }
     </label>
   </details>
 
   <script>
     /* global opts, page */
-    this.domains = Array.from(new Set(
-      [].concat(...opts.actors.filter(a => a.domains).map(a => a.domains))
-    )).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
-    this.filters = opts.filters
+    this.filters = opts.filters || {}
+    this.actors = opts.actors || []
+    this.q = opts.q
+    this.schoolId = opts.schoolId
+
+    this.on('update', () => {
+      this.actors = opts.actors
+      this.domains = Array.from(new Set(
+        [].concat(...this.actors.filter(a => a.domains).map(a => a.domains))
+      )).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+    })
 
     this.submit = (event) => {
-      const q = opts.q
-      const filters = opts.filters
+      const q = this.q
+      const schoolId = this.schoolId
+      const filters = this.filters
       const category = event.target.name
       const value = event.target.value
       const activate = event.target.checked
@@ -29,7 +37,8 @@
         if (filters[category].indexOf(value) < 0) filters[category].push(value)
       } else filters[category].splice(filters[category].indexOf(value), 1)
       if (!filters[category].length) delete filters[category]
-      page(`/search/${q}/${JSON.stringify(filters)}`)
+
+      page(`/school/${schoolId}/search/${q}/${JSON.stringify(filters)}`)
     }
   </script>
 
@@ -48,4 +57,4 @@
       cursor: pointer;
     }
   </style>
-</form-filters>
+</search-filters>

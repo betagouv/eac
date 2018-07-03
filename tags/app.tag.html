@@ -1,0 +1,90 @@
+<app>
+  <header class=block>
+    <a href="/">
+      <img id=logo src=/images/logo-eac.gif alt="Logo de la Plateforme EAC">
+      <h1>Plateforme EAC</h1>
+      <h2>L'Éducation artistique et culturelle à portée de main</h2>
+    </a>
+  </header>
+
+  <section class=block if={ this.schoolId }>
+    <school-card school-id={ this.schoolId } />
+  </section>
+
+  <main ref=container></main>
+
+
+  <script>
+    /* globals page, riot */
+    page('/', () => {
+      this.schoolId = ''
+      this.refs.container.innerHTML = `<page-school></page-school>`
+      riot.mount('page-school')
+      this.update()
+    })
+
+    page('/school/:school/search', (ctx) => {
+      this.schoolId = ctx.params.school
+      this.refs.container.innerHTML = `<page-search school-id="${this.schoolId}" />`
+      riot.mount('page-search')
+      this.update()
+    })
+
+    page('/school/:school/search/:q/:filters', (ctx) => {
+      this.schoolId = ctx.params.school
+      this.refs.container.innerHTML = `<page-search
+        school-id="${this.schoolId}"
+        q="${ctx.params.q}"
+        filters="${encodeURI(ctx.params.filters)}"
+        />`
+      riot.mount('page-search')
+      this.update()
+    })
+
+    page('/school/:school/actor/:id', (ctx) => {
+      this.schoolId = ctx.params.school
+      this.refs.container.innerHTML = `<page-actor
+        school-id="${this.schoolId}"
+        actor-id="${ctx.params.id}"
+        />`
+      riot.mount('page-actor')
+      this.update()
+    })
+
+    this.on('mount', () => {
+      page()
+      document.body.classList.add('ready')
+    })
+  </script>
+
+
+  <style scoped>
+    header {
+      display: grid;
+      grid-template:
+        ". logo title ."
+        ". logo baseline ."
+        / 1fr 150px auto 1fr
+        ;
+      padding: .5rem !important;
+    }
+    header > a {
+      display: contents;
+      color: inherit;
+    }
+    header > a #logo {
+      grid-area: logo;
+    }
+    header > a h1 {
+      grid-area: title;
+      font-size: 2em;
+      margin: .4em 0 0 0;
+      align-self: end;
+    }
+    header > a h2 {
+      grid-area: baseline;
+      font-size: 1em;
+      font-weight: 200;
+    }
+  </style>
+</app>

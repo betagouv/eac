@@ -1,8 +1,11 @@
-<form-school>
-  <input type=text placeholder="Ex : Lycée Jean Moulin" value={ this.school && this.displaySchool(this.school) } ref=selector>
+<page-school>
+  <section class=block>
+    <h1>Sélectionnez votre établissement scolaire</h1>
+    <input type=text placeholder="Ex : Lycée Jean Moulin" value={ this.school && this.displaySchool(this.school) } ref=selector>
+  </section>
+
   <script>
-    /* global api, Awesomplete, opts, page */
-    this.school = opts.school
+    /* globals Awesomplete, api, page */
 
     // Remove all special chars.
     function normalizeString (str) {
@@ -42,7 +45,7 @@
         })
       })
       this.refs.selector.addEventListener('awesomplete-selectcomplete', event => {
-        page(`/school/${id}`)
+        page(`/school/${id}/search`)
       })
     })
   </script>
@@ -53,5 +56,4 @@
       width: 100%;
     }
   </style>
-
-</form-school>
+</page-school>

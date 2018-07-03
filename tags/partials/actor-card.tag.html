@@ -7,10 +7,11 @@
 
   <geo if={ this.actor.distance }>{ Math.ceil(this.actor.distance) }km</geo>
 
-  <a href=/actor/{ this.actor._id }></a>
+  <a href=/school/{ this.schoolId }/actor/{ this.actor._id }></a>
 
   <script>
     /* global opts */
+    this.schoolId = opts.schoolId
     this.actor = opts.actor
     this.maxlength = this.opts.maxlength || 150
   </script>
