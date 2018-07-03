@@ -3,6 +3,7 @@
   <a class=button href="/">Changer d'établissement</a>
 
   <script>
+    /* globals api, opts */
     (async () => {
       this.school = await api(`/schools/${opts.schoolId}`)
       this.update()

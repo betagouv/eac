@@ -2,7 +2,7 @@
   <div ref=map></div>
 
   <script>
-    /* global opts, L */
+    /* global api, opts, L */
     this.schoolId = opts.schoolId
     this.actors = opts.actors
 
@@ -12,7 +12,6 @@
 
       const map = L.map(this.refs.map).setView(lngLat, 9)
       const actorMarker = L.icon({iconUrl: `/images/marker.svg`, iconSize: [40, 45]})
-
 
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
@@ -44,7 +43,6 @@
 
       L.featureGroup(markers)
         .addTo(map)
-
     })
   </script>
 

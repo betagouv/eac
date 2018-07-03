@@ -26,18 +26,16 @@
   </virtual>
 
   <script>
-    /* global api, encodeURI, page */
+    /* global api, encodeURI, opts, page */
     this.q = opts.q
     this.schoolId = opts.schoolId
     try {
       this.filters = JSON.parse(decodeURI(opts.filters))
-    }
-    catch(e) {
+    } catch (e) {
       this.filters = {}
     }
     this.actors = []
     this.viewType = 'list'
-
 
     ;(async () => {
       let params = this.filters.domains ? `?domains=${this.filters.domains}` : ''
