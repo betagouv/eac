@@ -1,11 +1,15 @@
 <actor-card>
   <h3>{ this.actor.name } <small>(dept { this.actor.department })</small></h3>
   <p>{ this.actor.description.length < this.maxlength ? this.actor.description : this.actor.description.substr(0, this.maxlength) + '…' }</p>
-  <nav class=tags>
-    <a class=tag each={ domain in this.actor.domains }>{ domain }</a>
-  </nav>
 
-  <geo if={ this.actor.distance }>{ Math.ceil(this.actor.distance) }km</geo>
+  <footer>
+    <geo if={ this.actor.distance }>{ Math.ceil(this.actor.distance) }km</geo>
+    <nav class=tags>
+      <color-tag class=tag each={ domain in this.actor.domains } label="{ domain }">
+        <a>{ domain }</a>
+      </color-tag>
+    </nav>
+  </footer>
 
   <a href=/school/{ this.schoolId }/actor/{ this.actor._id }></a>
 
@@ -19,11 +23,7 @@
   <style scoped>
     :scope {
       position: relative;
-      display: grid;
-      grid-template:
-        "title        tags"
-        "description  geo"
-        / 5fr auto;
+      display: block;
     }
     :scope > a {
       display: block;
@@ -39,9 +39,8 @@
     }
 
     h3 {
-      grid-area: title;
-      font-size: 1.2em;
-      margin: 1rem 0 .2rem 0;
+      font-size: 1.4em;
+      margin: 1rem 0 .5rem 0;
       text-transform: capitalize;
     }
     h3 small {
@@ -51,23 +50,26 @@
     }
 
     p {
-      grid-area: description;
       margin: 0;
     }
 
+    footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      padding-top: 1rem;
+      margin-top: 1rem;
+      border-top: 1px solid #ccc;
+    }
+
     .tags {
-      grid-area: tags;
       text-align: right;
     }
 
     geo {
-      grid-area: geo;
-      align-self: end;
-      font-size: 1rem;
-      text-align: right;
-    }
-    address {
-      text-align: right;
+      font-size: 1.3rem;
+      background: url(/images/gps.icon.png) no-repeat;
+      background-size: 1.8rem;
+      padding-left: 2rem;
     }
   </style>
 </actor-card>

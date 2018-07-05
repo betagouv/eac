@@ -12,16 +12,22 @@
       <search-filters filters={ this.filters } q={ this.q } school-id={ this.schoolId } actors={ this.actors } />
     </section>
 
-    <section if={ this.viewType == 'list' } class=block id=results>
+    <section id=tags>
+      <a data-is=color-tag label="Musée" class=tag>Musée</a>
+      <a data-is=color-tag label="Théâtre" class=tag>Théâtre</a>
+      <color-tag />
+    </section>
+
+    <section if={ this.viewType == 'list' } id=results>
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
       <h2>Résultats pour «&nbsp;{ this.q }&nbsp;»</h2>
       <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
-      <actor-card each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
+      <actor-card class=block each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
     </section>
 
-    <section if={ this.viewType == 'map' } class=block id=map>
+    <section if={ this.viewType == 'map' } id=map>
       <button onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
-      <actors-map actors={ this.actors } school-id={ this.schoolId } />
+      <actors-map class=block actors={ this.actors } school-id={ this.schoolId } />
     </section>
   </virtual>
 
@@ -64,11 +70,17 @@
       display: grid;
       grid-template:
         'search search'
+        'tags tags'
         'filters results'
         / minmax(auto, 40%) 1fr;
+      grid-gap: 2rem;
     }
     #search {
       grid-area: search;
+    }
+    #tags {
+      grid-area: tags;
+      height: 4rem;
     }
     #filters {
       grid-area: filters;
@@ -99,6 +111,14 @@
       padding-bottom: 1rem;
       margin-bottom: 1rem;
       border-bottom: 1px solid #eee;
+    }
+
+    #tags .tag {
+      background-color: #fff;
+      box-shadow: .1rem .1rem .5rem #eee;
+      border-radius: .8rem;
+      border: 1px solid #e6e6e6;
+      margin-right: 2rem;
     }
   </style>
 </page-search>

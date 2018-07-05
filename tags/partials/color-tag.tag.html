@@ -1,0 +1,23 @@
+<color-tag>
+  <span style="background-color: { this.color }"></span><yield />
+
+  <script>
+    this.label = opts.label || ''
+
+    const r = this.label.charCodeAt(0) * 2
+    const g = 255 - (this.label.length * 25) % 255
+    const b = this.label.charCodeAt(this.label.length - 1) * 2
+    this.color = `rgb(${r}, ${g}, ${b})`
+  </script>
+
+  <style scoped>
+    span {
+      display: inline-block;
+      width: 1.2rem;
+      height: 1.2rem;
+      margin-right: .5rem;
+      border-radius: 100%;
+      border-color: 1px solid #e6e6e6;
+    }
+  </style>
+</color-tag>
