@@ -3,7 +3,7 @@
     <section class="block actor">
       <h2>{ this.actor.name }</h2>
       <nav class=tags>
-        <a class=tag each={ tag in this.actor.Activite }>{ tag }</a>
+        <a class=tag each={ tag in this.actor.domains }>{ tag }</a>
       </nav>
       <p>{ this.actor.description }</p>
     </section>
@@ -85,6 +85,10 @@
       padding-bottom: 1rem;
       margin-bottom: 1rem;
       border-bottom: 1px solid #ccc;
+    }
+
+    .actor > nav {
+      margin-bottom: 1rem;
     }
   </style>
 </page-actor>
