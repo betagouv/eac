@@ -33,7 +33,7 @@
       })
       this.refs.selector.addEventListener('input', async event => {
         const q = event.target.value
-        if (!q) {
+        if (!q || q.length < 3) {
           return
         }
         const schools = await api(`/schools/search/${q}`)
