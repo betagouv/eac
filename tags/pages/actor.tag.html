@@ -22,10 +22,10 @@
         <h3>Contacter { this.contact }</h3>
         <ul>
           <li>Par téléphone : { this.phone }</li>
-          <li>Par email : { this.email }</li>
+          <li>Par email : { this.email || 'loup.wolff@beta.gouv.fr' }</li>
         </ul>
-        <a class=button href="mailto:{ this.email }?subject=À propos de { this.actor.name }&cc=loup.wolff@beta.gouv.fr&body={ encodeURIComponent(this.emailBody) }">Envoyer un email</a>
-        <a class=button href="tel:{ this.phone }">Appeler</a>
+        <a class=button target="_blank" href="mailto:{ this.email }?subject=À propos de { this.actor.name }&cc=loup.wolff@beta.gouv.fr&body={ encodeURIComponent(this.emailBody) }">Envoyer un email</a>
+        <a class=button if={ this.phone } href="tel:{ this.phone }">Appeler</a>
       </section>
 
       <section class=block>
