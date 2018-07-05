@@ -10,8 +10,8 @@ button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-  background-color: #E54319;
-  border-color: #D30421;
+  background-color: #209fd6;
+  border-color: #1b87b6;
 }
 
 h1, h2, h3, h4, h5 {
@@ -22,6 +22,8 @@ h1, h2, h3, h4, h5 {
 
 body {
   background-color: #f8f8f8;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .loading {
@@ -41,9 +43,6 @@ body {
   margin: 0 1em 1em 0;
   padding: 2em;
   box-shadow: .3em .3em .2em #eee;
-}
-.block h2 {
-  text-align: center;
 }
 
 .tag {

@@ -14,7 +14,7 @@
 
     <section if={ this.viewType == 'list' } class=block id=results>
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
-      <h2>Résultats pour «&nbsp;{ this.q }&nbsp;»</h2>
+      <h4>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
       <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
       <actor-card each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
     </section>
@@ -65,7 +65,7 @@
       grid-template:
         'search search'
         'filters results'
-        / minmax(auto, 40%) 1fr;
+        / minmax(auto, 35%) 1fr;
     }
     #search {
       grid-area: search;
@@ -79,17 +79,10 @@
     #map {
       grid-area: results;
     }
+    h4 {
+      margin-top: 1rem;
+    }
 
-    input[type=search] {
-      border-color: #999;
-      box-shadow: 0 0 .1em #ccc;
-      font-size: 1.2em;
-      padding: 1em .7em;
-      transition: box-shadow .3s;
-    }
-    input[type=search]:focus {
-      box-shadow: .05em .05em .2em #bbb;
-    }
     input[type=submit] {
       display: block;
       margin: 0 auto;
