@@ -67,6 +67,20 @@
         / 1fr 150px auto 1fr
         ;
       padding: .5rem !important;
+      border-bottom: 5px solid;
+      border-image: linear-gradient(
+        to right, 
+        #4f2559 calc(100%/6), 
+        #ea8323 calc(100%/6), 
+        #ea8323 calc((100%/6)*2),
+        #7d932d calc((100%/6)*2), 
+        #7d932d calc((100%/6)*3), 
+        #209fd6 calc((100%/6)*3), 
+        #209fd6 calc((100%/6)*4), 
+        #f7da34 calc((100%/6)*4), 
+        #f7da34 calc((100%/6)*5), 
+        #dd0e29 75%
+      ) 5;
     }
     header > a {
       display: contents;
@@ -78,13 +92,14 @@
     header > a h1 {
       grid-area: title;
       font-size: 2em;
-      margin: .4em 0 0 0;
+      margin: .4em 0 0 1rem;
       align-self: end;
     }
     header > a h2 {
       grid-area: baseline;
       font-size: 1em;
       font-weight: 200;
+      margin-left: 1rem;
     }
   </style>
 </app>
