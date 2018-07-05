@@ -18,8 +18,8 @@ const server = http.createServer((req, res) => {
   if (!uri || uri === '/') {
     return servePage(res)
   }
-  fs.exists(filename, (exists) => {
-    if (!exists) {
+  fs.access(filename, (err) => {
+    if (err) {
       return servePage(res)
     }
     fs.readFile(filename, 'binary', (err, file) => {
