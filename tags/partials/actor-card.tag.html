@@ -5,7 +5,7 @@
     <a class=tag each={ domain in this.actor.domains }>{ domain }</a>
   </nav>
 
-  <geo if={ this.actor.distance }>{ Math.ceil(this.actor.distance) }km</geo>
+  <geo if={ this.actor.distance }>{ Math.ceil(this.actor.distance) }&nbsp;km</geo>
 
   <a href=/school/{ this.schoolId }/actor/{ this.actor._id }></a>
 

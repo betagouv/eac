@@ -29,7 +29,7 @@
       </section>
 
       <section class=block>
-        <geo if={ this.actor.distance }>à { Math.ceil(this.actor.distance) } km</geo>
+        <geo if={ this.actor.distance }>à { Math.ceil(this.actor.distance) }}&nbsp;km</geo>
         <address if={ this.latLng }>
           <iframe width=425 height=350 frameborder=0 scrolling=no marginheight=0 marginwidth=0 src="https://www.openstreetmap.org/export/embed.html?bbox={ Number(this.latLng[1]) - 0.02 }%2C{ Number(this.latLng[0]) - 0.02 }%2C{ Number(this.latLng[1]) + 0.02 }%2C{ Number(this.latLng[0]) + 0.02 }&amp;layer=hot&amp;marker={ this.latLng[0] }%2C{ this.latLng[1] }"></iframe><br/>
           <small>
