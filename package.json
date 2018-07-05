@@ -24,6 +24,7 @@
     "standard": "^11.0.1"
   },
   "dependencies": {
+    "mime-types": "^2.1.18",
     "nodemon": "^1.17.5"
   }
 }

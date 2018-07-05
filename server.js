@@ -3,32 +3,31 @@ const http = require('http')
 const index = fs.readFileSync('index.html')
 const path = require('path')
 const url = require('url')
+const mime = require('mime-types')
 
 const port = process.env.PORT || 8080
 
-
-function servePage(response) {
+function servePage (response) {
   response.writeHead(200, {'Content-Type': 'text/html'})
   return response.end(index)
 }
 
-
 const server = http.createServer((req, res) => {
   const uri = url.parse(req.url).pathname
   const filename = path.join(process.cwd(), uri)
-  if(!uri || uri === '/') {
+  if (!uri || uri === '/') {
     return servePage(res)
   }
   fs.exists(filename, (exists) => {
-    if(!exists) {
+    if (!exists) {
       return servePage(res)
     }
     fs.readFile(filename, 'binary', (err, file) => {
-      if(err) {
+      if (err) {
         console.error(err)
         return res.end(JSON.stringify(err))
       }
-      res.writeHead(200)
+      res.writeHead(200, {'Content-Type': mime.lookup(filename)})
       res.write(file, 'binary')
       return res.end()
     })
