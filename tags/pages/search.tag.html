@@ -12,16 +12,20 @@
       <search-filters filters={ this.filters } q={ this.q } school-id={ this.schoolId } actors={ this.actors } />
     </section>
 
-    <section if={ this.viewType == 'list' } class=block id=results>
+    <section id=tags>
+      <color-tag each={ domain in this.domains } label={ domain } />
+    </section>
+
+    <section if={ this.viewType == 'list' } id=results>
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
       <h4>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
       <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
-      <actor-card each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
+      <actor-card class=block each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
     </section>
 
-    <section if={ this.viewType == 'map' } class=block id=map>
+    <section if={ this.viewType == 'map' } id=map>
       <button onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
-      <actors-map actors={ this.actors } school-id={ this.schoolId } />
+      <actors-map class=block actors={ this.actors } school-id={ this.schoolId } />
     </section>
   </virtual>
 
@@ -36,9 +40,10 @@
     }
     this.actors = []
     this.viewType = 'list'
+    this.domains = this.filters.domains || []
 
     ;(async () => {
-      let params = this.filters.domains ? `?domains=${this.filters.domains}` : ''
+      let params = this.filters.domains ? `?domains=${this.domains}` : ''
       const school = await api(`/schools/${this.schoolId}`)
       if (school.loc.coordinates) {
         params += (params ? '&' : '?')
@@ -64,14 +69,21 @@
       display: grid;
       grid-template:
         'search search'
+        'tags tags'
         'filters results'
         / minmax(auto, 35%) 1fr;
+      grid-gap: 2rem;
     }
     #search {
       grid-area: search;
     }
+    #tags {
+      grid-area: tags;
+      height: 4rem;
+    }
     #filters {
       grid-area: filters;
+      height: auto;
     }
     #results {
       grid-area: results;
@@ -79,8 +91,25 @@
     #map {
       grid-area: results;
     }
+<<<<<<< HEAD
     h4 {
       margin-top: 1rem;
+=======
+    search-filters {
+      position: sticky;
+      top: 0;
+    }
+
+    input[type=search] {
+      border-color: #999;
+      box-shadow: 0 0 .1em #ccc;
+      font-size: 1.2em;
+      padding: 1em .7em;
+      transition: box-shadow .3s;
+    }
+    input[type=search]:focus {
+      box-shadow: .05em .05em .2em #bbb;
+>>>>>>> design-thimy
     }
 
     input[type=submit] {
@@ -92,6 +121,14 @@
       padding-bottom: 1rem;
       margin-bottom: 1rem;
       border-bottom: 1px solid #eee;
+    }
+
+    #tags .tag {
+      background-color: #fff;
+      box-shadow: .1rem .1rem .5rem #eee;
+      border-radius: .8rem;
+      border: 1px solid #e6e6e6;
+      margin-right: 2rem;
     }
   </style>
 </page-search>
