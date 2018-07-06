@@ -8,6 +8,13 @@
     <p>
       Trouvez les activités artistiques et culturelles au plus proche de vous
     </p>
+    <form id=search>
+      <label for=q>Vous recherchez</label>
+      <input type=search name=q id=q value={ this.q }>
+      <label for=search>À proximité de</label>
+      <input type=search name=school id=school value={ this.school }>
+      <input class=button type=submit value=Rechercher>
+    </form>
   </header>
 
   <main>
@@ -113,6 +120,36 @@
       font-size: 2.5rem;
       font-weight: 100;
       margin: 2rem auto 0 auto;
+    }
+
+    #search {
+      display: grid;
+      grid-template:
+        'label-q label-school .'
+        'q school button'
+        / 2fr 1fr auto;
+      grid-column-gap: 1rem;
+      max-width: 120rem;
+      margin: 2rem auto 0 auto;
+    }
+    #search label {
+      margin-bottom: 0;
+      font-weight: normal;
+    }
+    #search [for=q] {
+      grid-area: label-q;
+    }
+    #search #q {
+      grid-area: q;
+    }
+    #search [for=school] {
+      grid-area: label-school;
+    }
+    #search #school {
+      grid-area: school;
+    }
+    #search [type=submit] {
+      grid-area: button;
     }
   </style>
 </app>
