@@ -13,9 +13,7 @@
     </section>
 
     <section id=tags>
-      <a data-is=color-tag label="Musée" class=tag>Musée</a>
-      <a data-is=color-tag label="Théâtre" class=tag>Théâtre</a>
-      <color-tag />
+      <color-tag each={ domain in this.domains } label={ domain } />
     </section>
 
     <section if={ this.viewType == 'list' } id=results>
@@ -42,9 +40,10 @@
     }
     this.actors = []
     this.viewType = 'list'
+    this.domains = this.filters.domains || []
 
     ;(async () => {
-      let params = this.filters.domains ? `?domains=${this.filters.domains}` : ''
+      let params = this.filters.domains ? `?domains=${this.domains}` : ''
       const school = await api(`/schools/${this.schoolId}`)
       if (school.loc.coordinates) {
         params += (params ? '&' : '?')
@@ -84,12 +83,17 @@
     }
     #filters {
       grid-area: filters;
+      height: auto;
     }
     #results {
       grid-area: results;
     }
     #map {
       grid-area: results;
+    }
+    search-filters {
+      position: sticky;
+      top: 0;
     }
 
     input[type=search] {

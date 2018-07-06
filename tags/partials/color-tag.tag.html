@@ -1,8 +1,11 @@
 <color-tag>
-  <span style="background-color: { this.color }"></span><yield />
+  <a class=tag>
+    <span style="background-color: { this.color }"></span>
+    { this.label }
+  </a>
 
   <script>
-    this.label = opts.label || ''
+    this.label = this.opts.label || ''
 
     const r = this.label.charCodeAt(0) * 2
     const g = 255 - (this.label.length * 25) % 255
