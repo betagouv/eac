@@ -22,7 +22,11 @@ h1, h2, h3, h4, h5 {
 
 body {
   background-color: #f8f8f8;
-  max-width: 1200px;
+  color: #666;
+}
+
+main {
+  max-width: 120rem;
   margin: auto;
 }
 
