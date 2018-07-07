@@ -9,14 +9,13 @@ const includeJs = require([
 
 requireTags([
   '/tags/app.tag.html',
-  '/tags/pages/school.tag.html',
   '/tags/pages/search.tag.html',
   '/tags/pages/actor.tag.html',
   '/tags/partials/search-filters.tag.html',
-  '/tags/partials/school-card.tag.html',
   '/tags/partials/actor-card.tag.html',
   '/tags/partials/actors-map.tag.html',
   '/tags/partials/color-tag.tag.html',
+  '/tags/partials/select-school.tag.html',
 ])
 
 

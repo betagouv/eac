@@ -10,31 +10,17 @@
     </p>
     <form id=search>
       <label for=q>Vous recherchez</label>
-      <input type=search name=q id=q value={ this.q }>
+      <input type=search name=q id=q value={ this.q } placeholder="Ex : Tissage osier" required autofocus>
       <label for=search>À proximité de</label>
-      <input type=search name=school id=school value={ this.school }>
+      <select-school type=search name=school id=school school-id={ this.schoolId } />
       <input class=button type=submit value=Rechercher>
     </form>
   </header>
 
-  <main>
-    <section class=block if={ this.schoolId }>
-      <school-card school-id={ this.schoolId } />
-    </section>
-
-    <section ref=container></section>
-  </main>
+  <main ref=container></main>
 
 
   <script>
-    /* globals page, riot */
-    page('/', () => {
-      this.schoolId = ''
-      this.refs.container.innerHTML = `<page-school></page-school>`
-      riot.mount('page-school')
-      this.update()
-    })
-
     page('/school/:school/search', (ctx) => {
       this.schoolId = ctx.params.school
       this.refs.container.innerHTML = `<page-search school-id="${this.schoolId}" />`

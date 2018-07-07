@@ -61,3 +61,8 @@ main {
 .tag a {
   color: inherit;
 }
+
+/* Awesomplete wraps input in a div which breaks width */
+.awesomplete {
+  width: 100%;
+}

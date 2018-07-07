@@ -1,12 +1,4 @@
 <page-search>
-  <section class=block id=search>
-    <h4>Vous recherchez</h4>
-    <form onsubmit={ this.search } action=/search>
-      <input type=search name=q id=q value={ this.q } required autofocus>
-      <input type=submit value=Rechercher>
-    </form>
-  </section>
-
   <virtual if={ this.q }>
     <section class=block id=filters>
       <search-filters filters={ this.filters } q={ this.q } school-id={ this.schoolId } actors={ this.actors } />
@@ -30,9 +22,9 @@
   </virtual>
 
   <script>
-    /* global api, encodeURI, opts, page */
+    /* global api, encodeURI, page */
     this.q = opts.q
-    this.schoolId = opts.schoolId
+    this.schoolId = this.opts.schoolId
     try {
       this.filters = JSON.parse(decodeURI(opts.filters))
     } catch (e) {
@@ -44,10 +36,12 @@
 
     ;(async () => {
       let params = this.filters.domains ? `?domains=${this.domains}` : ''
-      const school = await api(`/schools/${this.schoolId}`)
-      if (school.loc.coordinates) {
-        params += (params ? '&' : '?')
-        params += `from=${school.loc.coordinates[1]},${school.loc.coordinates[0]}`
+      if(this.schoolId) {
+        const school = await api(`/schools/${this.schoolId}`)
+        if (school.loc.coordinates) {
+          params += (params ? '&' : '?')
+          params += `from=${school.loc.coordinates[1]},${school.loc.coordinates[0]}`
+        }
       }
       this.actors = await api(`/actors/search/${this.q}${params}`)
       this.update()
@@ -91,10 +85,10 @@
     #map {
       grid-area: results;
     }
-<<<<<<< HEAD
     h4 {
       margin-top: 1rem;
-=======
+    }
+
     search-filters {
       position: sticky;
       top: 0;
@@ -109,7 +103,6 @@
     }
     input[type=search]:focus {
       box-shadow: .05em .05em .2em #bbb;
->>>>>>> design-thimy
     }
 
     input[type=submit] {
