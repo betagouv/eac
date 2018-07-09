@@ -28,7 +28,7 @@
       }).addTo(map)
 
       const markers = this.actors
-        .filter(a => a.loc.coordinates[0])
+        .filter(a => a.loc && a.loc.coordinates[0])
         .map(a => {
           const marker = L.marker(a.loc.coordinates, {icon: actorMarker})
           marker.actor = a
