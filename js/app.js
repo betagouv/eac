@@ -28,6 +28,10 @@ function api (url) {
     .catch(console.error.bind(console))
 }
 
+function urlParams() {
+  return new Map(location.search.slice(1).split('&').map(kv => kv.split('=')))
+}
+
 function require(sources, type = 'text/javascript') {
   return new Promise((resolve) => {
     let loadedCount = 0

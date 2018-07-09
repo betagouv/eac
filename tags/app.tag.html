@@ -8,25 +8,22 @@
     <p>
       Trouvez les activités artistiques et culturelles au plus proche de vous
     </p>
-    <search-form q={ q } school-id={ this.schoolId } />
+    <search-form q={ this.q } school-id={ this.schoolId } />
   </header>
 
   <main ref=container></main>
 
 
   <script>
-    page('/school/:school/search', (ctx) => {
-      this.schoolId = ctx.params.school
-      this.refs.container.innerHTML = `<page-search school-id="${this.schoolId}" />`
-      riot.mount('page-search')
-      this.update()
-    })
+    page('/', (ctx) => {})
 
-    page('/school/:school/search/:q/:filters', (ctx) => {
-      this.schoolId = ctx.params.school
+    page('/search', (ctx) => {
+      const params = urlParams()
+      this.q = decodeURI(params.get('q'))
+      this.schoolId = params.get('school')
       this.refs.container.innerHTML = `<page-search
         school-id="${this.schoolId}"
-        q="${ctx.params.q}"
+        q="${this.q}"
         filters="${encodeURI(ctx.params.filters)}"
         />`
       riot.mount('page-search')

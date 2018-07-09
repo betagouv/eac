@@ -1,7 +1,7 @@
 <search-form>
   <form onsubmit={ this.submit }>
     <label for=q>Vous recherchez</label>
-    <input type=search name=q id=q value={ this.q } placeholder="Ex : Tissage osier" required autofocus>
+    <input type=search name=q id=q value={ this.opts.q } placeholder="Ex : Tissage osier" required autofocus>
     <label for=search>À proximité de</label>
     <select-school ref=school type=search name=school id=school school-id={ this.opts.schoolId } />
     <input class=button type=submit value=Rechercher>
@@ -10,9 +10,12 @@
   <script>
     this.submit = (event) => {
       event.preventDefault()
-      const q = encodeURI(event.target.q.value)
+      let params = `?q=${encodeURI(event.target.q.value)}`
       const schoolId = this.refs.school.schoolId
-      page(`/school/${schoolId}/search/${q}`)
+      if(schoolId) {
+        params += `&school=${schoolId}`
+      }
+      page(`/search${params}`)
     }
   </script>
 
