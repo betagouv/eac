@@ -1,0 +1,50 @@
+<search-form>
+  <form onsubmit={ this.submit }>
+    <label for=q>Vous recherchez</label>
+    <input type=search name=q id=q value={ this.q } placeholder="Ex : Tissage osier" required autofocus>
+    <label for=search>À proximité de</label>
+    <select-school ref=school type=search name=school id=school school-id={ this.opts.schoolId } />
+    <input class=button type=submit value=Rechercher>
+  </form>
+
+  <script>
+    this.submit = (event) => {
+      event.preventDefault()
+      const q = encodeURI(event.target.q.value)
+      const schoolId = this.refs.school.schoolId
+      page(`/school/${schoolId}/search/${q}`)
+    }
+  </script>
+
+  <style scoped>
+    form {
+      display: grid;
+      grid-template:
+        'label-q label-school .'
+        'q school button'
+        / 2fr 1fr auto;
+      grid-column-gap: 1rem;
+      max-width: 120rem;
+      margin: 2rem auto 0 auto;
+    }
+    label {
+      margin-bottom: 0;
+      font-weight: normal;
+    }
+    [for=q] {
+      grid-area: label-q;
+    }
+    #q {
+      grid-area: q;
+    }
+    [for=school] {
+      grid-area: label-school;
+    }
+    #school {
+      grid-area: school;
+    }
+    [type=submit] {
+      grid-area: button;
+    }
+  </style>
+</search-form>

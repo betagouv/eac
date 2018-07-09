@@ -11,7 +11,12 @@
     }
 
     this.on('mount', async () => {
-      let id
+      let id = this.opts.schoolId
+
+      if(id) {
+        const school = await api(`/schools/${id}`)
+        this.refs.input.value = this.displaySchool(school)
+      }
 
       const completer = new Awesomplete(this.refs.input, {
         replace: function (suggestion) {
@@ -41,24 +46,9 @@
         })
       })
 
-      const school = await api(`/schools/${this.opts.schoolId}`)
-      this.refs.input.value = this.displaySchool(school)
-      debugger
-
       this.refs.input.addEventListener('awesomplete-selectcomplete', event => {
-        page(`/school/${id}/search`)
+        this.schoolId = id
       })
     })
   </script>
-
-  <style>
-    input,
-    .awesomplete > input {
-      width: 100% !important;
-    }
-    .awesomplete {
-      display: block;
-      width: 100%;
-    }
-  </style>
 </select-school>

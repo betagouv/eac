@@ -8,13 +8,7 @@
     <p>
       Trouvez les activités artistiques et culturelles au plus proche de vous
     </p>
-    <form id=search>
-      <label for=q>Vous recherchez</label>
-      <input type=search name=q id=q value={ this.q } placeholder="Ex : Tissage osier" required autofocus>
-      <label for=search>À proximité de</label>
-      <select-school type=search name=school id=school school-id={ this.schoolId } />
-      <input class=button type=submit value=Rechercher>
-    </form>
+    <search-form q={ q } school-id={ this.schoolId } />
   </header>
 
   <main ref=container></main>
@@ -106,36 +100,6 @@
       font-size: 2.5rem;
       font-weight: 100;
       margin: 2rem auto 0 auto;
-    }
-
-    #search {
-      display: grid;
-      grid-template:
-        'label-q label-school .'
-        'q school button'
-        / 2fr 1fr auto;
-      grid-column-gap: 1rem;
-      max-width: 120rem;
-      margin: 2rem auto 0 auto;
-    }
-    #search label {
-      margin-bottom: 0;
-      font-weight: normal;
-    }
-    #search [for=q] {
-      grid-area: label-q;
-    }
-    #search #q {
-      grid-area: q;
-    }
-    #search [for=school] {
-      grid-area: label-school;
-    }
-    #search #school {
-      grid-area: school;
-    }
-    #search [type=submit] {
-      grid-area: button;
     }
   </style>
 </app>

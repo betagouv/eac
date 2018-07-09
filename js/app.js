@@ -15,6 +15,7 @@ requireTags([
   '/tags/partials/actor-card.tag.html',
   '/tags/partials/actors-map.tag.html',
   '/tags/partials/color-tag.tag.html',
+  '/tags/partials/search-form.tag.html',
   '/tags/partials/select-school.tag.html',
 ])
 
