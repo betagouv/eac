@@ -3,7 +3,7 @@
     <section class="block actor">
       <h2>{ this.actor.name }</h2>
       <nav class=tags>
-        <a class=tag each={ tag in this.actor.domains }>{ tag }</a>
+        <color-tag each={ tag in this.actor.domains } label={ tag } />
       </nav>
       <p if={ this.actor.description }>{ this.actor.description }</p>
       <p if={ !this.actor.description }>

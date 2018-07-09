@@ -15,7 +15,10 @@
 
 
   <script>
-    page('/', (ctx) => {})
+    page('/', (ctx) => {
+      this.refs.container.innerHTML = ''
+      this.update()
+    })
 
     page('/search', (ctx) => {
       const params = urlParams(ctx.querystring)
