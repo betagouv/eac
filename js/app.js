@@ -9,13 +9,14 @@ const includeJs = require([
 
 requireTags([
   '/tags/app.tag.html',
-  '/tags/pages/school.tag.html',
   '/tags/pages/search.tag.html',
   '/tags/pages/actor.tag.html',
   '/tags/partials/search-filters.tag.html',
-  '/tags/partials/school-card.tag.html',
   '/tags/partials/actor-card.tag.html',
   '/tags/partials/actors-map.tag.html',
+  '/tags/partials/color-tag.tag.html',
+  '/tags/partials/search-form.tag.html',
+  '/tags/partials/select-school.tag.html',
 ])
 
 
@@ -25,6 +26,11 @@ function api (url) {
   return fetch(`${apiUrl}${url}`, {mode: 'cors'})
     .then(r => r.json())
     .catch(console.error.bind(console))
+}
+
+function urlParams(queryString = location.search) {
+  const keyValues = queryString.startsWith('&') ? queryString.slice(1) : queryString
+  return new Map(keyValues.split('&').map(kv => kv.split('=')))
 }
 
 function require(sources, type = 'text/javascript') {

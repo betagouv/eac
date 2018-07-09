@@ -5,7 +5,11 @@
       <nav class=tags>
         <a class=tag each={ tag in this.actor.domains }>{ tag }</a>
       </nav>
-      <p>{ this.actor.description }</p>
+      <p if={ this.actor.description }>{ this.actor.description }</p>
+      <p if={ !this.actor.description }>
+        Cet acteur culturel n'a pas renseigné ses informations.<br>
+        <a class=button href="https://duckduckgo.com/?q={ encodeURI(`${this.actor.name} ${this.actor.city}`) }" target=_blank>Faire une recherche</a>
+      </p>
     </section>
 
     <section class="block actions">
@@ -21,11 +25,15 @@
       <section class=block id=contact>
         <h3>Contacter { this.contact }</h3>
         <ul>
-          <li>Par téléphone : { this.phone }</li>
-          <li>Par email : { this.email }</li>
+          <li if={ this.phone }>Par téléphone : { this.phone }</li>
+          <li if={ this.email }>Par email : { this.email }</li>
         </ul>
-        <a class=button target="_blank" href="mailto:{ this.email }?subject=À propos de { this.actor.name }&cc=loup.wolff@beta.gouv.fr&body={ encodeURIComponent(this.emailBody) }">Envoyer un email</a>
-        <a class=button if={ this.phone } href="tel:{ this.phone }">Appeler</a>
+        <a if={ this.email } class=button target="_blank" href="mailto:{ this.email }?subject=À propos de { this.actor.name }&cc=loup.wolff@beta.gouv.fr&body={ encodeURIComponent(this.emailBody) }">Envoyer un email</a>
+        <a if={ this.phone } class=button href="tel:{ this.phone }">Appeler</a>
+        <p if={ !this.phone && !this.email }>
+          Aucune information de contact n'est disponible pour cet acteur culturel.<br>
+          <a class=button href="https://duckduckgo.com/?q={ encodeURI(`${this.actor.name} ${this.actor.city}`) }" target=_blank>Faire une recherche</a>
+        </p>
       </section>
 
       <section class=block>
@@ -67,6 +75,7 @@
       grid-template:
         'actor aside'
         'actions aside'
+        / auto 51rem;
     }
     :scope > article {
       display: contents;

@@ -1,47 +1,37 @@
 <app>
-  <header class=block>
+  <header>
     <a href="/">
       <img id=logo src=/images/logo-eac.gif alt="Logo de la Plateforme EAC">
       <h1>Plateforme EAC</h1>
       <h2>L'Éducation artistique et culturelle à portée de main</h2>
     </a>
+    <p>
+      Trouvez les activités artistiques et culturelles au plus proche de vous
+    </p>
+    <search-form q={ this.q } school-id={ this.schoolId } />
   </header>
-
-  <section class=block if={ this.schoolId }>
-    <school-card school-id={ this.schoolId } />
-  </section>
 
   <main ref=container></main>
 
 
   <script>
-    /* globals page, riot */
-    page('/', () => {
-      this.schoolId = ''
-      this.refs.container.innerHTML = `<page-school></page-school>`
-      riot.mount('page-school')
-      this.update()
-    })
+    page('/', (ctx) => {})
 
-    page('/school/:school/search', (ctx) => {
-      this.schoolId = ctx.params.school
-      this.refs.container.innerHTML = `<page-search school-id="${this.schoolId}" />`
-      riot.mount('page-search')
-      this.update()
-    })
-
-    page('/school/:school/search/:q/:filters', (ctx) => {
-      this.schoolId = ctx.params.school
+    page('/search', (ctx) => {
+      const params = urlParams(ctx.querystring)
+      this.q = decodeURI(params.get('q') || '')
+      this.schoolId = params.get('school') || ''
+      const filters = encodeURI(params.get('filters') || '')
       this.refs.container.innerHTML = `<page-search
         school-id="${this.schoolId}"
-        q="${ctx.params.q}"
-        filters="${encodeURI(ctx.params.filters)}"
+        q="${this.q}"
+        filters="${filters}"
         />`
       riot.mount('page-search')
       this.update()
     })
 
-    page('/school/:school/actor/:id', (ctx) => {
+    page('/actor/:id', (ctx) => {
       this.schoolId = ctx.params.school
       this.refs.container.innerHTML = `<page-actor
         school-id="${this.schoolId}"
@@ -60,29 +50,31 @@
 
   <style scoped>
     header {
+      padding: 3rem;
+      margin-bottom: 3rem;
+      border-bottom: .5rem solid;
+      border-image: linear-gradient(
+        to right,
+        #4f2559 calc(100%/6),
+        #ea8323 calc(100%/6),
+        #ea8323 calc((100%/6)*2),
+        #7d932d calc((100%/6)*2),
+        #7d932d calc((100%/6)*3),
+        #209fd6 calc((100%/6)*3),
+        #209fd6 calc((100%/6)*4),
+        #f7da34 calc((100%/6)*4),
+        #f7da34 calc((100%/6)*5),
+        #dd0e29 75%
+      ) 5;
+      background-color: #fff;
+    }
+    header > a {
       display: grid;
       grid-template:
         ". logo title ."
         ". logo baseline ."
-        / 1fr 150px auto 1fr
+        / 1fr 8rem 38rem 1fr
         ;
-      border-bottom: 5px solid;
-      border-image: linear-gradient(
-        to right, 
-        #4f2559 calc(100%/6), 
-        #ea8323 calc(100%/6), 
-        #ea8323 calc((100%/6)*2),
-        #7d932d calc((100%/6)*2), 
-        #7d932d calc((100%/6)*3), 
-        #209fd6 calc((100%/6)*3), 
-        #209fd6 calc((100%/6)*4), 
-        #f7da34 calc((100%/6)*4), 
-        #f7da34 calc((100%/6)*5), 
-        #dd0e29 75%
-      ) 5;
-    }
-    header > a {
-      display: contents;
       color: inherit;
     }
     header > a #logo {
@@ -90,15 +82,22 @@
     }
     header > a h1 {
       grid-area: title;
-      font-size: 2em;
+      font-size: 1.4em;
       margin: .4em 0 0 1rem;
       align-self: end;
+      font-weight: normal;
     }
     header > a h2 {
       grid-area: baseline;
       font-size: 1em;
-      font-weight: 200;
-      margin-left: 1rem;
+      margin: 0 0 1rem 1rem;
+    }
+    header > p {
+      max-width: 50rem;
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 100;
+      margin: 2rem auto 0 auto;
     }
   </style>
 </app>

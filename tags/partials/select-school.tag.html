@@ -1,13 +1,7 @@
-<page-school>
-  <section class=block>
-    <h4>Sélectionnez votre établissement scolaire</h4>
-    <input type=text placeholder="Ex : Lycée Jean Moulin" value={ this.school && this.displaySchool(this.school) } ref=selector>
-  </section>
+<select-school>
+  <input type=search ref=input placeholder="Ex : Lycée Jean Moulin Paris">
 
   <script>
-    /* globals Awesomplete, api, page */
-
-    // Remove all special chars.
     function normalizeString (str) {
       return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     }
@@ -16,9 +10,15 @@
       return `${school.name} (${school.postalCode} ${school.city})`
     }
 
-    this.on('mount', () => {
-      let id
-      const completer = new Awesomplete(this.refs.selector, {
+    this.on('mount', async () => {
+      let id = this.opts.schoolId
+
+      if(id) {
+        const school = await api(`/schools/${id}`)
+        this.refs.input.value = this.displaySchool(school)
+      }
+
+      const completer = new Awesomplete(this.refs.input, {
         replace: function (suggestion) {
           this.input.value = suggestion.label
           id = suggestion.value
@@ -31,8 +31,12 @@
           return Awesomplete.ITEM(text.label, '')
         }
       })
-      this.refs.selector.addEventListener('input', async event => {
+
+      this.refs.input.addEventListener('input', async event => {
         const q = event.target.value
+        if(q === '') {
+          this.schoolId = ''
+        }
         if (!q || q.length < 3) {
           return
         }
@@ -44,16 +48,10 @@
           }
         })
       })
-      this.refs.selector.addEventListener('awesomplete-selectcomplete', event => {
-        page(`/school/${id}/search`)
+
+      this.refs.input.addEventListener('awesomplete-selectcomplete', event => {
+        this.schoolId = id
       })
     })
   </script>
-
-  <style scoped>
-    .awesomplete {
-      display: block;
-      width: 100%;
-    }
-  </style>
-</page-school>
+</select-school>

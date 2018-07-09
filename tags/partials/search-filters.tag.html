@@ -38,7 +38,7 @@
       } else filters[category].splice(filters[category].indexOf(value), 1)
       if (!filters[category].length) delete filters[category]
 
-      page(`/school/${schoolId}/search/${q}/${JSON.stringify(filters)}`)
+      page(`/search?q=${q}&school=${schoolId}&filters=${encodeURI(JSON.stringify(filters))}`)
     }
   </script>
 
