@@ -47,12 +47,6 @@
       this.update()
     })()
 
-    this.search = (event) => {
-      event.preventDefault()
-      const form = event.target
-      page(`/school/${this.schoolId}/search/${encodeURI(form.q.value)}/{}`)
-    }
-
     this.setViewType = (event) => {
       this.viewType = event.target.value
     }

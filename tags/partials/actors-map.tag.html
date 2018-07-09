@@ -33,7 +33,7 @@
           const marker = L.marker(a.loc.coordinates, {icon: actorMarker})
           marker.actor = a
           marker.bindPopup(`
-            <a href=/school/${this.schoolId}/actor/${a._id} title="Voir le détail">
+            <a href=/actor/${a._id}?school=${this.schoolId} title="Voir le détail">
               <h4>${a.name}</h4>
               <p>${a.description.length > 80 ? (a.description.substr(0, 300) + '…') : a.description}</p>
             </a>

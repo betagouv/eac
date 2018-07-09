@@ -31,7 +31,7 @@
       this.update()
     })
 
-    page('/school/:school/actor/:id', (ctx) => {
+    page('/actor/:id', (ctx) => {
       this.schoolId = ctx.params.school
       this.refs.container.innerHTML = `<page-actor
         school-id="${this.schoolId}"
