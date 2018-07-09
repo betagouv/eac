@@ -21,7 +21,7 @@
       const params = urlParams(ctx.querystring)
       this.q = decodeURI(params.get('q') || '')
       this.schoolId = params.get('school') || ''
-      const filters = params.get('filters') || ''
+      const filters = encodeURI(params.get('filters') || '')
       this.refs.container.innerHTML = `<page-search
         school-id="${this.schoolId}"
         q="${this.q}"
