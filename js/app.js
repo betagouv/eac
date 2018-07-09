@@ -28,8 +28,9 @@ function api (url) {
     .catch(console.error.bind(console))
 }
 
-function urlParams() {
-  return new Map(location.search.slice(1).split('&').map(kv => kv.split('=')))
+function urlParams(queryString = location.search) {
+  const keyValues = queryString.startsWith('&') ? queryString.slice(1) : queryString
+  return new Map(keyValues.split('&').map(kv => kv.split('=')))
 }
 
 function require(sources, type = 'text/javascript') {

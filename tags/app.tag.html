@@ -18,13 +18,14 @@
     page('/', (ctx) => {})
 
     page('/search', (ctx) => {
-      const params = urlParams()
-      this.q = decodeURI(params.get('q'))
-      this.schoolId = params.get('school')
+      const params = urlParams(ctx.querystring)
+      this.q = decodeURI(params.get('q') || '')
+      this.schoolId = params.get('school') || ''
+      const filters = params.get('filters') || ''
       this.refs.container.innerHTML = `<page-search
         school-id="${this.schoolId}"
         q="${this.q}"
-        filters="${encodeURI(ctx.params.filters)}"
+        filters="${filters}"
         />`
       riot.mount('page-search')
       this.update()

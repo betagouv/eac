@@ -1,5 +1,5 @@
 <select-school>
-  <input type=search ref=input placeholder="Ex : Lycée Jean Moulin Paris" required>
+  <input type=search ref=input placeholder="Ex : Lycée Jean Moulin Paris">
 
   <script>
     function normalizeString (str) {
@@ -34,6 +34,9 @@
 
       this.refs.input.addEventListener('input', async event => {
         const q = event.target.value
+        if(q === '') {
+          this.schoolId = ''
+        }
         if (!q || q.length < 3) {
           return
         }

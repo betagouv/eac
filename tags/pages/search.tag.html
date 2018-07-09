@@ -23,7 +23,7 @@
 
   <script>
     /* global api, encodeURI, page */
-    this.q = opts.q
+    this.q = this.opts.q
     this.schoolId = this.opts.schoolId
     try {
       this.filters = JSON.parse(decodeURI(opts.filters))
