@@ -11,6 +11,7 @@ requireTags([
   '/tags/app.tag.html',
   '/tags/pages/search.tag.html',
   '/tags/pages/actor.tag.html',
+  '/tags/pages/actor-edit.tag.html',
   '/tags/partials/search-filters.tag.html',
   '/tags/partials/actor-card.tag.html',
   '/tags/partials/actors-map.tag.html',
@@ -22,10 +23,17 @@ requireTags([
 
 includeJs.then(() => riot.mount('*'))
 
-function api (url) {
-  return fetch(`${apiUrl}${url}`, {mode: 'cors'})
+function request (url, options = {}) {
+  const params = Object.assign(options, {
+    mode: 'cors',
+  })
+  return fetch(url, params)
     .then(r => r.json())
     .catch(console.error.bind(console))
+}
+
+function api (uri, options) {
+  return request(`${apiUrl}${uri}`, options)
 }
 
 function urlParams(queryString = location.search) {
