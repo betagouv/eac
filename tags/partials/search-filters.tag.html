@@ -22,7 +22,10 @@
       this.actors = opts.actors
       this.domains = Array.from(new Set(
         [].concat(...this.actors.filter(a => a.domains).map(a => a.domains))
-      )).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+      )).filter(d => String(d) === d)
+        .map(d => d.trim())
+        .filter(d => d.length)
+        .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
     })
 
     this.submit = (event) => {
