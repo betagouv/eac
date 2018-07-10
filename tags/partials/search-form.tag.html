@@ -8,11 +8,12 @@
   </form>
 
   <script>
+    /* global page */
     this.submit = (event) => {
       event.preventDefault()
       let params = `?q=${encodeURI(event.target.q.value)}`
       const schoolId = this.refs.school.schoolId
-      if(schoolId) {
+      if (schoolId) {
         params += `&school=${schoolId}`
       }
       page(`/search${params}`)

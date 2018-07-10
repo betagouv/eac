@@ -8,9 +8,9 @@
 
     this.on('mount', async () => {
       let school = null
-      let lngLat = [46.495, 2.207]  // center of France
-      let zoom = 6  // France overview
-      if(this.schoolId) {
+      let lngLat = [46.495, 2.207] // center of France
+      let zoom = 6 // France overview
+      if (this.schoolId) {
         school = await api(`/schools/${this.schoolId}`)
         lngLat = school.loc.coordinates.reverse()
         zoom = 9
@@ -41,7 +41,7 @@
           return marker
         })
 
-      if(this.schoolId) {
+      if (this.schoolId) {
         L.marker(lngLat, {
           icon: L.divIcon({className: 'leaflet-user', iconSize: [25, 25]})
         })

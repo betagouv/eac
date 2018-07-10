@@ -2,6 +2,7 @@
   <input type=search ref=input placeholder="Ex : Lycée Jean Moulin Paris">
 
   <script>
+    /* global api, Awesomplete */
     function normalizeString (str) {
       return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     }
@@ -13,7 +14,7 @@
     this.on('mount', async () => {
       let id = this.opts.schoolId
 
-      if(id) {
+      if (id) {
         const school = await api(`/schools/${id}`)
         this.refs.input.value = this.displaySchool(school)
       }
@@ -34,7 +35,7 @@
 
       this.refs.input.addEventListener('input', async event => {
         const q = event.target.value
-        if(q === '') {
+        if (q === '') {
           this.schoolId = ''
         }
         if (!q || q.length < 3) {
