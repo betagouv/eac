@@ -1,37 +1,41 @@
 <page-actor-edit>
+  <section class=block>
+    <h2>Ajouter un acteur culturel</h2>
 
-  <h2>Ajouter un acteur culturel</h2>
+    <form onsubmit={ this.submit }>
 
-  <form onsubmit={ this.submit }>
+      <fieldset>
+        <label for=name>Nom</label>
+        <input type=text id=name required>
 
-    <label for=name>Nom</label>
-    <input type=text id=name required>
+        <label for=description>Description</label>
+        <textarea id=description required></textarea>
 
-    <label for=description>Description</label>
-    <textarea id=description required></textarea>
+        <label for=address>Adresse</label>
+        <input type=text id=address name=address required>
 
-    <label for=address>Adresse</label>
-    <input type=text id=address name=address required>
+        <label for=contactName>Nom du contact</label>
+        <input type=text id=contactName name=contactName required>
 
-    <label for=contactName>Nom du contact</label>
-    <input type=text id=contactName name=contactName required>
+        <label for=contactPhone>Téléphone du contact</label>
+        <input type=tel id=contactPhone name=contactPhone required>
 
-    <label for=contactPhone>Téléphone du contact</label>
-    <input type=tel id=contactPhone name=contactPhone required>
+        <label for=contactEmail>Email du contact</label>
+        <input type=email id=contactEmail name=contactEmail required>
+      </fieldset>
 
-    <label for=contactEmail>Email du contact</label>
-    <input type=email id=contactEmail name=contactEmail required>
+      <fieldset>
+        <h3>Domaines</h3>
+        <label each={ domain in this.domains }>
+          <input type=checkbox name=domains value={ domain }> { domain }
+        </label>
+      </fieldset>
 
-    <label each={ domain in this.domains }>
-      <input type=checkbox
-              name=domains
-              value={ domain }>
-      { domain }
-    </label>
+      <button type="submit">Enregistrer</button>
 
-    <button type="submit">Enregistrer</button>
+    </form>
+  </section>
 
-  </form>
   <script>
     /* global request, api */
 
@@ -44,7 +48,7 @@
       event.preventDefault()
 
       const form = event.target
-      
+
       const apiAddress = 'https://api-adresse.data.gouv.fr/search/?q='
       const addresses = await request(`${apiAddress}${form.address.value}`)
       const address = addresses.features[0]
@@ -53,26 +57,34 @@
       loc.coordinates.reverse()
 
       const actor = await api(`/actors`, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            address: address.properties.name,
-            city: address.properties.city,
-            postalCode: address.properties.postcode,
-            loc: loc,
-            name: form.name.value,
-            contactPhone: form.contactPhone.value,
-            contactName: form.contactName.value,
-            contactEmail: form.contactEmail.value,
-            description: form.description.value,
-            domains: Array.from(form.domains).filter(d => d.checked).map(d => d.value),
-          })
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          address: address.properties.name,
+          city: address.properties.city,
+          postalCode: address.properties.postcode,
+          loc: loc,
+          name: form.name.value,
+          contactPhone: form.contactPhone.value,
+          contactName: form.contactName.value,
+          contactEmail: form.contactEmail.value,
+          description: form.description.value,
+          domains: Array.from(form.domains).filter(d => d.checked).map(d => d.value),
         })
+      })
 
       page(`/actor/${actor._id}`)
     }
   </script>
+
+  <style scoped>
+    fieldset:last-of-type > label {
+      display: inline-block;
+      margin: 1rem;
+    }
+  </style>
+
 </page-actor-edit>
