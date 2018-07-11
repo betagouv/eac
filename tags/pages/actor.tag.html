@@ -14,11 +14,12 @@
 
     <section class="block actions">
       <h2>Actions proposées</h2>
-      <article>
-        <p if={ this.actor.actions }>{ this.actor.actions }</p>
-        <p if={ !this.actor.actions }>Les actions proposées par cet acteur sont sur demande.<br>
-        Veillez à prendre contact avec cet Acteur Culturel.</p>
+      <article each={ action in this.actor.actions }>
+        <h3>{ action.name }</h3>
+        <p>{ action.description }</p>
       </article>
+      <article if={ !this.actor.actions }>Les actions proposées par cet acteur sont sur demande.<br>
+        Veillez à prendre contact avec cet Acteur Culturel.</article>
     </section>
 
     <aside>
