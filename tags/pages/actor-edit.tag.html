@@ -48,12 +48,12 @@
   </section>
 
   <script>
-    /* global request, api */
+    /* global request, api, page */
 
-    function actionTemplate() {
+    function actionTemplate () {
       return {
         name: '',
-        description: '',
+        description: ''
       }
     }
 
@@ -71,7 +71,7 @@
         this.actor = await api(`/actors/${this.actorId}`)
         this.address = `${this.actor.address} ${this.actor.address2} ${this.actor.postalCode} ${this.actor.city}`
       }
-      this.actions = this.actor && this.actor.actions || [actionTemplate()]
+      this.actions = this.actor ? this.actor.actions : [actionTemplate()]
       this.domains = await api('/domains')
       this.update()
     })
@@ -85,17 +85,17 @@
       const addresses = await request(`${apiAddress}${form.address.value}`)
       const address = addresses.features[0]
 
-      const actions = Array.from(form['action-name']).length 
+      const actions = Array.from(form['action-name']).length
         ? Array.from(form['action-name']).map((name, index) => {
-            return {
-              name: name.value,
-              description: form['action-description'][index].value,
-            }
-          }) 
+          return {
+            name: name.value,
+            description: form['action-description'][index].value
+          }
+        })
         : [{
-            name: form['action-name'].value,
-            description: form['action-description'].value,
-          }]
+          name: form['action-name'].value,
+          description: form['action-description'].value
+        }]
 
       const domains = Array.from(form.domains).filter(d => d.checked).map(d => d.value)
 
@@ -119,7 +119,7 @@
           contactEmail: form.contactEmail.value,
           description: form.description.value,
           domains: domains,
-          actions: actions,
+          actions: actions
         })
       })
 
