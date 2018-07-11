@@ -41,6 +41,12 @@
       this.update()
     })
 
+    page('/actor/:id/edit', ctx => {
+      this.refs.container.innerHTML = `<page-actor-edit actor-id="${ctx.params.id}"/>`
+      riot.mount('page-actor-edit')
+      this.update()
+    })
+
     page('/actor/:id', (ctx) => {
       this.schoolId = ctx.params.school
       this.refs.container.innerHTML = `<page-actor
