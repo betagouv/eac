@@ -1,33 +1,57 @@
 <page-actor-edit>
   <section class=block>
-    <h2>Ajouter un acteur culturel</h2>
+    <h2>{ this.actor ? 'Modifier' : 'Ajouter' } un acteur culturel</h2>
 
     <form onsubmit={ this.submit }>
 
       <fieldset>
         <label for=name>Nom</label>
-        <input type=text id=name required>
+        <input type=text 
+               id=name 
+               value={ this.actor && this.actor.name } 
+               required>
 
         <label for=description>Description</label>
-        <textarea id=description required></textarea>
+        <textarea id=description 
+                  value={ this.actor && this.actor.description } 
+                  required></textarea>
 
         <label for=address>Adresse</label>
-        <input type=text id=address name=address required>
+        <input type=text 
+               id=address 
+               name=address 
+               value={ this.actor && this.address } 
+               required>
 
         <label for=contactName>Nom du contact</label>
-        <input type=text id=contactName name=contactName required>
+        <input type=text 
+               id=contactName 
+               name=contactName 
+               value={ this.actor && this.actor.contactName } 
+               required>
 
         <label for=contactPhone>Téléphone du contact</label>
-        <input type=tel id=contactPhone name=contactPhone required>
+        <input type=tel 
+               id=contactPhone 
+               name=contactPhone 
+               value={ this.actor && this.actor.contactPhone } 
+               required>
 
         <label for=contactEmail>Email du contact</label>
-        <input type=email id=contactEmail name=contactEmail required>
+        <input type=email 
+               id=contactEmail 
+               name=contactEmail 
+               value={ this.actor && this.actor.contactEmail } 
+               required>
       </fieldset>
 
       <fieldset>
         <h3>Domaines</h3>
         <label each={ domain in this.domains }>
-          <input type=checkbox name=domains value={ domain }> { domain }
+          <input type=checkbox 
+                 name=domains 
+                 value={ domain } 
+                 checked={ this.actor && this.actor.domains.includes(domain) }> { domain }
         </label>
       </fieldset>
 
@@ -40,6 +64,11 @@
     /* global request, api */
 
     this.on('mount', async () => {
+      this.actorId = this.opts.actorId
+      if (this.actorId) {
+        this.actor = await api(`/actors/${this.actorId}`)
+        this.address = `${this.actor.address} ${this.actor.address2} ${this.actor.postalCode} ${this.actor.city}`
+      } 
       this.domains = await api('/domains')
       this.update()
     })
@@ -56,8 +85,8 @@
       const loc = address.geometry
       loc.coordinates.reverse()
 
-      const actor = await api(`/actors`, {
-        method: 'POST',
+      const actor = await api(this.actorId ? `/actors/${this.actorId}` : '/actors', {
+        method: this.actorId ? 'PUT' : 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
