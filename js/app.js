@@ -41,6 +41,10 @@ function urlParams(queryString = location.search) {
   return new Map(keyValues.split('&').map(kv => kv.split('=')))
 }
 
+function normalizeString (str) {
+  return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+
 function require(sources, type = 'text/javascript') {
   return new Promise((resolve) => {
     let loadedCount = 0

@@ -22,7 +22,7 @@
   </virtual>
 
   <script>
-    /* global api, encodeURI, opts */
+    /* global api, encodeURI, opts, normalizeString */
     this.q = this.opts.q
     this.schoolId = this.opts.schoolId
     try {
@@ -43,7 +43,7 @@
           params += `from=${school.loc.coordinates[1]},${school.loc.coordinates[0]}`
         }
       }
-      this.actors = await api(`/actors/search/${this.q}${params}`)
+      this.actors = await api(`/actors/search/${normalizeString(this.q)}${params}`)
       this.update()
     })()
 

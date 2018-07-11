@@ -2,10 +2,7 @@
   <input type=search ref=input placeholder="Ex : Lycée Jean Moulin Paris">
 
   <script>
-    /* global api, Awesomplete */
-    function normalizeString (str) {
-      return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    }
+    /* global api, Awesomplete, normalizeString */
 
     this.displaySchool = (school) => {
       return `${school.name} (${school.postalCode} ${school.city})`
