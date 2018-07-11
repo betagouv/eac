@@ -15,6 +15,7 @@
 
 
   <script>
+    /* global page, riot, urlParams */
     page('/', (ctx) => {
       this.refs.container.innerHTML = ''
       this.update()
@@ -31,6 +32,12 @@
         filters="${filters}"
         />`
       riot.mount('page-search')
+      this.update()
+    })
+
+    page('/actor/create', ctx => {
+      this.refs.container.innerHTML = `<page-actor-edit/>`
+      riot.mount('page-actor-edit')
       this.update()
     })
 

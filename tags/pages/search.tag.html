@@ -22,7 +22,7 @@
   </virtual>
 
   <script>
-    /* global api, encodeURI, page */
+    /* global api, encodeURI, opts */
     this.q = this.opts.q
     this.schoolId = this.opts.schoolId
     try {
@@ -36,7 +36,7 @@
 
     ;(async () => {
       let params = this.filters.domains ? `?domains=${this.domains}` : ''
-      if(this.schoolId) {
+      if (this.schoolId) {
         const school = await api(`/schools/${this.schoolId}`)
         if (school.loc.coordinates) {
           params += (params ? '&' : '?')
