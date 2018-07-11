@@ -34,7 +34,7 @@
       <fieldset>
         <h3>Actions proposées</h3>
         <section each={ action, index in this.actions }>
-          <h4>Action #{ index + 1 }</h4>
+          <h4>Action n°{ index + 1 }</h4>
           <button class="delete button-outline" type=button onclick={ this.deleteAction } data-id={ index }>Supprimer</button>
           <input type=text name=action-name placeholder=Titre value={ action.name }>
           <textarea name=action-description placeholder=Description>{ action.description }</textarea>
