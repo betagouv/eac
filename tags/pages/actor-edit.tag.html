@@ -20,7 +20,7 @@
         <input type=text 
                id=address 
                name=address 
-               value={ this.actor && this.address(actor) } 
+               value={ this.actor && this.address } 
                required>
 
         <label for=contactName>Nom du contact</label>
@@ -63,14 +63,11 @@
   <script>
     /* global request, api */
 
-    this.address = (actor) => {
-      return `${actor.address} ${actor.postalCode} ${actor.city}`
-    }
-
     this.on('mount', async () => {
       this.actorId = this.opts.actorId
       if (this.actorId) {
         this.actor = await api(`/actors/${this.opts.actorId}`)
+        this.address = `${this.actor.address} ${this.actor.address2} ${this.actor.postalCode} ${this.actor.city}`
       } 
       this.domains = await api('/domains')
       this.update()
