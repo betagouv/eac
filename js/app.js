@@ -1,6 +1,9 @@
-const apiUrl = localStorage.getItem('apiUrl') || 'https://eac-api.herokuapp.com'
+const apiUrl = location.hostname === 'localhost'
+               ? 'http://localhost:3000'
+               : 'https://eac-api.herokuapp.com'
 
 const includeJs = require([
+  '/js/browserdetect.js',
   '/vendors/js/riot+compiler.min.js',
   '/vendors/js/page.js',
   '/vendors/js/leaflet.js',
