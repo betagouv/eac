@@ -10,11 +10,11 @@
     var div = document.createElement('div')
     div.id = 'browserOutdatedAlert'
     div.innerHTML = `
-      <p>Votre navigateur est obsolète. Ce site ne pourra pas fonctionner correctement.</p>
+      <p>Votre navigateur est obsolète. Ce site ne pourra pas s'afficher correctement.</p>
       <small>Vous pouvez mettre votre navigateur à jour ou utiliser un autre navigateur plus récent.</small>
     `
     var body = document.body
-    body.className += 'browserIsOutdated'
+    body.className += ' browserIsOutdated'
     body.insertBefore(div, body.firstChild)
 
     var style = document.createElement('style')
@@ -41,7 +41,9 @@
     document.head.appendChild(style)
   }
 
-  if(!isUpToDate()) {
-    browserIsOutdated()
-  }
+  window.addEventListener('load', function() {
+    if(!isUpToDate()) {
+      browserIsOutdated()
+    }
+  })
 })()
