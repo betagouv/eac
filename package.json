@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon -e html,js,css server.js",
     "lint": "standard --fix --plugin html '**/*.html'",
-    "babel": "riot --ext html tags js/es6.tags.js && babel js/es6.tags.js --out-file js/tags.js && babel js/es6.app.js --out-file js/app.js",
+    "watch": "concurrently \"riot -w --ext html tags js/src/tags.js\" \"babel js/src --out-dir js/dist --watch\"",
+    "build": "riot --ext html tags js/src/tags.js && babel js/src --out-dir js/dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +23,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "concurrently": "^3.6.0",
     "eslint-plugin-html": "^4.0.5",
     "http-server": "^0.11.1",
     "riot": "^3.10.3",

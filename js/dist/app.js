@@ -1,6 +1,6 @@
 'use strict';
 
-var apiUrl = localStorage.getItem('apiUrl') || 'https://eac-api.herokuapp.com';
+var apiUrl = location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://eac-api.herokuapp.com';
 
 function request(url) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
