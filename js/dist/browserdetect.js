@@ -1,9 +1,9 @@
 (function () {
-  try {
-    eval('const f = async _ => {}')
-  }
-  catch(e) {
-    browserIsOutdated()
+
+  function isUpToDate() {
+    var div = document.createElement('div')
+    div.style.display = 'grid'
+    return div.style.display === 'grid'
   }
 
   function browserIsOutdated() {
@@ -39,5 +39,9 @@
       }
     `
     document.head.appendChild(style)
+  }
+
+  if(!isUpToDate()) {
+    browserIsOutdated()
   }
 })()
