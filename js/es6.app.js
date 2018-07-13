@@ -1,4 +1,6 @@
-const apiUrl = localStorage.getItem('apiUrl') || 'https://eac-api.herokuapp.com'
+const apiUrl = location.hostname === 'localhost'
+  ? 'http://localhost:3000'
+  : 'https://eac-api.herokuapp.com'
 
 function request (url, options = {}) {
   const params = Object.assign(options, {
