@@ -8,7 +8,7 @@
       <color-tag each={ domain in this.domains } label={ domain } />
     </section>
 
-    <section if={ this.viewType == 'list' } id=results>
+    <section if={ this.viewType == 'list' } id=results class=block>
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
       <h4>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
       <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
@@ -18,6 +18,28 @@
     <section if={ this.viewType == 'map' } id=map>
       <button onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
       <actors-map class=block actors={ this.actors } school-id={ this.schoolId } />
+    </section>
+
+    <section id=extra>
+      <h4>Ressources externes</h4>
+      <p>
+        Si aucun résultat ne correspond à vos besoins, d'autres sites peuvent éventuellement
+      compléter votre besoin :
+      </p>
+      <nav>
+        <a target=_blank href=https://www.messortiesculture.com>
+          <img src=https://www.messortiesculture.com/images/logo.svg>
+        </a>
+        <a if={ this.department == '26' } target=_blank href=http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges>
+          <img src=http://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png>
+        </a>
+        <a if={ this.department in ['44', '49', '53', '72', '85'] } target=_blank href=https://www.laplateforme.net/pages/type/structures>
+          <img src=https://www.laplateforme.net/app/themes/p2/dist/images/logo.svg>
+        </a>
+        <a if={ this.department == '38' } target=_blank href=http://www.ac-grenoble.fr/educationartistique.isere>
+          <img src=http://cache.media.education.gouv.fr/image/Academie/04/9/Logo_Grenoble_956049.png>
+        </a>
+      </nav>
     </section>
   </virtual>
 
@@ -33,17 +55,19 @@
     this.actors = []
     this.viewType = 'list'
     this.domains = this.filters.domains || []
+    this.school = {}
 
     ;(async () => {
       let params = this.filters.domains ? `?domains=${this.domains}` : ''
       if (this.schoolId) {
-        const school = await api(`/schools/${this.schoolId}`)
-        if (school.loc.coordinates) {
+        this.school = await api(`/schools/${this.schoolId}`)
+        if (this.school.loc.coordinates) {
           params += (params ? '&' : '?')
-          params += `from=${school.loc.coordinates[1]},${school.loc.coordinates[0]}`
+          params += `from=${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`
         }
       }
       this.actors = await api(`/actors/search/${normalizeString(this.q)}${params}`)
+      this.department = this.school.postalCode.substr(0, 2)
       this.update()
     })()
 
@@ -59,6 +83,7 @@
         'search search'
         'tags tags'
         'filters results'
+        'filters extra'
         / minmax(auto, 35%) 1fr;
       grid-gap: 2rem;
     }
@@ -78,6 +103,13 @@
     }
     #map {
       grid-area: results;
+    }
+    #extra {
+      grid-area: extra;
+    }
+    #extra img {
+      max-width: 20rem;
+      max-height: 10rem;
     }
     h4 {
       margin-top: 1rem;
@@ -116,6 +148,14 @@
       border-radius: .8rem;
       border: 1px solid #e6e6e6;
       margin-right: 2rem;
+    }
+
+    #extra nav {
+      display: flex;
+    }
+    #extra a {
+      display: inline-block;
+      flex-basis: 25rem;
     }
   </style>
 </page-search>
