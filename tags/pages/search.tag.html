@@ -8,10 +8,12 @@
       <color-tag each={ domain in this.domains } label={ domain } />
     </section>
 
-    <section if={ this.viewType == 'list' } id=results class=block>
+    <section if={ this.viewType == 'list' } id=results>
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
-      <h4>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
-      <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
+      <div class=block>
+        <h4>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
+        <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
+      </div>
       <actor-card class=block each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
     </section>
 
@@ -20,24 +22,24 @@
       <actors-map class=block actors={ this.actors } school-id={ this.schoolId } />
     </section>
 
-    <section id=extra>
-      <h4>Ressources externes</h4>
+    <section id=extra class=block>
+      <h4>Vous n'avez rien trouvé d'intéressant ?</h4>
       <p>
-        Si aucun résultat ne correspond à vos besoins, d'autres sites peuvent éventuellement
-      compléter votre besoin :
+        Si aucun résultat ne correspond à vos attentes, d'autres sites peuvent éventuellement
+      compléter votre recherche :
       </p>
       <nav>
-        <a target=_blank href=https://www.messortiesculture.com>
-          <img src=https://www.messortiesculture.com/images/logo.svg>
-        </a>
-        <a if={ this.department == '26' } target=_blank href=http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges>
+        <a if={ !this.department || this.department == '26' } target=_blank href=http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges>
           <img src=http://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png>
         </a>
-        <a if={ this.department in ['44', '49', '53', '72', '85'] } target=_blank href=https://www.laplateforme.net/pages/type/structures>
+        <a if={ !this.department || this.department in ['44', '49', '53', '72', '85'] } target=_blank href=https://www.laplateforme.net/pages/type/structures>
           <img src=https://www.laplateforme.net/app/themes/p2/dist/images/logo.svg>
         </a>
-        <a if={ this.department == '38' } target=_blank href=http://www.ac-grenoble.fr/educationartistique.isere>
+        <a if={ !this.department || this.department == '38' } target=_blank href=http://www.ac-grenoble.fr/educationartistique.isere>
           <img src=http://cache.media.education.gouv.fr/image/Academie/04/9/Logo_Grenoble_956049.png>
+        </a>
+        <a target=_blank href=https://www.messortiesculture.com>
+          <img src=https://www.messortiesculture.com/images/logo.svg>
         </a>
       </nav>
     </section>
@@ -67,7 +69,7 @@
         }
       }
       this.actors = await api(`/actors/search/${normalizeString(this.q)}${params}`)
-      this.department = this.school.postalCode.substr(0, 2)
+      this.department = this.school.postalCode && this.school.postalCode.substr(0, 2)
       this.update()
     })()
 
@@ -150,12 +152,11 @@
       margin-right: 2rem;
     }
 
-    #extra nav {
-      display: flex;
-    }
     #extra a {
       display: inline-block;
-      flex-basis: 25rem;
+      width: 30%;
+      padding: 2rem;
+      text-align: center;
     }
   </style>
 </page-search>
