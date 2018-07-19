@@ -7,7 +7,8 @@
     "start": "nodemon -e html,js,css server.js",
     "lint": "standard --fix --plugin html '**/*.html'",
     "watch": "concurrently \"riot -w --ext html tags js/src/tags.js\" \"babel js/src --out-dir js/dist --watch\"",
-    "build": "riot --ext html tags js/src/tags.js && babel js/src --out-dir js/dist",
+    "build": "riot --ext html tags js/src/tags.js && babel js/src --out-dir js/dist && rm js/src/tags.js",
+    "postinstall": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
