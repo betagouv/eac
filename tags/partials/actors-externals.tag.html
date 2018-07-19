@@ -1,0 +1,34 @@
+<actors-externals>
+  <nav>
+    <a if={ this.inDepartment('26') } target=_blank href=http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges>
+      <img src=http://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png>
+    </a>
+    <a if={ this.inDepartment(['44', '49', '53', '72', '85']) } target=_blank href=https://www.laplateforme.net/pages/type/structures>
+      <img src=https://www.laplateforme.net/app/themes/p2/dist/images/logo.svg>
+    </a>
+    <a if={ this.inDepartment('38') } target=_blank href=http://www.ac-grenoble.fr/educationartistique.isere>
+      <img src=http://cache.media.education.gouv.fr/image/Academie/04/9/Logo_Grenoble_956049.png>
+    </a>
+    <a target=_blank href=https://www.messortiesculture.com>
+      <img src=http://www.messortiesculture.com/images/logo.svg>
+    </a>
+  </nav>
+
+  <script>
+    this.inDepartment = (codes) => {
+      if (!Array.isArray(codes)) {
+        codes = [codes]
+      }
+      return !this.opts.department.length || codes.includes(this.opts.department)
+    }
+  </script>
+
+  <style scoped>
+    a {
+      display: inline-block;
+      width: 30%;
+      padding: 2rem;
+      text-align: center;
+    }
+  </style>
+</actors-externals>

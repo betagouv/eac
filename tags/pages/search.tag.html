@@ -28,20 +28,7 @@
         Si aucun résultat ne correspond à vos attentes, d'autres sites peuvent éventuellement
       compléter votre recherche :
       </p>
-      <nav>
-        <a if={ !this.department || this.department == '26' } target=_blank href=http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges>
-          <img src=http://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png>
-        </a>
-        <a if={ !this.department || this.department in ['44', '49', '53', '72', '85'] } target=_blank href=https://www.laplateforme.net/pages/type/structures>
-          <img src=https://www.laplateforme.net/app/themes/p2/dist/images/logo.svg>
-        </a>
-        <a if={ !this.department || this.department == '38' } target=_blank href=http://www.ac-grenoble.fr/educationartistique.isere>
-          <img src=http://cache.media.education.gouv.fr/image/Academie/04/9/Logo_Grenoble_956049.png>
-        </a>
-        <a target=_blank href=https://www.messortiesculture.com>
-          <img src=https://www.messortiesculture.com/images/logo.svg>
-        </a>
-      </nav>
+      <actors-externals department={ this.department }></actors-externals>
     </section>
   </virtual>
 
@@ -109,10 +96,7 @@
     #extra {
       grid-area: extra;
     }
-    #extra img {
-      max-width: 20rem;
-      max-height: 10rem;
-    }
+
     h4 {
       margin-top: 1rem;
     }
@@ -150,13 +134,6 @@
       border-radius: .8rem;
       border: 1px solid #e6e6e6;
       margin-right: 2rem;
-    }
-
-    #extra a {
-      display: inline-block;
-      width: 30%;
-      padding: 2rem;
-      text-align: center;
     }
   </style>
 </page-search>
