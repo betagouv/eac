@@ -71,7 +71,7 @@
         this.actor = await api(`/actors/${this.actorId}`)
         this.address = `${this.actor.address} ${this.actor.address2} ${this.actor.postalCode} ${this.actor.city}`
       }
-      this.actions = this.actor ? this.actor.actions : [actionTemplate()]
+      this.actions = this.actor && this.actor.actions ? this.actor.actions : [actionTemplate()]
       this.domains = await api('/domains')
       this.update()
     })
