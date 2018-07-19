@@ -212,7 +212,7 @@ riot.tag2('page-actor', '<article> <section class="block actor"> <h2>{this.actor
   })));
 });
 
-riot.tag2('page-search', '<virtual if="{this.q}"> <section class="block" id="filters"> <search-filters filters="{this.filters}" q="{this.q}" school-id="{this.schoolId}" actors="{this.actors}"></search-filters> </section> <section id="tags"> <color-tag each="{domain in this.domains}" label="{domain}"></color-tag> </section> <section if="{this.viewType == \'list\'}" id="results"> <button onclick="{this.setViewType}" value="map">Voir les résultats sur une carte</button> <div class="block"> <h4>Résultats pour «&nbsp;{this.q}&nbsp;»</h4> <p if="{!this.actors.length}">Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p> </div> <actor-card class="block" each="{actor in this.actors}" actor="{actor}" school-id="{this.schoolId}"></actor-card> </section> <section if="{this.viewType == \'map\'}" id="map"> <button onclick="{this.setViewType}" value="list">Voir la liste des résultats</button> <actors-map class="block" actors="{this.actors}" school-id="{this.schoolId}"></actors-map> </section> <section id="extra" class="block"> <h4>Vous n\'avez rien trouvé d\'intéressant ?</h4> <p> Si aucun résultat ne correspond à vos attentes, d\'autres sites peuvent éventuellement compléter votre recherche : </p> <nav> <a if="{!this.department || this.department == \'26\'}" target="_blank" href="http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges"> <img src="http://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png"> </a> <a if="{!this.department || this.department in [\'44\', \'49\', \'53\', \'72\', \'85\']}" target="_blank" href="https://www.laplateforme.net/pages/type/structures"> <img src="https://www.laplateforme.net/app/themes/p2/dist/images/logo.svg"> </a> <a if="{!this.department || this.department == \'38\'}" target="_blank" href="http://www.ac-grenoble.fr/educationartistique.isere"> <img src="http://cache.media.education.gouv.fr/image/Academie/04/9/Logo_Grenoble_956049.png"> </a> <a target="_blank" href="https://www.messortiesculture.com"> <img src="https://www.messortiesculture.com/images/logo.svg"> </a> </nav> </section> </virtual>', 'page-search,[data-is="page-search"]{ display: grid; grid-template: \'search search\' \'tags tags\' \'filters results\' \'filters extra\' / minmax(auto, 35%) 1fr; grid-gap: 2rem; } page-search #search,[data-is="page-search"] #search{ grid-area: search; } page-search #tags,[data-is="page-search"] #tags{ grid-area: tags; height: 4rem; } page-search #filters,[data-is="page-search"] #filters{ grid-area: filters; height: auto; } page-search #results,[data-is="page-search"] #results{ grid-area: results; } page-search #map,[data-is="page-search"] #map{ grid-area: results; } page-search #extra,[data-is="page-search"] #extra{ grid-area: extra; } page-search #extra img,[data-is="page-search"] #extra img{ max-width: 20rem; max-height: 10rem; } page-search h4,[data-is="page-search"] h4{ margin-top: 1rem; } page-search search-filters,[data-is="page-search"] search-filters{ position: sticky; top: 0; } page-search input[type=search],[data-is="page-search"] input[type=search]{ border-color: #999; box-shadow: 0 0 .1em #ccc; font-size: 1.2em; padding: 1em .7em; transition: box-shadow .3s; } page-search input[type=search]:focus,[data-is="page-search"] input[type=search]:focus{ box-shadow: .05em .05em .2em #bbb; } page-search input[type=submit],[data-is="page-search"] input[type=submit]{ display: block; margin: 0 auto; } page-search actor-card,[data-is="page-search"] actor-card{ padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid #eee; } page-search #tags .tag,[data-is="page-search"] #tags .tag{ background-color: #fff; box-shadow: .1rem .1rem .5rem #eee; border-radius: .8rem; border: 1px solid #e6e6e6; margin-right: 2rem; } page-search #extra a,[data-is="page-search"] #extra a{ display: inline-block; width: 30%; padding: 2rem; text-align: center; }', '', function (opts) {
+riot.tag2('page-search', '<virtual if="{this.q}"> <section class="block" id="filters"> <search-filters filters="{this.filters}" q="{this.q}" school-id="{this.schoolId}" actors="{this.actors}"></search-filters> </section> <section id="tags"> <color-tag each="{domain in this.domains}" label="{domain}"></color-tag> </section> <section if="{this.viewType == \'list\'}" id="results"> <button onclick="{this.setViewType}" value="map">Voir les résultats sur une carte</button> <div class="block"> <h4>Résultats pour «&nbsp;{this.q}&nbsp;»</h4> <p if="{!this.actors.length}">Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p> </div> <actor-card class="block" each="{actor in this.actors}" actor="{actor}" school-id="{this.schoolId}"></actor-card> </section> <section if="{this.viewType == \'map\'}" id="map"> <button onclick="{this.setViewType}" value="list">Voir la liste des résultats</button> <actors-map class="block" actors="{this.actors}" school-id="{this.schoolId}"></actors-map> </section> <section id="extra" class="block"> <h4>Vous n\'avez rien trouvé d\'intéressant ?</h4> <p> Si aucun résultat ne correspond à vos attentes, d\'autres sites peuvent éventuellement compléter votre recherche : </p> <actors-externals department="{this.department}"></actors-externals> </section> </virtual>', 'page-search,[data-is="page-search"]{ display: grid; grid-template: \'search search\' \'tags tags\' \'filters results\' \'filters extra\' / minmax(auto, 35%) 1fr; grid-gap: 2rem; } page-search #search,[data-is="page-search"] #search{ grid-area: search; } page-search #tags,[data-is="page-search"] #tags{ grid-area: tags; height: 4rem; } page-search #filters,[data-is="page-search"] #filters{ grid-area: filters; height: auto; } page-search #results,[data-is="page-search"] #results{ grid-area: results; } page-search #map,[data-is="page-search"] #map{ grid-area: results; } page-search #extra,[data-is="page-search"] #extra{ grid-area: extra; } page-search h4,[data-is="page-search"] h4{ margin-top: 1rem; } page-search search-filters,[data-is="page-search"] search-filters{ position: sticky; top: 0; } page-search input[type=search],[data-is="page-search"] input[type=search]{ border-color: #999; box-shadow: 0 0 .1em #ccc; font-size: 1.2em; padding: 1em .7em; transition: box-shadow .3s; } page-search input[type=search]:focus,[data-is="page-search"] input[type=search]:focus{ box-shadow: .05em .05em .2em #bbb; } page-search input[type=submit],[data-is="page-search"] input[type=submit]{ display: block; margin: 0 auto; } page-search actor-card,[data-is="page-search"] actor-card{ padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid #eee; } page-search #tags .tag,[data-is="page-search"] #tags .tag{ background-color: #fff; box-shadow: .1rem .1rem .5rem #eee; border-radius: .8rem; border: 1px solid #e6e6e6; margin-right: 2rem; }', '', function (opts) {
   var _this4 = this;
 
   this.q = this.opts.q;
@@ -279,8 +279,19 @@ riot.tag2('actor-card', '<h3>{this.actor.name} <small>(dept {this.actor.departme
   this.maxlength = this.opts.maxlength || 150;
 });
 
-riot.tag2('actors-map', '<div ref="map"></div>', 'actors-map,[data-is="actors-map"]{ display: block; width: 100%; height: auto; } actors-map [ref=map],[data-is="actors-map"] [ref=map]{ height: 600px; } actors-map .leaflet-popup a,[data-is="actors-map"] .leaflet-popup a{ color: inherit; } actors-map .leaflet-user,[data-is="actors-map"] .leaflet-user{ background: red; border: 5px solid rgba(255,255,255,0.5); color: blue; font-weight: bold; text-align: center; border-radius: 50%; line-height: 80px; width: 50px; }', '', function (opts) {
+riot.tag2('actors-externals', '<nav> <a if="{this.inDepartment(\'26\')}" target="_blank" href="http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges"> <img src="http://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png"> </a> <a if="{this.inDepartment([\'44\', \'49\', \'53\', \'72\', \'85\'])}" target="_blank" href="https://www.laplateforme.net/pages/type/structures"> <img src="https://www.laplateforme.net/app/themes/p2/dist/images/logo.svg"> </a> <a if="{this.inDepartment(\'38\')}" target="_blank" href="http://www.ac-grenoble.fr/educationartistique.isere"> <img src="http://cache.media.education.gouv.fr/image/Academie/04/9/Logo_Grenoble_956049.png"> </a> <a target="_blank" href="https://www.messortiesculture.com"> <img src="http://www.messortiesculture.com/images/logo.svg"> </a> </nav>', 'actors-externals a,[data-is="actors-externals"] a{ display: inline-block; width: 30%; padding: 2rem; text-align: center; }', '', function (opts) {
   var _this5 = this;
+
+  this.inDepartment = function (codes) {
+    if (!Array.isArray(codes)) {
+      codes = [codes];
+    }
+    return !_this5.opts.department.length || codes.includes(_this5.opts.department);
+  };
+});
+
+riot.tag2('actors-map', '<div ref="map"></div>', 'actors-map,[data-is="actors-map"]{ display: block; width: 100%; height: auto; } actors-map [ref=map],[data-is="actors-map"] [ref=map]{ height: 600px; } actors-map .leaflet-popup a,[data-is="actors-map"] .leaflet-popup a{ color: inherit; } actors-map .leaflet-user,[data-is="actors-map"] .leaflet-user{ background: red; border: 5px solid rgba(255,255,255,0.5); color: blue; font-weight: bold; text-align: center; border-radius: 50%; line-height: 80px; width: 50px; }', '', function (opts) {
+  var _this6 = this;
 
   this.schoolId = opts.schoolId;
   this.actors = opts.actors;
@@ -295,13 +306,13 @@ riot.tag2('actors-map', '<div ref="map"></div>', 'actors-map,[data-is="actors-ma
             lngLat = [46.495, 2.207];
             zoom = 6;
 
-            if (!_this5.schoolId) {
+            if (!_this6.schoolId) {
               _context5.next = 9;
               break;
             }
 
             _context5.next = 6;
-            return api('/schools/' + _this5.schoolId);
+            return api('/schools/' + _this6.schoolId);
 
           case 6:
             school = _context5.sent;
@@ -310,7 +321,7 @@ riot.tag2('actors-map', '<div ref="map"></div>', 'actors-map,[data-is="actors-ma
             zoom = 9;
 
           case 9:
-            map = L.map(_this5.refs.map).setView(lngLat, zoom);
+            map = L.map(_this6.refs.map).setView(lngLat, zoom);
             actorMarker = L.icon({ iconUrl: '/images/marker.svg', iconSize: [40, 45] });
 
 
@@ -320,17 +331,17 @@ riot.tag2('actors-map', '<div ref="map"></div>', 'actors-map,[data-is="actors-ma
               id: 'mapbox.streets'
             }).addTo(map);
 
-            markers = _this5.actors.filter(function (a) {
+            markers = _this6.actors.filter(function (a) {
               return a.loc && a.loc.coordinates[0];
             }).map(function (a) {
               var marker = L.marker(a.loc.coordinates, { icon: actorMarker });
               marker.actor = a;
-              marker.bindPopup('\n            <a href=/actor/' + a._id + '?school=' + _this5.schoolId + ' title="Voir le d\xE9tail">\n              <h4>' + a.name + '</h4>\n              <p>' + (a.description.length > 80 ? a.description.substr(0, 300) + '…' : a.description) + '</p>\n              <p>Voir le d\xE9tail</p>\n            </a>\n          ');
+              marker.bindPopup('\n            <a href=/actor/' + a._id + '?school=' + _this6.schoolId + ' title="Voir le d\xE9tail">\n              <h4>' + a.name + '</h4>\n              <p>' + (a.description.length > 80 ? a.description.substr(0, 300) + '…' : a.description) + '</p>\n              <p>Voir le d\xE9tail</p>\n            </a>\n          ');
               return marker;
             });
 
 
-            if (_this5.schoolId) {
+            if (_this6.schoolId) {
               L.marker(lngLat, {
                 icon: L.divIcon({ className: 'leaflet-user', iconSize: [25, 25] })
               }).bindPopup('Votre établissement scolaire').addTo(map);
@@ -343,7 +354,7 @@ riot.tag2('actors-map', '<div ref="map"></div>', 'actors-map,[data-is="actors-ma
             return _context5.stop();
         }
       }
-    }, _callee5, _this5);
+    }, _callee5, _this6);
   })));
 });
 
@@ -357,7 +368,7 @@ riot.tag2('color-tag', '<a class="tag"> <span riot-style="background-color: {thi
 });
 
 riot.tag2('search-filters', '<details title="Domaine" open> <summary>Affiner par domaines</summary> <label each="{domain in this.domains}"> <input type="checkbox" name="domains" riot-value="{domain}" onchange="{this.submit}" checked="{this.filters.domains && this.filters.domains.includes(domain)}"> {domain} </label> </details>', 'search-filters label,[data-is="search-filters"] label{ font-weight: normal; cursor: pointer; margin-left: 1.5rem; } search-filters label > input,[data-is="search-filters"] label > input{ margin-right: 0.75rem; } search-filters summary,[data-is="search-filters"] summary{ margin-bottom: 1rem; cursor: pointer; }', '', function (opts) {
-  var _this6 = this;
+  var _this7 = this;
 
   this.filters = opts.filters || {};
   this.actors = opts.actors || [];
@@ -367,8 +378,8 @@ riot.tag2('search-filters', '<details title="Domaine" open> <summary>Affiner par
   this.on('update', function () {
     var _ref6;
 
-    _this6.actors = opts.actors;
-    _this6.domains = Array.from(new Set((_ref6 = []).concat.apply(_ref6, _toConsumableArray(_this6.actors.filter(function (a) {
+    _this7.actors = opts.actors;
+    _this7.domains = Array.from(new Set((_ref6 = []).concat.apply(_ref6, _toConsumableArray(_this7.actors.filter(function (a) {
       return a.domains;
     }).map(function (a) {
       return a.domains;
@@ -384,9 +395,9 @@ riot.tag2('search-filters', '<details title="Domaine" open> <summary>Affiner par
   });
 
   this.submit = function (event) {
-    var q = _this6.q;
-    var schoolId = _this6.schoolId;
-    var filters = _this6.filters;
+    var q = _this7.q;
+    var schoolId = _this7.schoolId;
+    var filters = _this7.filters;
     var category = event.target.name;
     var value = event.target.value;
     var activate = event.target.checked;
@@ -402,12 +413,12 @@ riot.tag2('search-filters', '<details title="Domaine" open> <summary>Affiner par
 });
 
 riot.tag2('search-form', '<form onsubmit="{this.submit}"> <label for="q">Vous recherchez</label> <input type="search" name="q" id="q" riot-value="{this.opts.q}" placeholder="Ex : Visite artisan" required autofocus> <label for="search">À proximité de</label> <select-school ref="school" type="search" name="school" id="school" school-id="{this.opts.schoolId}"></select-school> <input class="button" type="submit" value="Rechercher"> </form>', 'search-form form,[data-is="search-form"] form{ display: grid; grid-template: \'label-q label-school .\' \'q school button\' / 2fr 1fr auto; grid-column-gap: 1rem; max-width: 120rem; margin: 2rem auto 0 auto; } search-form label,[data-is="search-form"] label{ margin-bottom: 0; } search-form [for=q],[data-is="search-form"] [for=q]{ grid-area: label-q; } search-form #q,[data-is="search-form"] #q{ grid-area: q; } search-form [for=school],[data-is="search-form"] [for=school]{ grid-area: label-school; } search-form #school,[data-is="search-form"] #school{ grid-area: school; } search-form [type=submit],[data-is="search-form"] [type=submit]{ grid-area: button; }', '', function (opts) {
-  var _this7 = this;
+  var _this8 = this;
 
   this.submit = function (event) {
     event.preventDefault();
     var params = '?q=' + encodeURI(event.target.q.value);
-    var schoolId = _this7.refs.school.schoolId;
+    var schoolId = _this8.refs.school.schoolId;
     if (schoolId) {
       params += '&school=' + schoolId;
     }
@@ -416,7 +427,7 @@ riot.tag2('search-form', '<form onsubmit="{this.submit}"> <label for="q">Vous re
 });
 
 riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : Lycée Jean Moulin Paris">', '', '', function (opts) {
-  var _this8 = this;
+  var _this9 = this;
 
   this.displaySchool = function (school) {
     return school.name + ' (' + school.postalCode + ' ' + school.city + ')';
@@ -428,7 +439,7 @@ riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : L
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            id = _this8.opts.schoolId;
+            id = _this9.opts.schoolId;
 
             if (!id) {
               _context7.next = 6;
@@ -441,10 +452,10 @@ riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : L
           case 4:
             school = _context7.sent;
 
-            _this8.refs.input.value = _this8.displaySchool(school);
+            _this9.refs.input.value = _this9.displaySchool(school);
 
           case 6:
-            completer = new Awesomplete(_this8.refs.input, {
+            completer = new Awesomplete(_this9.refs.input, {
               replace: function replace(suggestion) {
                 this.input.value = suggestion.label;
                 id = suggestion.value;
@@ -461,7 +472,7 @@ riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : L
             });
 
 
-            _this8.refs.input.addEventListener('input', function () {
+            _this9.refs.input.addEventListener('input', function () {
               var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(event) {
                 var q, schools;
                 return regeneratorRuntime.wrap(function _callee6$(_context6) {
@@ -471,7 +482,7 @@ riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : L
                         q = event.target.value;
 
                         if (q === '') {
-                          _this8.schoolId = '';
+                          _this9.schoolId = '';
                         }
 
                         if (!(!q || q.length < 3)) {
@@ -490,7 +501,7 @@ riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : L
 
                         completer.list = schools && schools.map(function (s) {
                           return {
-                            label: _this8.displaySchool(s),
+                            label: _this9.displaySchool(s),
                             value: s._id
                           };
                         });
@@ -500,7 +511,7 @@ riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : L
                         return _context6.stop();
                     }
                   }
-                }, _callee6, _this8);
+                }, _callee6, _this9);
               }));
 
               return function (_x2) {
@@ -508,8 +519,8 @@ riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : L
               };
             }());
 
-            _this8.refs.input.addEventListener('awesomplete-selectcomplete', function (event) {
-              _this8.schoolId = id;
+            _this9.refs.input.addEventListener('awesomplete-selectcomplete', function (event) {
+              _this9.schoolId = id;
             });
 
           case 9:
@@ -517,6 +528,6 @@ riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : L
             return _context7.stop();
         }
       }
-    }, _callee7, _this8);
+    }, _callee7, _this9);
   })));
 });
