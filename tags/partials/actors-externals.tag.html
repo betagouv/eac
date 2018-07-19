@@ -19,7 +19,7 @@
       if (!Array.isArray(codes)) {
         codes = [codes]
       }
-      return !this.opts.department.length || codes.includes(this.opts.department)
+      return this.opts.department && (!this.opts.department.length || codes.includes(this.opts.department))
     }
   </script>
 
