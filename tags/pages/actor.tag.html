@@ -51,6 +51,12 @@
       </section>
     </aside>
 
+  <section class=edit>
+    <a href=/actor/{this.opts.actorId}/edit class=button>
+      Mettre à jour les informations de cet acteur
+    </a>
+  </section>
+
   </article>
 
   <script>
@@ -76,6 +82,7 @@
       grid-template:
         'actor aside'
         'actions aside'
+        'edit edit'
         / auto 51rem;
     }
     :scope > article {
@@ -86,6 +93,10 @@
     }
     .actions {
       grid-area: actions;
+    }
+    .edit {
+      grid-area: edit;
+      margin: 1rem auto;
     }
     aside {
       grid-area: aside;
