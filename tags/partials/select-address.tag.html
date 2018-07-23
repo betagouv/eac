@@ -1,0 +1,51 @@
+<select-address>
+  <input type=search ref=input placeholder="Ex : 75011 Paris">
+
+  <script>
+    /* global Awesomplete, request */
+    this.latLng = []
+
+    this.on('mount', () => {
+      let timeout
+      let latLng
+
+      const completer = new Awesomplete(this.refs.input, {
+        replace: function (suggestion) {
+          this.input.value = suggestion.label
+          latLng = suggestion.value
+        },
+        item: function (text, input) {
+          return Awesomplete.ITEM(text.label, '')
+        }
+      })
+
+      console.debug('listener', this.refs.input.addEventListener)
+
+      this.refs.input.addEventListener('input', (event) => {
+        const q = event.target.value
+        console.debug(q)
+        if(q.length < 3) {
+          return
+        }
+        if(timeout) {
+          clearTimeout(timeout)
+        }
+
+        timeout = setTimeout(async () => {
+          const matches = await request(`https://api-adresse.data.gouv.fr/search/?q=${q}`)
+          const addresses = matches && matches.features && matches.features
+          completer.list = addresses && addresses.map(a => {
+            return {
+              label: `${a.properties.postcode} ${a.properties.name}`,
+              value: a.geometry.coordinates
+            }
+          })
+        }, 500)
+      })
+
+      this.refs.input.addEventListener('awesomplete-selectcomplete', event => {
+        this.latLng = latLng
+      })
+    })
+  </script>
+</select-address>
