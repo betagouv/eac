@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "DEBUG=express:* nodemon -e html,js,css server.js",
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "lint": "standard --fix --plugin html '**/*.html'",
     "watch": "concurrently \"riot -w --ext html tags js/src/tags.js\" \"babel js/src --out-dir js/dist --watch\"",
     "build": "riot --ext html tags js/src/tags.js && babel js/src --out-dir js/dist && rm js/src/tags.js",
