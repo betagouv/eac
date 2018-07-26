@@ -16,7 +16,7 @@ modulable, jetable, en limitant les complexités et les facteurs tiers de [non-]
 1. Téléchargez les sources : `git clone https://github.com/betagouv/eac.git` ;
 2. installez les dépendances de développement : `npm install` ;
 3. lancez le _watcher_ qui transpile les fichiers `.js` et `.tags.html` en fichier `.js` ES5 : `npm run watch` ;
-4. lancez le serveur : `npm start` ;
+4. lancez le serveur : `npm run dev` ;
 5. ouvez le navigateur à la page `http://localhost:8080`.
 
 Elle dépend également de [l'API EAC](http://github.com/betagouv/eac-api) qui sert
