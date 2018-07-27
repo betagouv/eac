@@ -11,7 +11,7 @@
 
       const completer = new Awesomplete(this.refs.input, {
         replace: function (suggestion) {
-          this.input.value = suggestion.label
+          this.input.value = `${suggestion.postcode} ${}`
           latLng = suggestion.value
         },
         item: function (text, input) {
