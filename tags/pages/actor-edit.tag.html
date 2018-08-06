@@ -1,30 +1,53 @@
 <page-actor-edit>
-  <section class=block>
+  <section>
     <h2>{ this.actor ? 'Modifier' : 'Ajouter' } un acteur culturel</h2>
 
     <form onsubmit={ this.submit }>
 
-      <fieldset>
+      <fieldset class=block>
+        <h3>Présentation générale</h3>
         <label for=name>Nom</label>
         <input type=text id=name value={ this.actor && this.actor.name } required>
 
+        <label for=image>URL de photo</label>
+        <input type=url oninput={ this.updateImage } id=image value={ this.actor && this.actor.image }>
+        <img ref=image if={ this.actor.image } src="{ this.actor.image }" height=100>
+
         <label for=description>Description</label>
-        <textarea id=description value={ this.actor && this.actor.description } required></textarea>
+        <textarea id=description required>{ this.actor && this.actor.description }</textarea>
+      </fieldset>
+
+      <fieldset class=block>
+        <h3>Contact accueil</h3>
+        <label for=url>Site internet</label>
+        <input type=url id=url value="{ this.actor && this.actor.url }">
+
+        <label for=mainPhone>Numéro de téléphone principal</label>
+        <input type=text id=mainPhone value="{ this.actor && this.actor.mainPhone }">
 
         <label for=address>Adresse</label>
         <input type=text id=address name=address value={ this.actor && this.address } required>
 
-        <label for=contactName>Nom du contact</label>
+        <label for=city>Ville</label>
+        <input type=text id=city name=city value={ this.actor && this.city } required>
+
+        <label for=postalCode>Code postal</label>
+        <input type=text id=postalCode name=postalCode value={ this.actor && this.postalCode } required>
+      </fieldset>
+
+      <fieldset class=block>
+        <h3>Contact pour l'organisation d'une sortie / intervention</h3>
+        <label for=contactName>Nom du contact EAC</label>
         <input type=text id=contactName name=contactName value={ this.actor && this.actor.contactName } required>
 
-        <label for=contactPhone>Téléphone du contact</label>
+        <label for=contactPhone>Téléphone du contact EAC</label>
         <input type=tel id=contactPhone name=contactPhone value={ this.actor && this.actor.contactPhone } required>
 
-        <label for=contactEmail>Email du contact</label>
+        <label for=contactEmail>Email du contact EAC</label>
         <input type=email id=contactEmail name=contactEmail value={ this.actor && this.actor.contactEmail } required>
       </fieldset>
 
-      <fieldset>
+      <fieldset class="block domains">
         <h3>Domaines</h3>
         <label each={ domain in this.domains }>
           <input type=checkbox name=domains value={ domain } checked={ this.actor && this.actor.domains.includes(domain) }> { domain }
@@ -33,16 +56,75 @@
 
       <fieldset>
         <h3>Actions proposées</h3>
-        <section each={ action, index in this.actions }>
+        <section each={ action, index in this.actions } class=block>
           <h4>Action n°{ index + 1 }</h4>
           <button class="delete button-outline" type=button onclick={ this.deleteAction } data-id={ index }>Supprimer</button>
-          <input type=text name=action-name placeholder=Titre value={ action.name }>
-          <textarea name=action-description placeholder=Description>{ action.description }</textarea>
+
+          <label>Intitulé</label>
+          <input type=text name=action-name value={ action.name }>
+
+          <label>Description</label>
+          <textarea name=action-description>{ action.description }</textarea>
+
+          <label>Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)</label>
+          <input type=text name=medias>
+
+          <label>Date de début</label>
+          <input type=date name=dateRangeStart value={ action.dateRange && action.dateRange[0] }>
+
+          <label>Date de fin</label>
+          <input type=date name=dateRangeEnd value={ action.dateRange.length && action.dateRange[1] }>
+
+          <label>Durée sur place</label>
+          <input type=text name=duration value={ action.duration }>
+
+          <label>Niveaux concernés</label>
+          <select name=schoolLevels multiple>
+            <option value=maternelle selected={ 'maternelle' in action.schoolLevels }>Maternelle</option>
+            <option value=elementaire selected={ 'elementaire' in action.schoolLevels }>Élémentaire</option>
+            <option value=college selected={ 'college' in action.schoolLevels }>Collège</option>
+            <option value=lycee selected={ 'lycee' in action.schoolLevels }>Lycée</option>
+          </select>
+
+          <label>Matières concernées</label>
+          <select name=topics multiple>
+            <option value=francais selected={ 'francais' in action.schoolLevels }>Français</option>
+            <option value=mathematiques selected={ 'mathematiques' in action.schoolLevels }>Mathématiques</option>
+            <option value=histoire selected={ 'histoire' in action.schoolLevels }>Histoire</option>
+            <option value=geographie selected={ 'geographie' in action.schoolLevels }>Géographie</option>
+            <option value=langue-vivante selected={ 'langue-vivante' in action.schoolLevels }>Langue Vivante</option>
+            <option value=physique selected={ 'physique' in action.schoolLevels }>Physique</option>
+            <option value=chimie selected={ 'chimie' in action.schoolLevels }>Chimie</option>
+            <option value=svt selected={ 'svt' in action.schoolLevels }>Sciences de la vie et de la Terre</option>
+            <option value=eps selected={ 'eps' in action.schoolLevels }>Éducation physique et sportive</option>
+            <option value=civisme selected={ 'civisme' in action.schoolLevels }>Éducation civique, juridique et sociale</option>
+            <option value=autre selected={ 'autre' in action.schoolLevels }>Autre(s)</option>
+          </select>
+
+          <label>Page internet de l'action</label>
+          <input type=url name=website value={ action.website }>
+
+          <label>Nombre maximum d'élèves</label>
+          <input type=number name=capacity value={ action.capacity }>
+
+          <label>État de l'action</label>
+          <select name=status>
+            <option value=done selected={ action.status == 'done' }>C'est une action achevée</option>
+            <option value=progress selected={ action.status == 'progress' }>Il y a déjà des établissements scolaires sur cette action</option>
+            <option value=todo selected={ action.status == 'todo' }>Cette action est plannifiée</option>
+          </select>
+
+          <label>Établissement(s) scolaire(s) en lien avec cette action</label>
+          <input type=text name=school value={ action.school }>
+
+          <label>Coût prévisionnel total pour cette action (€)</label>
+          <input type=number value={ action.cost }>
+
         </section>
         <button onclick={ this.addAction } class="button-outline" type=button>Ajouter une action</button>
       </fieldset>
 
-      <button type="submit">Enregistrer</button>
+      <button type=submit>Enregistrer</button>
 
     </form>
   </section>
@@ -63,6 +145,10 @@
 
     this.deleteAction = (event) => {
       this.actions.splice(event.target.dataset.id, 1)
+    }
+
+    this.updateImage = (event) => {
+      this.refs.image.src = event.target.value
     }
 
     this.on('mount', async () => {
@@ -128,12 +214,15 @@
   </script>
 
   <style scoped>
-    fieldset:nth-of-type(2)>label {
+    .domains > label {
       display: inline-block;
       margin: 1rem;
     }
     .delete {
       float: right;
+    }
+    .delete + label {
+      clear: both;
     }
     h4 {
       float: left;

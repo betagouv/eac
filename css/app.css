@@ -14,10 +14,10 @@ input[type="submit"] {
   border-color: #1b87b6;
 }
 
-.button.button-outline, 
-button.button-outline, 
-input[type="button"].button-outline, 
-input[type="reset"].button-outline, 
+.button.button-outline,
+button.button-outline,
+input[type="button"].button-outline,
+input[type="reset"].button-outline,
 input[type="submit"].button-outline {
   color: #209fd6;
 }
@@ -77,4 +77,8 @@ main {
 /* Awesomplete wraps input in a div which breaks width */
 .awesomplete {
   width: 100%;
+}
+
+select[multiple] {
+  height: auto;
 }
