@@ -1,5 +1,4 @@
 <page-search>
-  <virtual if={ this.q }>
     <section class=block id=filters>
       <search-filters filters={ this.filters } q={ this.q } school-id={ this.schoolId } actors={ this.actors } />
     </section>
@@ -11,7 +10,8 @@
     <section if={ this.viewType == 'list' } id=results>
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
       <div class=block>
-        <h4>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
+        <h4 if={ this.q }>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
+        <h4 if={ !this.q && this.school }> Résultats autour de { this.school.name } ({ this.school.city })</h4>
         <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
       </div>
       <actor-card class=block each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
@@ -35,23 +35,22 @@
       </p>
       <a href=/actor/create class=button>Ajouter un acteur culturel</a>
     </section>
-  </virtual>
 
   <script>
-    /* global api, encodeURI, opts, normalizeString */
+    /* global api, normalizeString */
     this.q = this.opts.q
     this.schoolId = this.opts.schoolId
     try {
-      this.filters = JSON.parse(decodeURI(opts.filters))
+      this.filters = JSON.parse(decodeURI(this.opts.filters))
     } catch (e) {
       this.filters = {}
     }
     this.actors = []
     this.viewType = 'list'
     this.domains = this.filters.domains || []
-    this.school = {}
+    this.school = null
 
-    ;(async () => {
+    this.on('mount', async () => {
       let params = this.filters.domains ? `?domains=${this.domains}` : ''
       if (this.schoolId) {
         this.school = await api(`/schools/${this.schoolId}`)
@@ -63,7 +62,7 @@
       this.actors = await api(`/actors/search/${normalizeString(this.q)}${params}`)
       this.department = this.school.postalCode && this.school.postalCode.substr(0, 2)
       this.update()
-    })()
+    })
 
     this.setViewType = (event) => {
       this.viewType = event.target.value

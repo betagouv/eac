@@ -148,21 +148,21 @@ riot.tag2('page-actor', '<article> <section class="block actor"> <h2>{this.actor
     })
 });
 
-riot.tag2('page-search', '<virtual if="{this.q}"> <section class="block" id="filters"> <search-filters filters="{this.filters}" q="{this.q}" school-id="{this.schoolId}" actors="{this.actors}"></search-filters> </section> <section id="tags"> <color-tag each="{domain in this.domains}" label="{domain}"></color-tag> </section> <section if="{this.viewType == \'list\'}" id="results"> <button onclick="{this.setViewType}" value="map">Voir les résultats sur une carte</button> <div class="block"> <h4>Résultats pour «&nbsp;{this.q}&nbsp;»</h4> <p if="{!this.actors.length}">Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p> </div> <actor-card class="block" each="{actor in this.actors}" actor="{actor}" school-id="{this.schoolId}"></actor-card> </section> <section if="{this.viewType == \'map\'}" id="map"> <button onclick="{this.setViewType}" value="list">Voir la liste des résultats</button> <actors-map class="block" actors="{this.actors}" school-id="{this.schoolId}"></actors-map> </section> <section id="extra" class="block"> <h4>Vous n\'avez rien trouvé d\'intéressant ?</h4> <p> Si aucun résultat ne correspond à vos attentes, d\'autres sites peuvent éventuellement compléter votre recherche&nbsp;: </p> <actors-externals department="{this.department}"></actors-externals> <p> Vous pouvez également participer à améliorer la base de données en ajoutant un acteur culturel&nbsp;: </p> <a href="/actor/create" class="button">Ajouter un acteur culturel</a> </section> </virtual>', 'page-search,[data-is="page-search"]{ display: grid; grid-template: \'search search\' \'tags tags\' \'filters results\' \'filters extra\' / minmax(auto, 35%) 1fr; grid-gap: 2rem; } page-search #search,[data-is="page-search"] #search{ grid-area: search; } page-search #tags,[data-is="page-search"] #tags{ grid-area: tags; height: 4rem; } page-search #filters,[data-is="page-search"] #filters{ grid-area: filters; height: auto; } page-search #results,[data-is="page-search"] #results{ grid-area: results; } page-search #map,[data-is="page-search"] #map{ grid-area: results; } page-search #extra,[data-is="page-search"] #extra{ grid-area: extra; } page-search h4,[data-is="page-search"] h4{ margin-top: 1rem; } page-search search-filters,[data-is="page-search"] search-filters{ position: sticky; top: 0; } page-search actor-card,[data-is="page-search"] actor-card{ padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid #eee; } page-search #tags .tag,[data-is="page-search"] #tags .tag{ background-color: #fff; box-shadow: .1rem .1rem .5rem #eee; border-radius: .8rem; border: 1px solid #e6e6e6; margin-right: 2rem; }', '', function(opts) {
+riot.tag2('page-search', '<section class="block" id="filters"> <search-filters filters="{this.filters}" q="{this.q}" school-id="{this.schoolId}" actors="{this.actors}"></search-filters> </section> <section id="tags"> <color-tag each="{domain in this.domains}" label="{domain}"></color-tag> </section> <section if="{this.viewType == \'list\'}" id="results"> <button onclick="{this.setViewType}" value="map">Voir les résultats sur une carte</button> <div class="block"> <h4 if="{this.q}">Résultats pour «&nbsp;{this.q}&nbsp;»</h4> <h4 if="{!this.q && this.school}"> Résultats autour de {this.school.name} ({this.school.city})</h4> <p if="{!this.actors.length}">Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p> </div> <actor-card class="block" each="{actor in this.actors}" actor="{actor}" school-id="{this.schoolId}"></actor-card> </section> <section if="{this.viewType == \'map\'}" id="map"> <button onclick="{this.setViewType}" value="list">Voir la liste des résultats</button> <actors-map class="block" actors="{this.actors}" school-id="{this.schoolId}"></actors-map> </section> <section id="extra" class="block"> <h4>Vous n\'avez rien trouvé d\'intéressant ?</h4> <p> Si aucun résultat ne correspond à vos attentes, d\'autres sites peuvent éventuellement compléter votre recherche&nbsp;: </p> <actors-externals department="{this.department}"></actors-externals> <p> Vous pouvez également participer à améliorer la base de données en ajoutant un acteur culturel&nbsp;: </p> <a href="/actor/create" class="button">Ajouter un acteur culturel</a> </section>', 'page-search,[data-is="page-search"]{ display: grid; grid-template: \'search search\' \'tags tags\' \'filters results\' \'filters extra\' / minmax(auto, 35%) 1fr; grid-gap: 2rem; } page-search #search,[data-is="page-search"] #search{ grid-area: search; } page-search #tags,[data-is="page-search"] #tags{ grid-area: tags; height: 4rem; } page-search #filters,[data-is="page-search"] #filters{ grid-area: filters; height: auto; } page-search #results,[data-is="page-search"] #results{ grid-area: results; } page-search #map,[data-is="page-search"] #map{ grid-area: results; } page-search #extra,[data-is="page-search"] #extra{ grid-area: extra; } page-search h4,[data-is="page-search"] h4{ margin-top: 1rem; } page-search search-filters,[data-is="page-search"] search-filters{ position: sticky; top: 0; } page-search input[type=search],[data-is="page-search"] input[type=search]{ border-color: #999; box-shadow: 0 0 .1em #ccc; font-size: 1.2em; padding: 1em .7em; transition: box-shadow .3s; } page-search input[type=search]:focus,[data-is="page-search"] input[type=search]:focus{ box-shadow: .05em .05em .2em #bbb; } page-search input[type=submit],[data-is="page-search"] input[type=submit]{ display: block; margin: 0 auto; } page-search actor-card,[data-is="page-search"] actor-card{ padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid #eee; } page-search #tags .tag,[data-is="page-search"] #tags .tag{ background-color: #fff; box-shadow: .1rem .1rem .5rem #eee; border-radius: .8rem; border: 1px solid #e6e6e6; margin-right: 2rem; }', '', function(opts) {
 
     this.q = this.opts.q
     this.schoolId = this.opts.schoolId
     try {
-      this.filters = JSON.parse(decodeURI(opts.filters))
+      this.filters = JSON.parse(decodeURI(this.opts.filters))
     } catch (e) {
       this.filters = {}
     }
     this.actors = []
     this.viewType = 'list'
     this.domains = this.filters.domains || []
-    this.school = {}
+    this.school = null
 
-    ;(async () => {
+    this.on('mount', async () => {
       let params = this.filters.domains ? `?domains=${this.domains}` : ''
       if (this.schoolId) {
         this.school = await api(`/schools/${this.schoolId}`)
@@ -174,7 +174,7 @@ riot.tag2('page-search', '<virtual if="{this.q}"> <section class="block" id="fil
       this.actors = await api(`/actors/search/${normalizeString(this.q)}${params}`)
       this.department = this.school.postalCode && this.school.postalCode.substr(0, 2)
       this.update()
-    })()
+    })
 
     this.setViewType = (event) => {
       this.viewType = event.target.value
@@ -188,7 +188,7 @@ riot.tag2('actor-card', '<h3>{this.actor.name} <small>(dept {this.actor.departme
     this.maxlength = this.opts.maxlength || 150
 });
 
-riot.tag2('actors-externals', '<nav> <a if="{this.inDepartment(\'26\')}" target="_blank" href="http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges"> <img src="http://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png"> </a> <a if="{this.inDepartment([\'44\', \'49\', \'53\', \'72\', \'85\'])}" target="_blank" href="https://www.laplateforme.net/pages/type/structures"> <img src="https://www.laplateforme.net/app/themes/p2/dist/images/logo.svg"> </a> <a if="{this.inDepartment(\'38\')}" target="_blank" href="http://www.ac-grenoble.fr/educationartistique.isere"> <img src="http://cache.media.education.gouv.fr/image/Academie/04/9/Logo_Grenoble_956049.png"> </a> <a target="_blank" href="https://www.messortiesculture.com"> <img src="http://www.messortiesculture.com/images/logo.svg"> </a> <a target="_blank" href="https://www.agendaculturel.fr" class="backgrounded"> <img src="https://static.agendaculturel.fr/layout/agenda-culturel-logo.png"> </a> </nav>', 'actors-externals a,[data-is="actors-externals"] a{ display: inline-block; width: 30%; padding: 2rem; text-align: center; vertical-align: middle; } actors-externals .backgrounded,[data-is="actors-externals"] .backgrounded{ background-color: #999; }', '', function(opts) {
+riot.tag2('actors-externals', '<nav> <a if="{this.inDepartment(\'26\')}" target="_blank" href="http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges"> <img src="http://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png"> </a> <a if="{this.inDepartment([\'44\', \'49\', \'53\', \'72\', \'85\'])}" target="_blank" href="https://www.laplateforme.net/pages/type/structures"> <img src="https://www.laplateforme.net/app/themes/p2/dist/images/logo.svg"> </a> <a if="{this.inDepartment(\'38\')}" target="_blank" href="http://www.ac-grenoble.fr/educationartistique.isere"> <img src="http://cache.media.education.gouv.fr/image/Academie/04/9/Logo_Grenoble_956049.png"> </a> <a target="_blank" href="https://www.messortiesculture.com"> <img src="http://www.messortiesculture.com/images/logo.svg"> </a> </nav>', 'actors-externals a,[data-is="actors-externals"] a{ display: inline-block; width: 30%; padding: 2rem; text-align: center; }', '', function(opts) {
     this.inDepartment = (codes) => {
       if (!Array.isArray(codes)) {
         codes = [codes]
@@ -295,70 +295,17 @@ riot.tag2('search-filters', '<details title="Domaine" open> <summary>Affiner par
     }
 });
 
-riot.tag2('search-form', '<form onsubmit="{this.submit}"> <label for="q">Vous recherchez</label> <input type="search" name="q" id="q" riot-value="{this.opts.q}" placeholder="Ex : Visite artisan" required autofocus> <label for="school">À proximité d\'une école…</label> <select-school ref="school" type="search" name="school" id="school" school-id="{this.opts.schoolId}"></select-school> <label for="address">… ou à proximité d\'une ville/code postal</label> <select-address ref="address" type="search" name="address" id="address"></select-address> <input class="button" type="submit" value="Rechercher"> </form>', 'search-form form,[data-is="search-form"] form{ display: grid; grid-template: \'label-q label-school label-address .\' \'q school address button\'; grid-column-gap: 1rem; max-width: 120rem; margin: 2rem auto 0 auto; } search-form label,[data-is="search-form"] label{ margin-bottom: 0; } search-form [for=q],[data-is="search-form"] [for=q]{ grid-area: label-q; } search-form #q,[data-is="search-form"] #q{ grid-area: q; } search-form [for=school],[data-is="search-form"] [for=school]{ grid-area: label-school; } search-form #school,[data-is="search-form"] #school{ grid-area: school; } search-form [for=address],[data-is="search-form"] [for=address]{ grid-area: label-address; } search-form #address,[data-is="search-form"] #address{ grid-area: address; } search-form [type=submit],[data-is="search-form"] [type=submit]{ grid-area: button; }', '', function(opts) {
+riot.tag2('search-form', '<form onsubmit="{this.submit}"> <label for="q">Vous recherchez</label> <input type="search" name="q" id="q" riot-value="{this.opts.q}" placeholder="Ex : Visite artisan" autofocus> <label for="search">À proximité de</label> <select-school ref="school" type="search" name="school" id="school" school-id="{this.opts.schoolId}"></select-school> <input class="button" type="submit" value="Rechercher"> </form>', 'search-form form,[data-is="search-form"] form{ display: grid; grid-template: \'label-q label-school .\' \'q school button\' / 2fr 1fr auto; grid-column-gap: 1rem; max-width: 120rem; margin: 2rem auto 0 auto; } search-form label,[data-is="search-form"] label{ margin-bottom: 0; } search-form [for=q],[data-is="search-form"] [for=q]{ grid-area: label-q; } search-form #q,[data-is="search-form"] #q{ grid-area: q; } search-form [for=school],[data-is="search-form"] [for=school]{ grid-area: label-school; } search-form #school,[data-is="search-form"] #school{ grid-area: school; } search-form [type=submit],[data-is="search-form"] [type=submit]{ grid-area: button; }', '', function(opts) {
 
     this.submit = (event) => {
       event.preventDefault()
       let params = `?q=${encodeURI(event.target.q.value)}`
       const schoolId = this.refs.school.schoolId
-      const latLng = this.refs.address.latLng
       if (schoolId) {
         params += `&school=${schoolId}`
       }
-      if (latLng) {
-        params += `&latlng=${latLng.join(',')}`
-      }
-
       page(`/search${params}`)
     }
-});
-
-riot.tag2('select-address', '<input type="search" ref="input" placeholder="Ex : 75011 Paris">', '', '', function(opts) {
-
-    this.latLng = []
-
-    this.on('mount', () => {
-      let timeout
-      let latLng
-
-      const completer = new Awesomplete(this.refs.input, {
-        replace: function (suggestion) {
-          this.input.value = suggestion.label
-          latLng = suggestion.value
-        },
-        item: function (text, input) {
-          return Awesomplete.ITEM(text.label, '')
-        }
-      })
-
-      console.debug('listener', this.refs.input.addEventListener)
-
-      this.refs.input.addEventListener('input', (event) => {
-        const q = event.target.value
-        console.debug(q)
-        if(q.length < 3) {
-          return
-        }
-        if(timeout) {
-          clearTimeout(timeout)
-        }
-
-        timeout = setTimeout(async () => {
-          const matches = await request(`https://api-adresse.data.gouv.fr/search/?q=${q}`)
-          const addresses = matches && matches.features && matches.features
-          completer.list = addresses && addresses.map(a => {
-            return {
-              label: `${a.properties.postcode} ${a.properties.name}`,
-              value: a.geometry.coordinates
-            }
-          })
-        }, 500)
-      })
-
-      this.refs.input.addEventListener('awesomplete-selectcomplete', event => {
-        this.latLng = latLng
-      })
-    })
 });
 
 riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : Lycée Jean Moulin Paris">', '', '', function(opts) {
