@@ -47,8 +47,11 @@ riot.tag2('app', '<header> <a href="/"> <img id="logo" src="/images/logo-eac.gif
     })
 });
 
-riot.tag2('page-actor-edit', '<section> <h2>{this.actor ? \'Modifier\' : \'Ajouter\'} un acteur culturel</h2> <form onsubmit="{this.submit}"> <fieldset class="block"> <h3>Présentation générale</h3> <label for="name">Nom</label> <input type="text" id="name" riot-value="{this.actor && this.actor.name}" required> <label for="image">URL de photo</label> <input type="url" oninput="{this.updateImage}" id="image" riot-value="{this.actor && this.actor.image}"> <img ref="image" if="{this.actor.image}" riot-src="{this.actor.image}" height="100"> <label for="description">Description</label> <textarea id="description" required>{this.actor && this.actor.description}</textarea> </fieldset> <fieldset class="block"> <h3>Contact accueil</h3> <label for="url">Site internet</label> <input type="url" id="url" riot-value="{this.actor && this.actor.url}"> <label for="mainPhone">Numéro de téléphone principal</label> <input type="text" id="mainPhone" riot-value="{this.actor && this.actor.mainPhone}"> <label for="address">Adresse</label> <input type="text" id="address" name="address" riot-value="{this.actor && this.address}" required> <label for="city">Ville</label> <input type="text" id="city" name="city" riot-value="{this.actor && this.city}" required> <label for="postalCode">Code postal</label> <input type="text" id="postalCode" name="postalCode" riot-value="{this.actor && this.postalCode}" required> </fieldset> <fieldset class="block"> <h3>Contact pour l\'organisation d\'une sortie / intervention</h3> <label for="contactName">Nom du contact EAC</label> <input type="text" id="contactName" name="contactName" riot-value="{this.actor && this.actor.contactName}" required> <label for="contactPhone">Téléphone du contact EAC</label> <input type="tel" id="contactPhone" name="contactPhone" riot-value="{this.actor && this.actor.contactPhone}" required> <label for="contactEmail">Email du contact EAC</label> <input id="contactEmail" name="contactEmail" riot-value="{this.actor && this.actor.contactEmail}" required type="{\'email\'}"> </fieldset> <fieldset class="block domains"> <h3>Domaines</h3> <label each="{domain in this.domains}"> <input type="checkbox" name="domains" riot-value="{domain}" checked="{this.actor && this.actor.domains.includes(domain)}"> {domain} </label> </fieldset> <fieldset> <h3>Actions proposées</h3> <section each="{action, index in this.actions}" class="block"> <h4>Action n°{index + 1}</h4> <button class="delete button-outline" type="button" onclick="{this.deleteAction}" data-id="{index}">Supprimer</button> <label>Intitulé</label> <input type="text" name="action-name" riot-value="{action.name}"> <label>Description</label> <textarea name="action-description">{action.description}</textarea> <label>Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)</label> <input type="text" name="medias"> <label>Date de début</label> <input name="dateRangeStart" riot-value="{action.dateRange && action.dateRange[0]}" type="{\'date\'}"> <label>Date de fin</label> <input name="dateRangeEnd" riot-value="{action.dateRange.length && action.dateRange[1]}" type="{\'date\'}"> <label>Durée sur place</label> <input type="text" name="duration" riot-value="{action.duration}"> <label>Niveaux concernés</label> <select name="schoolLevels" multiple> <option value="maternelle" selected="{\'maternelle\' in action.schoolLevels}">Maternelle</option> <option value="elementaire" selected="{\'elementaire\' in action.schoolLevels}">Élémentaire</option> <option value="college" selected="{\'college\' in action.schoolLevels}">Collège</option> <option value="lycee" selected="{\'lycee\' in action.schoolLevels}">Lycée</option> </select> <label>Matières concernées</label> <select name="topics" multiple> <option value="francais" selected="{\'francais\' in action.schoolLevels}">Français</option> <option value="mathematiques" selected="{\'mathematiques\' in action.schoolLevels}">Mathématiques</option> <option value="histoire" selected="{\'histoire\' in action.schoolLevels}">Histoire</option> <option value="geographie" selected="{\'geographie\' in action.schoolLevels}">Géographie</option> <option value="langue-vivante" selected="{\'langue-vivante\' in action.schoolLevels}">Langue Vivante</option> <option value="physique" selected="{\'physique\' in action.schoolLevels}">Physique</option> <option value="chimie" selected="{\'chimie\' in action.schoolLevels}">Chimie</option> <option value="svt" selected="{\'svt\' in action.schoolLevels}">Sciences de la vie et de la Terre</option> <option value="eps" selected="{\'eps\' in action.schoolLevels}">Éducation physique et sportive</option> <option value="civisme" selected="{\'civisme\' in action.schoolLevels}">Éducation civique, juridique et sociale</option> <option value="autre" selected="{\'autre\' in action.schoolLevels}">Autre(s)</option> </select> <label>Page internet de l\'action</label> <input type="url" name="website" riot-value="{action.website}"> <label>Nombre maximum d\'élèves</label> <input name="capacity" riot-value="{action.capacity}" type="{\'number\'}"> <label>État de l\'action</label> <select name="status"> <option value="done" selected="{action.status == \'done\'}">C\'est une action achevée</option> <option value="progress" selected="{action.status == \'progress\'}">Il y a déjà des établissements scolaires sur cette action</option> <option value="todo" selected="{action.status == \'todo\'}">Cette action est plannifiée</option> </select> <label>Établissement(s) scolaire(s) en lien avec cette action</label> <input type="text" name="school" riot-value="{action.school}"> <label>Coût prévisionnel total pour cette action (€)</label> <input riot-value="{action.cost}" type="{\'number\'}"> </section> <button onclick="{this.addAction}" class="button-outline" type="button">Ajouter une action</button> </fieldset> <button type="submit">Enregistrer</button> </form> </section>', 'page-actor-edit .domains > label,[data-is="page-actor-edit"] .domains > label{ display: inline-block; margin: 1rem; } page-actor-edit .delete,[data-is="page-actor-edit"] .delete{ float: right; } page-actor-edit .delete + label,[data-is="page-actor-edit"] .delete + label{ clear: both; } page-actor-edit h4,[data-is="page-actor-edit"] h4{ float: left; }', '', function(opts) {
+riot.tag2('page-actor-edit', '<section> <h2>{this.actor ? \'Modifier\' : \'Ajouter\'} un acteur culturel</h2> <form onsubmit="{this.submit}"> <fieldset class="block"> <h3>Présentation générale</h3> <label for="name">Nom</label> <input type="text" name="name" id="name" riot-value="{this.actor && this.actor.name}" required> <label for="image">URL de photo</label> <input type="url" oninput="{this.updateImage}" name="image" id="image" riot-value="{this.actor && this.actor.image}"> <small><img ref="image" show="{this.actor.image}" riot-src="{this.actor.image}" alt="L\'image mentionnée n\'existe pas" height="100"></small> <label for="description">Description</label> <textarea name="description" id="description" required>{this.actor && this.actor.description}</textarea> </fieldset> <fieldset class="block"> <h3>Contact accueil</h3> <label for="website">Site internet</label> <input type="url" name="website" id="website" riot-value="{this.actor && this.actor.website}"> <label for="mainPhone">Numéro de téléphone principal</label> <input type="text" name="mainPhone" id="mainPhone" riot-value="{this.actor && this.actor.mainPhone}"> <label for="address">Adresse</label> <input type="text" name="address" id="address" riot-value="{this.actor && this.actor.address}" required> <label for="city">Ville</label> <input type="text" name="city" id="city" riot-value="{this.actor && this.actor.city}" required> <label for="postalCode">Code postal</label> <input type="text" name="postalCode" id="postalCode" riot-value="{this.actor && this.actor.postalCode}" required> </fieldset> <fieldset class="block"> <h3>Contact pour l\'organisation d\'une sortie / intervention</h3> <label for="contactName">Nom du contact EAC</label> <input type="text" name="contactName" id="contactName" riot-value="{this.actor && this.actor.contactName}" required> <label for="contactPhone">Téléphone du contact EAC</label> <input type="tel" name="contactPhone" id="contactPhone" riot-value="{this.actor && this.actor.contactPhone}" required> <label for="contactEmail">Email du contact EAC</label> <input name="contactEmail" id="contactEmail" riot-value="{this.actor && this.actor.contactEmail}" required type="{\'email\'}"> </fieldset> <fieldset class="block domains"> <h3>Domaines</h3> <label each="{domain in this.domains}"> <input type="checkbox" name="domains" riot-value="{domain}" checked="{this.actor && this.actor.domains.includes(domain)}"> {domain} </label> </fieldset> <fieldset> <h3>Actions proposées</h3> <section each="{action, index in this.actions}" class="block"> <h4>Action n°{index + 1}</h4> <button class="delete button-outline" type="button" onclick="{this.deleteAction}" data-id="{index}">Supprimer</button> <label>Intitulé</label> <input type="text" name="action[{index}].name" riot-value="{action.name}"> <label>Description</label> <textarea name="action[{index}].description">{action.description}</textarea> <label>Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)</label> <input type="text" name="action[{index}].medias" riot-value="{action.medias.join(\', \')}"> <label>Date de début</label> <input name="action[{index}].dateRangeStart" riot-value="{action.dateRange && action.dateRange[0]}" type="{\'date\'}"> <label>Date de fin</label> <input name="action[{index}].dateRangeEnd" riot-value="{action.dateRange.length && action.dateRange[1]}" type="{\'date\'}"> <label>Durée sur place</label> <input type="text" name="action[{index}].duration" riot-value="{action.duration}"> <label>Niveaux concernés</label> <select name="action[{index}].schoolLevels" multiple> <option value="maternelle" selected="{\'maternelle\' in action.schoolLevels}">Maternelle</option> <option value="elementaire" selected="{\'elementaire\' in action.schoolLevels}">Élémentaire</option> <option value="college" selected="{\'college\' in action.schoolLevels}">Collège</option> <option value="lycee" selected="{\'lycee\' in action.schoolLevels}">Lycée</option> </select> <label>Matières concernées</label> <select name="action[{index}].topics" multiple> <option value="francais" selected="{\'francais\' in action.topics}">Français</option> <option value="mathematiques" selected="{\'mathematiques\' in action.topics}">Mathématiques</option> <option value="histoire" selected="{\'histoire\' in action.topics}">Histoire</option> <option value="geographie" selected="{\'geographie\' in action.topics}">Géographie</option> <option value="langue-vivante" selected="{\'langue-vivante\' in action.topics}">Langue Vivante</option> <option value="physique" selected="{\'physique\' in action.topics}">Physique</option> <option value="chimie" selected="{\'chimie\' in action.topics}">Chimie</option> <option value="svt" selected="{\'svt\' in action.topics}">Sciences de la vie et de la Terre</option> <option value="eps" selected="{\'eps\' in action.topics}">Éducation physique et sportive</option> <option value="civisme" selected="{\'civisme\' in action.topics}">Éducation civique, juridique et sociale</option> <option value="autre" selected="{\'autre\' in action.topics}">Autre(s)</option> </select> <label>Page internet de l\'action</label> <input type="url" name="action[{index}].website" riot-value="{action.website}"> <label>Nombre maximum d\'élèves</label> <input name="action[{index}].capacity" riot-value="{action.capacity}" type="{\'number\'}"> <label>État de l\'action</label> <select name="action[{index}].status"> <option value="done" selected="{action.status == \'done\'}">C\'est une action achevée</option> <option value="progress" selected="{action.status == \'progress\'}">Il y a déjà des établissements scolaires sur cette action</option> <option value="todo" selected="{action.status == \'todo\'}">Cette action est plannifiée</option> </select> <label>Établissement(s) scolaire(s) en lien avec cette action</label> <input type="text" name="action[{index}].school" riot-value="{action.school}"> <label>Coût prévisionnel total pour cette action (€)</label> <input name="action[{index}].cost" riot-value="{action.cost}" type="{\'number\'}"> </section> <button onclick="{this.addAction}" class="button-outline" type="button">Ajouter une action</button> </fieldset> <button type="submit">Enregistrer</button> </form> </section>', 'page-actor-edit .domains > label,[data-is="page-actor-edit"] .domains > label{ display: inline-block; margin: 1rem; } page-actor-edit .delete,[data-is="page-actor-edit"] .delete{ float: right; } page-actor-edit .delete + label,[data-is="page-actor-edit"] .delete + label{ clear: both; } page-actor-edit h4,[data-is="page-actor-edit"] h4{ float: left; } page-actor-edit textarea,[data-is="page-actor-edit"] textarea{ min-height: 20rem; }', '', function(opts) {
 
+
+    const actorId = this.opts.actorId
+    this.actor = {}
 
     function actionTemplate () {
       return {
@@ -66,15 +69,11 @@ riot.tag2('page-actor-edit', '<section> <h2>{this.actor ? \'Modifier\' : \'Ajout
     }
 
     this.updateImage = (event) => {
-      this.refs.image.src = event.target.value
+      this.actor.image = event.target.value
     }
 
     this.on('mount', async () => {
-      this.actorId = this.opts.actorId
-      if (this.actorId) {
-        this.actor = await api(`/actors/${this.actorId}`)
-        this.address = `${this.actor.address} ${this.actor.address2} ${this.actor.postalCode} ${this.actor.city}`
-      }
+      this.actor = actorId ? await api(`/actors/${actorId}`) : {}
       this.actions = this.actor && this.actor.actions ? this.actor.actions : [actionTemplate()]
       this.domains = await api('/domains')
       this.update()
@@ -83,46 +82,59 @@ riot.tag2('page-actor-edit', '<section> <h2>{this.actor ? \'Modifier\' : \'Ajout
     this.submit = async (event) => {
       event.preventDefault()
 
-      const form = event.target
-
-      const apiAddress = 'https://api-adresse.data.gouv.fr/search/?q='
-      const addresses = await request(`${apiAddress}${form.address.value}`)
+      const data = new FormData(event.target)
+      const apiAddress = 'https://api-adresse.data.gouv.fr/search/?limit=1&autocomplete=0'
+      const addresses = await request(
+        `${apiAddress}&q=${data.get('address')} ${data.get('city')}&postcode=${data.get('postalCode')}`)
       const address = addresses.features[0]
 
-      const actions = Array.from(form['action-name']).length
-        ? Array.from(form['action-name']).map((name, index) => {
-          return {
-            name: name.value,
-            description: form['action-description'][index].value
-          }
-        })
-        : [{
-          name: form['action-name'].value,
-          description: form['action-description'].value
-        }]
+      function getActionProperty(name, index, isArray) {
+        return data[isArray ? 'getAll' : 'get'](`action[${index}].${name}`)
+      }
 
-      const domains = Array.from(form.domains).filter(d => d.checked).map(d => d.value)
+      const actions = this.actions.map((_, i) => {
+        return {
+          name: getActionProperty('name', i),
+          description: getActionProperty('description', i),
+          medias: getActionProperty('medias', i).split(',').map(s => s.trim()),
+          website: getActionProperty('website', i),
+          dateRange: [getActionProperty('dateRangeStart', i), getActionProperty('dateRangeStart', i)],
+          capacity: getActionProperty('capacity', i),
+          duration: getActionProperty('duration', i),
+          status: getActionProperty('status', i),
+          topics: getActionProperty('topics', i, true),
+          schoolLevels: getActionProperty('schoolLevels', i, true),
+          school: getActionProperty('school', i),
+          cost: getActionProperty('cost', i),
+
+        }
+      })
+
+      debugger;
 
       const loc = address.geometry
       loc.coordinates.reverse()
 
-      const actor = await api(this.actorId ? `/actors/${this.actorId}` : '/actors', {
-        method: this.actorId ? 'PUT' : 'POST',
+      const actor = await api(actorId ? `/actors/${actorId}` : '/actors', {
+        method: actorId ? 'PUT' : 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          address: address.properties.name,
-          city: address.properties.city,
-          postalCode: address.properties.postcode,
+          name: data.get('name'),
+          image: data.get('image'),
+          description: data.get('description'),
+          website: data.get('website'),
+          mainPhone: data.get('mainPhone'),
+          contactName: data.get('contactName'),
+          contactPhone: data.get('contactPhone'),
+          contactEmail: data.get('contactEmail'),
+          address: data.get('address'),
+          city: data.get('city'),
+          postalCode: data.get('postalCode'),
           loc: loc,
-          name: form.name.value,
-          contactPhone: form.contactPhone.value,
-          contactName: form.contactName.value,
-          contactEmail: form.contactEmail.value,
-          description: form.description.value,
-          domains: domains,
+          domains: data.getAll('domains'),
           actions: actions
         })
       })
