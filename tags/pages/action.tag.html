@@ -1,0 +1,78 @@
+<page-action>
+  <article class=block>
+    <h1>{ this.action.name }</h1>
+    <section>
+      { this.action.description }
+    </section>
+    <nav if={ this.action.medias }>
+      <a each={ media in this.action.medias } href={ media } target=_blank>Consulter { media.split('/').splice(-1)[0] }</a>
+    </nav>
+
+    <a if={ this.action.website } href={ this.action.website } target=_blank>Voir la page internet de cette action</a>
+  </article>
+
+  <aside>
+    <section class=block>
+      <h3>Informations complémentaires</h3>
+      <ul>
+        <li if={ this.action.schoolLevels }>Niveaux concernés : { this.action.schoolLevels.join(', ') }</li>
+        <li if={ this.action.topics }>Matières concernées : { this.action.topics.join(', ') }</li>
+        <li if={ this.action.capacity }>Capacité maximum de { this.action.capacity } élèves</li>
+        <li if={ this.action.duration }>Durée estimée de { this.action.duration }</li>
+        <li if={ this.action.cost }>Coût global approximatif de { this.action.cost }€</li>
+        <li if={ this.action.dateRange[0] && this.action.dateRange[1] }>Disponible entre le { this.action.dateRange[0] } et le { this.action.dateRange[1] }</li>
+        <li if={ this.action.dateRange[0] && !this.action.dateRange[1] }>Débute le { this.action.dateRange[0] }</li>
+        <li if={ !this.action.dateRange[0] && this.action.dateRange[1] }>Effective jusqu'au { this.action.dateRange[1] }</li>
+      </ul>
+    </section>
+
+    <section class=block id=actor>
+      <h3>Animé par { this.actor.name }</h3>
+      <img if={ this.actor.image } src={ this.actor.image }>
+      <a href="/actor/{ this.actor._id }" title="Voir la fiche de { this.actor.name }">Voir la fiche</a>
+    </section>
+  </aside>
+
+  <script>
+    /* globals api */
+    this.actor = {}
+    this.action = {}
+
+    this.on('mount', async () => {
+      this.actor = await api(`/actors/${this.opts.actorId}`)
+      this.action = this.actor.actions[this.opts.actionIndex]
+      this.update()
+    })
+  </script>
+
+  <style scoped>
+    :scope {
+      display: grid;
+      grid-template:
+        "article aside";
+        / auto minmax(1fr, 20rem);
+    }
+    article {
+      grid-area: article;
+    }
+    aside {
+      grid-area: aside;
+    }
+    #actor {
+      position: relative;
+    }
+    #actor img {
+      display: block;
+      margin: 0 auto;
+    }
+    #actor a {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-indent: -9999px;
+    }
+  </style>
+</page-action>

@@ -41,14 +41,49 @@ riot.tag2('app', '<header> <a href="/"> <img id="logo" src="/images/logo-eac.gif
     _this.update();
   });
 
+  page('/actor/:id/action/:index', function (ctx) {
+    _this.refs.container.innerHTML = '<page-action\n        actor-id="' + ctx.params.id + '" action-index="' + ctx.params.index + '"\n        />';
+    riot.mount('page-action');
+    _this.update();
+  });
+
   this.on('mount', function () {
     page();
     document.body.classList.add('ready');
   });
 });
 
-riot.tag2('page-actor-edit', '<section> <h2>{this.actor ? \'Modifier\' : \'Ajouter\'} un acteur culturel</h2> <form onsubmit="{this.submit}"> <fieldset class="block"> <h3>Présentation générale</h3> <label for="name">Nom</label> <input type="text" name="name" id="name" riot-value="{this.actor && this.actor.name}" required> <label for="image">URL de photo</label> <input type="url" oninput="{this.updateImage}" name="image" id="image" riot-value="{this.actor && this.actor.image}"> <small><img ref="image" show="{this.actor.image}" riot-src="{this.actor.image}" alt="L\'image mentionnée n\'existe pas" height="100"></small> <label for="description">Description</label> <textarea name="description" id="description" required>{this.actor && this.actor.description}</textarea> </fieldset> <fieldset class="block"> <h3>Contact accueil</h3> <label for="website">Site internet</label> <input type="url" name="website" id="website" riot-value="{this.actor && this.actor.website}"> <label for="mainPhone">Numéro de téléphone principal</label> <input type="text" name="mainPhone" id="mainPhone" riot-value="{this.actor && this.actor.mainPhone}"> <label for="address">Adresse</label> <input type="text" name="address" id="address" riot-value="{this.actor && this.actor.address}" required> <label for="city">Ville</label> <input type="text" name="city" id="city" riot-value="{this.actor && this.actor.city}" required> <label for="postalCode">Code postal</label> <input type="text" name="postalCode" id="postalCode" riot-value="{this.actor && this.actor.postalCode}" required> </fieldset> <fieldset class="block"> <h3>Contact pour l\'organisation d\'une sortie / intervention</h3> <label for="contactName">Nom du contact EAC</label> <input type="text" name="contactName" id="contactName" riot-value="{this.actor && this.actor.contactName}" required> <label for="contactPhone">Téléphone du contact EAC</label> <input type="tel" name="contactPhone" id="contactPhone" riot-value="{this.actor && this.actor.contactPhone}" required> <label for="contactEmail">Email du contact EAC</label> <input name="contactEmail" id="contactEmail" riot-value="{this.actor && this.actor.contactEmail}" required type="{\'email\'}"> </fieldset> <fieldset class="block domains"> <h3>Domaines</h3> <label each="{domain in this.domains}"> <input type="checkbox" name="domains" riot-value="{domain}" checked="{this.actor && this.actor.domains.includes(domain)}"> {domain} </label> </fieldset> <fieldset> <h3>Actions proposées</h3> <section each="{action, index in this.actions}" class="block"> <h4>Action n°{index + 1}</h4> <button class="delete button-outline" type="button" onclick="{this.deleteAction}" data-id="{index}">Supprimer</button> <label>Intitulé</label> <input type="text" name="action[{index}].name" riot-value="{action.name}"> <label>Description</label> <textarea name="action[{index}].description">{action.description}</textarea> <label>Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)</label> <input type="text" name="action[{index}].medias" riot-value="{action.medias.join(\', \')}"> <label>Date de début</label> <input name="action[{index}].dateRangeStart" riot-value="{action.dateRange && action.dateRange[0]}" type="{\'date\'}"> <label>Date de fin</label> <input name="action[{index}].dateRangeEnd" riot-value="{action.dateRange.length && action.dateRange[1]}" type="{\'date\'}"> <label>Durée sur place</label> <input type="text" name="action[{index}].duration" riot-value="{action.duration}"> <label>Niveaux concernés</label> <select name="action[{index}].schoolLevels" multiple> <option value="maternelle" selected="{\'maternelle\' in action.schoolLevels}">Maternelle</option> <option value="elementaire" selected="{\'elementaire\' in action.schoolLevels}">Élémentaire</option> <option value="college" selected="{\'college\' in action.schoolLevels}">Collège</option> <option value="lycee" selected="{\'lycee\' in action.schoolLevels}">Lycée</option> </select> <label>Matières concernées</label> <select name="action[{index}].topics" multiple> <option value="francais" selected="{\'francais\' in action.topics}">Français</option> <option value="mathematiques" selected="{\'mathematiques\' in action.topics}">Mathématiques</option> <option value="histoire" selected="{\'histoire\' in action.topics}">Histoire</option> <option value="geographie" selected="{\'geographie\' in action.topics}">Géographie</option> <option value="langue-vivante" selected="{\'langue-vivante\' in action.topics}">Langue Vivante</option> <option value="physique" selected="{\'physique\' in action.topics}">Physique</option> <option value="chimie" selected="{\'chimie\' in action.topics}">Chimie</option> <option value="svt" selected="{\'svt\' in action.topics}">Sciences de la vie et de la Terre</option> <option value="eps" selected="{\'eps\' in action.topics}">Éducation physique et sportive</option> <option value="civisme" selected="{\'civisme\' in action.topics}">Éducation civique, juridique et sociale</option> <option value="autre" selected="{\'autre\' in action.topics}">Autre(s)</option> </select> <label>Page internet de l\'action</label> <input type="url" name="action[{index}].website" riot-value="{action.website}"> <label>Nombre maximum d\'élèves</label> <input name="action[{index}].capacity" riot-value="{action.capacity}" type="{\'number\'}"> <label>État de l\'action</label> <select name="action[{index}].status"> <option value="done" selected="{action.status == \'done\'}">C\'est une action achevée</option> <option value="progress" selected="{action.status == \'progress\'}">Il y a déjà des établissements scolaires sur cette action</option> <option value="todo" selected="{action.status == \'todo\'}">Cette action est plannifiée</option> </select> <label>Établissement(s) scolaire(s) en lien avec cette action</label> <input type="text" name="action[{index}].school" riot-value="{action.school}"> <label>Coût prévisionnel total pour cette action (€)</label> <input name="action[{index}].cost" riot-value="{action.cost}" type="{\'number\'}"> </section> <button onclick="{this.addAction}" class="button-outline" type="button">Ajouter une action</button> </fieldset> <button type="submit">Enregistrer</button> </form> </section>', 'page-actor-edit .domains > label,[data-is="page-actor-edit"] .domains > label{ display: inline-block; margin: 1rem; } page-actor-edit .delete,[data-is="page-actor-edit"] .delete{ float: right; } page-actor-edit .delete + label,[data-is="page-actor-edit"] .delete + label{ clear: both; } page-actor-edit h4,[data-is="page-actor-edit"] h4{ float: left; } page-actor-edit textarea,[data-is="page-actor-edit"] textarea{ min-height: 20rem; }', '', function (opts) {
+riot.tag2('page-action', '<article class="block"> <h1>{this.action.name}</h1> <section> {this.action.description} </section> <nav if="{this.action.medias}"> <a each="{media in this.action.medias}" href="{media}" target="_blank">Consulter {media.split(\'/\').splice(-1)[0]}</a> </nav> <a if="{this.action.website}" href="{this.action.website}" target="_blank">Voir la page internet de cette action</a> </article> <aside> <section class="block"> <h3>Informations complémentaires</h3> <ul> <li if="{this.action.schoolLevels}">Niveaux concernés : {this.action.schoolLevels.join(\', \')}</li> <li if="{this.action.topics}">Matières concernées : {this.action.topics.join(\', \')}</li> <li if="{this.action.capacity}">Capacité maximum de {this.action.capacity} élèves</li> <li if="{this.action.duration}">Durée estimée de {this.action.duration}</li> <li if="{this.action.cost}">Coût global approximatif de {this.action.cost}€</li> <li if="{this.action.dateRange[0] && this.action.dateRange[1]}">Disponible entre le {this.action.dateRange[0]} et le {this.action.dateRange[1]}</li> <li if="{this.action.dateRange[0] && !this.action.dateRange[1]}">Débute le {this.action.dateRange[0]}</li> <li if="{!this.action.dateRange[0] && this.action.dateRange[1]}">Effective jusqu\'au {this.action.dateRange[1]}</li> </ul> </section> <section class="block" id="actor"> <h3>Animé par {this.actor.name}</h3> <img if="{this.actor.image}" riot-src="{this.actor.image}"> <a href="/actor/{this.actor._id}" title="Voir la fiche de {this.actor.name}">Voir la fiche</a> </section> </aside>', 'page-action,[data-is="page-action"]{ display: grid; grid-template: "article aside"; / auto minmax(1fr, 20rem); } page-action article,[data-is="page-action"] article{ grid-area: article; } page-action aside,[data-is="page-action"] aside{ grid-area: aside; } page-action #actor,[data-is="page-action"] #actor{ position: relative; } page-action #actor img,[data-is="page-action"] #actor img{ display: block; margin: 0 auto; } page-action #actor a,[data-is="page-action"] #actor a{ display: block; position: absolute; top: 0; bottom: 0; left: 0; right: 0; text-indent: -9999px; }', '', function (opts) {
   var _this2 = this;
+
+  this.actor = {};
+  this.action = {};
+
+  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return api('/actors/' + _this2.opts.actorId);
+
+          case 2:
+            _this2.actor = _context.sent;
+
+            _this2.action = _this2.actor.actions[_this2.opts.actionIndex];
+            _this2.update();
+
+          case 5:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this2);
+  })));
+});
+
+riot.tag2('page-actor-edit', '<section> <h2>{this.actor ? \'Modifier\' : \'Ajouter\'} un acteur culturel</h2> <form onsubmit="{this.submit}"> <fieldset class="block"> <h3>Présentation générale</h3> <label for="name">Nom</label> <input type="text" name="name" id="name" riot-value="{this.actor && this.actor.name}" required> <label for="image">URL de photo</label> <input type="url" oninput="{this.updateImage}" name="image" id="image" riot-value="{this.actor && this.actor.image}"> <small><img ref="image" show="{this.actor.image}" riot-src="{this.actor.image}" alt="L\'image mentionnée n\'existe pas" height="100"></small> <label for="description">Description</label> <textarea name="description" id="description" required>{this.actor && this.actor.description}</textarea> </fieldset> <fieldset class="block"> <h3>Contact accueil</h3> <label for="website">Site internet</label> <input type="url" name="website" id="website" riot-value="{this.actor && this.actor.website}"> <label for="mainPhone">Numéro de téléphone principal</label> <input type="text" name="mainPhone" id="mainPhone" riot-value="{this.actor && this.actor.mainPhone}"> <label for="address">Adresse</label> <input type="text" name="address" id="address" riot-value="{this.actor && this.actor.address}" required> <label for="city">Ville</label> <input type="text" name="city" id="city" riot-value="{this.actor && this.actor.city}" required> <label for="postalCode">Code postal</label> <input type="text" name="postalCode" id="postalCode" riot-value="{this.actor && this.actor.postalCode}" required> </fieldset> <fieldset class="block"> <h3>Contact pour l\'organisation d\'une sortie / intervention</h3> <label for="contactName">Nom du contact EAC</label> <input type="text" name="contactName" id="contactName" riot-value="{this.actor && this.actor.contactName}" required> <label for="contactPhone">Téléphone du contact EAC</label> <input type="tel" name="contactPhone" id="contactPhone" riot-value="{this.actor && this.actor.contactPhone}" required> <label for="contactEmail">Email du contact EAC</label> <input name="contactEmail" id="contactEmail" riot-value="{this.actor && this.actor.contactEmail}" required type="{\'email\'}"> </fieldset> <fieldset class="block domains"> <h3>Domaines</h3> <label each="{domain in this.domains}"> <input type="checkbox" name="domains" riot-value="{domain}" checked="{this.actor && this.actor.domains.includes(domain)}"> {domain} </label> </fieldset> <fieldset> <h3>Actions proposées</h3> <section each="{action, index in this.actions}" class="block"> <h4>Action n°{index + 1}</h4> <button class="delete button-outline" type="button" onclick="{this.deleteAction}" data-id="{index}">Supprimer</button> <label>Intitulé</label> <input type="text" name="action[{index}].name" riot-value="{action.name}"> <label>Description</label> <textarea name="action[{index}].description">{action.description}</textarea> <label>Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)</label> <input type="text" name="action[{index}].medias" riot-value="{action.medias.join(\', \')}"> <label>Date de début</label> <input name="action[{index}].dateRangeStart" riot-value="{action.dateRange && action.dateRange[0]}" type="{\'date\'}"> <label>Date de fin</label> <input name="action[{index}].dateRangeEnd" riot-value="{action.dateRange.length && action.dateRange[1]}" type="{\'date\'}"> <label>Durée sur place</label> <input type="text" name="action[{index}].duration" riot-value="{action.duration}"> <label>Niveaux concernés</label> <select name="action[{index}].schoolLevels" multiple> <option value="maternelle" selected="{\'maternelle\' in action.schoolLevels}">Maternelle</option> <option value="elementaire" selected="{\'elementaire\' in action.schoolLevels}">Élémentaire</option> <option value="college" selected="{\'college\' in action.schoolLevels}">Collège</option> <option value="lycee" selected="{\'lycee\' in action.schoolLevels}">Lycée</option> </select> <label>Matières concernées</label> <select name="action[{index}].topics" multiple> <option value="francais" selected="{\'francais\' in action.topics}">Français</option> <option value="mathematiques" selected="{\'mathematiques\' in action.topics}">Mathématiques</option> <option value="histoire" selected="{\'histoire\' in action.topics}">Histoire</option> <option value="geographie" selected="{\'geographie\' in action.topics}">Géographie</option> <option value="langue-vivante" selected="{\'langue-vivante\' in action.topics}">Langue Vivante</option> <option value="physique" selected="{\'physique\' in action.topics}">Physique</option> <option value="chimie" selected="{\'chimie\' in action.topics}">Chimie</option> <option value="svt" selected="{\'svt\' in action.topics}">Sciences de la vie et de la Terre</option> <option value="eps" selected="{\'eps\' in action.topics}">Éducation physique et sportive</option> <option value="civisme" selected="{\'civisme\' in action.topics}">Éducation civique, juridique et sociale</option> <option value="autre" selected="{\'autre\' in action.topics}">Autre(s)</option> </select> <label>Page internet de l\'action</label> <input type="url" name="action[{index}].website" riot-value="{action.website}"> <label>Nombre maximum d\'élèves</label> <input name="action[{index}].capacity" riot-value="{action.capacity}" type="{\'number\'}"> <label>État de l\'action</label> <select name="action[{index}].status"> <option value="done" selected="{action.status == \'done\'}">C\'est une action achevée</option> <option value="progress" selected="{action.status == \'progress\'}">Il y a déjà des établissements scolaires sur cette action</option> <option value="todo" selected="{action.status == \'todo\'}">Cette action est plannifiée</option> </select> <label>Établissement(s) scolaire(s) en lien avec cette action</label> <input type="text" name="action[{index}].school" riot-value="{action.school}"> <label>Coût prévisionnel total pour cette action (€)</label> <input name="action[{index}].cost" riot-value="{action.cost}" type="{\'number\'}"> </section> <button onclick="{this.addAction}" class="button-outline" type="button">Ajouter une action</button> </fieldset> <button type="submit">Enregistrer</button> </form> </section>', 'page-actor-edit .domains > label,[data-is="page-actor-edit"] .domains > label{ display: inline-block; margin: 1rem; } page-actor-edit .delete,[data-is="page-actor-edit"] .delete{ float: right; } page-actor-edit .delete + label,[data-is="page-actor-edit"] .delete + label{ clear: both; } page-actor-edit h4,[data-is="page-actor-edit"] h4{ float: left; } page-actor-edit textarea,[data-is="page-actor-edit"] textarea{ min-height: 20rem; }', '', function (opts) {
+  var _this3 = this;
 
   var actorId = this.opts.actorId;
   this.actor = {};
@@ -61,64 +96,64 @@ riot.tag2('page-actor-edit', '<section> <h2>{this.actor ? \'Modifier\' : \'Ajout
   }
 
   this.addAction = function (event) {
-    _this2.actions.push(actionTemplate());
+    _this3.actions.push(actionTemplate());
   };
 
   this.deleteAction = function (event) {
-    _this2.actions.splice(event.target.dataset.id, 1);
+    _this3.actions.splice(event.target.dataset.id, 1);
   };
 
   this.updateImage = function (event) {
-    _this2.actor.image = event.target.value;
+    _this3.actor.image = event.target.value;
   };
 
-  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
-        switch (_context.prev = _context.next) {
+        switch (_context2.prev = _context2.next) {
           case 0:
             if (!actorId) {
-              _context.next = 6;
+              _context2.next = 6;
               break;
             }
 
-            _context.next = 3;
+            _context2.next = 3;
             return api('/actors/' + actorId);
 
           case 3:
-            _context.t0 = _context.sent;
-            _context.next = 7;
+            _context2.t0 = _context2.sent;
+            _context2.next = 7;
             break;
 
           case 6:
-            _context.t0 = {};
+            _context2.t0 = {};
 
           case 7:
-            _this2.actor = _context.t0;
+            _this3.actor = _context2.t0;
 
-            _this2.actions = _this2.actor && _this2.actor.actions ? _this2.actor.actions : [actionTemplate()];
-            _context.next = 11;
+            _this3.actions = _this3.actor && _this3.actor.actions ? _this3.actor.actions : [actionTemplate()];
+            _context2.next = 11;
             return api('/domains');
 
           case 11:
-            _this2.domains = _context.sent;
+            _this3.domains = _context2.sent;
 
-            _this2.update();
+            _this3.update();
 
           case 13:
           case 'end':
-            return _context.stop();
+            return _context2.stop();
         }
       }
-    }, _callee, _this2);
+    }, _callee2, _this3);
   })));
 
   this.submit = function () {
-    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(event) {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(event) {
       var data, apiAddress, addresses, address, getActionProperty, actions, loc, actor;
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
               getActionProperty = function getActionProperty(name, index, isArray) {
                 return data[isArray ? 'getAll' : 'get']('action[' + index + '].' + name);
@@ -128,13 +163,13 @@ riot.tag2('page-actor-edit', '<section> <h2>{this.actor ? \'Modifier\' : \'Ajout
 
               data = new FormData(event.target);
               apiAddress = 'https://api-adresse.data.gouv.fr/search/?limit=1&autocomplete=0';
-              _context2.next = 6;
+              _context3.next = 6;
               return request(apiAddress + '&q=' + data.get('address') + ' ' + data.get('city') + '&postcode=' + data.get('postalCode'));
 
             case 6:
-              addresses = _context2.sent;
+              addresses = _context3.sent;
               address = addresses.features[0];
-              actions = _this2.actions.map(function (_, i) {
+              actions = _this3.actions.map(function (_, i) {
                 return {
                   name: getActionProperty('name', i),
                   description: getActionProperty('description', i),
@@ -161,7 +196,7 @@ riot.tag2('page-actor-edit', '<section> <h2>{this.actor ? \'Modifier\' : \'Ajout
 
               loc.coordinates.reverse();
 
-              _context2.next = 14;
+              _context3.next = 14;
               return api(actorId ? '/actors/' + actorId : '/actors', {
                 method: actorId ? 'PUT' : 'POST',
                 headers: {
@@ -187,59 +222,59 @@ riot.tag2('page-actor-edit', '<section> <h2>{this.actor ? \'Modifier\' : \'Ajout
               });
 
             case 14:
-              actor = _context2.sent;
+              actor = _context3.sent;
 
 
               page('/actor/' + actor._id);
 
             case 16:
             case 'end':
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2, _this2);
+      }, _callee3, _this3);
     }));
 
     return function (_x) {
-      return _ref2.apply(this, arguments);
+      return _ref3.apply(this, arguments);
     };
   }();
 });
 
-riot.tag2('page-actor', '<article> <section class="block actor"> <h2>{this.actor.name}</h2> <nav class="tags"> <color-tag each="{tag in this.actor.domains}" label="{tag}"></color-tag> </nav> <p if="{this.actor.description}">{this.actor.description}</p> <virtual if="{this.actor.mainPhone || this.actor.website}"> <h4>En savoir plus</h4> <ul> <li if="{this.actor.mainPhone}"><a href="tel:{this.actor.mainPhone}">Téléphone : {this.actor.mainPhone}</a></li> <li if="{this.actor.website}"> <a target="_blank" href="{this.actor.website}">Visiter le site internet</a></li> </ul> </virtual> <p if="{!this.actor.description}"> Cet acteur culturel n\'a pas renseigné ses informations.<br> <a class="button" href="https://duckduckgo.com/?q={encodeURI(`${this.actor.name} ${this.actor.city}`)}" target="_blank">Faire une recherche</a> </p> </section> <section class="block actions"> <h2>Actions proposées</h2> <article each="{action in this.actor.actions}"> <h3>{action.name}</h3> <p>{action.description}</p> </article> <article if="{!this.actor.actions}">Les actions proposées par cet acteur sont sur demande.<br> Veillez à prendre contact avec cet Acteur Culturel.</article> </section> <aside> <section class="block" if="{this.actor.image}" id="image"> <img riot-src="{this.actor.image}" alt="Photo de {this.actor.name}"> </section> <section class="block" id="contact"> <h3 if="{this.contact}">Contacter {this.contact}</h3> <h3 if="{!this.contact}">Contacter le responsable EAC</h3> <ul> <li if="{this.phone}">Par téléphone : {this.phone}</li> <li if="{this.email}">Par email : {this.email}</li> </ul> <a if="{this.email}" class="button" target="_blank" href="mailto:{this.email}?subject=À propos de {this.actor.name}&cc=loup.wolff@beta.gouv.fr&body={encodeURIComponent(this.emailBody)}">Envoyer un email</a> <a if="{this.phone}" class="button" href="tel:{this.phone}">Appeler</a> <p if="{!this.phone && !this.email}"> Aucune information de contact n\'est disponible pour cet acteur culturel.<br> <a class="button" href="https://duckduckgo.com/?q={encodeURI(`${this.actor.name} ${this.actor.city}`)}" target="_blank">Faire une recherche</a> </p> </section> <section class="block"> <geo if="{this.actor.distance}">à {Math.ceil(this.actor.distance)}&nbsp;km</geo> <address if="{this.latLng}"> <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" riot-src="https://www.openstreetmap.org/export/embed.html?bbox={Number(this.latLng[1]) - 0.02}%2C{Number(this.latLng[0]) - 0.02}%2C{Number(this.latLng[1]) + 0.02}%2C{Number(this.latLng[0]) + 0.02}&amp;layer=hot&amp;marker={this.latLng[0]}%2C{this.latLng[1]}"></iframe><br> <small> <a href="https://www.openstreetmap.org/?mlat={this.latLng[0]}&mlon={this.latLng[1]}#map=15/{this.latLng[0]}/{this.latLng[1]}&layers=T" target="_blank"> {this.actor.address}<br> {this.actor.postalCode} {this.actor.city} </a> </small> </address> <a if="{this.actor.mainPhone}" href="tel:{this.actor.mainPhone}">Tél. : {this.actor.mainPhone}</a> </section> </aside> <section class="edit"> <a href="/actor/{this.opts.actorId}/edit" class="button"> Mettre à jour les informations de cet acteur </a> </section> </article>', 'page-actor,[data-is="page-actor"]{ display: grid; grid-template: \'actor aside\' \'actions aside\' \'edit edit\' / auto 51rem; } page-actor > article,[data-is="page-actor"] > article{ display: contents; } page-actor .actor,[data-is="page-actor"] .actor{ grid-area: actor; } page-actor .actions,[data-is="page-actor"] .actions{ grid-area: actions; } page-actor .edit,[data-is="page-actor"] .edit{ grid-area: edit; margin: 1rem auto; } page-actor aside,[data-is="page-actor"] aside{ grid-area: aside; } page-actor .actions article:not(:last-of-type),[data-is="page-actor"] .actions article:not(:last-of-type){ padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid #ccc; } page-actor .actor > nav,[data-is="page-actor"] .actor > nav{ margin-bottom: 1rem; } page-actor .actor > p:first-of-type,[data-is="page-actor"] .actor > p:first-of-type{ white-space: pre-wrap; } page-actor #image,[data-is="page-actor"] #image{ text-align: center; max-width: 100%; }', '', function (opts) {
-  var _this3 = this;
+riot.tag2('page-actor', '<article> <section class="block actor"> <h2>{this.actor.name}</h2> <nav class="tags"> <color-tag each="{tag in this.actor.domains}" label="{tag}"></color-tag> </nav> <p if="{this.actor.description}">{this.actor.description}</p> <virtual if="{this.actor.mainPhone || this.actor.website}"> <h4>En savoir plus</h4> <ul> <li if="{this.actor.mainPhone}"><a href="tel:{this.actor.mainPhone}">Téléphone : {this.actor.mainPhone}</a></li> <li if="{this.actor.website}"> <a target="_blank" href="{this.actor.website}">Visiter le site internet</a></li> </ul> </virtual> <p if="{!this.actor.description}"> Cet acteur culturel n\'a pas renseigné ses informations.<br> <a class="button" href="https://duckduckgo.com/?q={encodeURI(`${this.actor.name} ${this.actor.city}`)}" target="_blank">Faire une recherche</a> </p> </section> <section id="actions"> <h3>Actions animée par {this.actor.name} :</h3> <article each="{action, i in this.actor.actions}" class="block"> <h4>{action.name}</h4> <p>{action.description.substr(0, 200)}…</p> <a href="/actor/{this.actor._id}/action/{i}" title="Voir l\'action « {action.name} »">Voir cette action en détail</a> </article> </section> <section if="{!this.actor.actions}"> <p> Les actions proposées par cet acteur sont sur demande.<br> Veillez à prendre contact avec cet Acteur Culturel. </p> </section> <aside> <section class="block" if="{this.actor.image}" id="image"> <img riot-src="{this.actor.image}" alt="Photo de {this.actor.name}"> </section> <section class="block" id="contact"> <h3 if="{this.contact}">Contacter {this.contact}</h3> <h3 if="{!this.contact}">Contacter le responsable EAC</h3> <ul> <li if="{this.phone}">Par téléphone : {this.phone}</li> <li if="{this.email}">Par email : {this.email}</li> </ul> <a if="{this.email}" class="button" target="_blank" href="mailto:{this.email}?subject=À propos de {this.actor.name}&cc=loup.wolff@beta.gouv.fr&body={encodeURIComponent(this.emailBody)}">Envoyer un email</a> <a if="{this.phone}" class="button" href="tel:{this.phone}">Appeler</a> <p if="{!this.phone && !this.email}"> Aucune information de contact n\'est disponible pour cet acteur culturel.<br> <a class="button" href="https://duckduckgo.com/?q={encodeURI(`${this.actor.name} ${this.actor.city}`)}" target="_blank">Faire une recherche</a> </p> </section> <section class="block"> <geo if="{this.actor.distance}">à {Math.ceil(this.actor.distance)}&nbsp;km</geo> <address if="{this.latLng}"> <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" riot-src="https://www.openstreetmap.org/export/embed.html?bbox={Number(this.latLng[1]) - 0.02}%2C{Number(this.latLng[0]) - 0.02}%2C{Number(this.latLng[1]) + 0.02}%2C{Number(this.latLng[0]) + 0.02}&amp;layer=hot&amp;marker={this.latLng[0]}%2C{this.latLng[1]}"></iframe><br> <small> <a href="https://www.openstreetmap.org/?mlat={this.latLng[0]}&mlon={this.latLng[1]}#map=15/{this.latLng[0]}/{this.latLng[1]}&layers=T" target="_blank"> {this.actor.address}<br> {this.actor.postalCode} {this.actor.city} </a> </small> </address> <a if="{this.actor.mainPhone}" href="tel:{this.actor.mainPhone}">Tél. : {this.actor.mainPhone}</a> </section> </aside> <section class="edit"> <a href="/actor/{this.opts.actorId}/edit" class="button"> Mettre à jour les informations de cet acteur </a> </section> </article>', 'page-actor,[data-is="page-actor"]{ display: grid; grid-template: \'actor aside\' \'actions aside\' \'edit edit\' / auto 51rem; } page-actor > article,[data-is="page-actor"] > article{ display: contents; } page-actor .actor,[data-is="page-actor"] .actor{ grid-area: actor; } page-actor #actions,[data-is="page-actor"] #actions{ grid-area: actions; } page-actor .edit,[data-is="page-actor"] .edit{ grid-area: edit; margin: 1rem auto; } page-actor aside,[data-is="page-actor"] aside{ grid-area: aside; } page-actor #actions article,[data-is="page-actor"] #actions article{ position: relative; display: grid; margin-right: 2%; padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid #ccc; } page-actor #actions article a,[data-is="page-actor"] #actions article a{ position: absolute; display: block; text-indent: -9999px; top: 0; bottom: 0; left: 0; right: 0; } page-actor .actor > nav,[data-is="page-actor"] .actor > nav{ margin-bottom: 1rem; } page-actor .actor > p:first-of-type,[data-is="page-actor"] .actor > p:first-of-type{ white-space: pre-wrap; } page-actor #image,[data-is="page-actor"] #image{ text-align: center; max-width: 100%; }', '', function (opts) {
+  var _this4 = this;
 
   this.actor = {};
 
-  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.next = 2;
-            return api('/actors/' + opts.actorId);
+            _context4.next = 2;
+            return api('/actors/' + _this4.opts.actorId);
 
           case 2:
-            _this3.actor = _context3.sent;
+            _this4.actor = _context4.sent;
 
-            _this3.phone = _this3.actor.contactPhone || _this3.actor.ownerPhone;
-            _this3.email = _this3.actor.contactEmail || _this3.actor.ownerEmail;
-            _this3.latLng = _this3.actor.loc.coordinates[0] && _this3.actor.loc.coordinates;
-            _this3.contact = (_this3.actor.contactName || _this3.actor.ownerName || '').replace(',', '');
-            _this3.emailBody = 'Bonjour ' + _this3.contact + ',\n\n' + ('Je vous contacte suite \xE0 ma consultation de la fiche ' + location.href + '.\n\n') + 'Questions ou remarques :\n\n\n\n';
-            _this3.update();
+            _this4.phone = _this4.actor.contactPhone || _this4.actor.ownerPhone;
+            _this4.email = _this4.actor.contactEmail || _this4.actor.ownerEmail;
+            _this4.latLng = _this4.actor.loc.coordinates[0] && _this4.actor.loc.coordinates;
+            _this4.contact = (_this4.actor.contactName || _this4.actor.ownerName || '').replace(',', '');
+            _this4.emailBody = 'Bonjour ' + _this4.contact + ',\n\n' + ('Je vous contacte suite \xE0 ma consultation de la fiche ' + location.href + '.\n\n') + 'Questions ou remarques :\n\n\n\n';
+            _this4.update();
 
           case 9:
           case 'end':
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, _this3);
+    }, _callee4, _this4);
   })));
 });
 
 riot.tag2('page-search', '<section class="block" id="filters"> <search-filters filters="{this.filters}" q="{this.q}" school-id="{this.schoolId}" actors="{this.actors}"></search-filters> </section> <section id="tags"> <color-tag each="{domain in this.domains}" label="{domain}"></color-tag> </section> <section if="{this.viewType == \'list\'}" id="results"> <button onclick="{this.setViewType}" value="map">Voir les résultats sur une carte</button> <div class="block"> <h4 if="{this.q}">Résultats pour «&nbsp;{this.q}&nbsp;»</h4> <h4 if="{!this.q && this.school}"> Résultats autour de {this.school.name} ({this.school.city})</h4> <p if="{!this.actors.length}">Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p> </div> <actor-card class="block" each="{actor in this.actors}" actor="{actor}" school-id="{this.schoolId}"></actor-card> </section> <section if="{this.viewType == \'map\'}" id="map"> <button onclick="{this.setViewType}" value="list">Voir la liste des résultats</button> <actors-map class="block" actors="{this.actors}" school-id="{this.schoolId}"></actors-map> </section> <section id="extra" class="block"> <h4>Vous n\'avez rien trouvé d\'intéressant ?</h4> <p> Si aucun résultat ne correspond à vos attentes, d\'autres sites peuvent éventuellement compléter votre recherche&nbsp;: </p> <actors-externals department="{this.department}"></actors-externals> <p> Vous pouvez également participer à améliorer la base de données en ajoutant un acteur culturel&nbsp;: </p> <a href="/actor/create" class="button">Ajouter un acteur culturel</a> </section>', 'page-search,[data-is="page-search"]{ display: grid; grid-template: \'search search\' \'tags tags\' \'filters results\' \'filters extra\' / minmax(auto, 35%) 1fr; grid-gap: 2rem; } page-search #search,[data-is="page-search"] #search{ grid-area: search; } page-search #tags,[data-is="page-search"] #tags{ grid-area: tags; height: 4rem; } page-search #filters,[data-is="page-search"] #filters{ grid-area: filters; height: auto; } page-search #results,[data-is="page-search"] #results{ grid-area: results; } page-search #map,[data-is="page-search"] #map{ grid-area: results; } page-search #extra,[data-is="page-search"] #extra{ grid-area: extra; } page-search h4,[data-is="page-search"] h4{ margin-top: 1rem; } page-search search-filters,[data-is="page-search"] search-filters{ position: sticky; top: 0; } page-search input[type=search],[data-is="page-search"] input[type=search]{ border-color: #999; box-shadow: 0 0 .1em #ccc; font-size: 1.2em; padding: 1em .7em; transition: box-shadow .3s; } page-search input[type=search]:focus,[data-is="page-search"] input[type=search]:focus{ box-shadow: .05em .05em .2em #bbb; } page-search input[type=submit],[data-is="page-search"] input[type=submit]{ display: block; margin: 0 auto; } page-search actor-card,[data-is="page-search"] actor-card{ padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid #eee; } page-search #tags .tag,[data-is="page-search"] #tags .tag{ background-color: #fff; box-shadow: .1rem .1rem .5rem #eee; border-radius: .8rem; border: 1px solid #e6e6e6; margin-right: 2rem; }', '', function (opts) {
-  var _this4 = this;
+  var _this5 = this;
 
   this.q = this.opts.q;
   this.schoolId = this.opts.schoolId;
@@ -253,50 +288,50 @@ riot.tag2('page-search', '<section class="block" id="filters"> <search-filters f
   this.domains = this.filters.domains || [];
   this.school = null;
 
-  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
     var params;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            params = _this4.filters.domains ? '?domains=' + _this4.domains : '';
+            params = _this5.filters.domains ? '?domains=' + _this5.domains : '';
 
-            if (!_this4.schoolId) {
-              _context4.next = 6;
+            if (!_this5.schoolId) {
+              _context5.next = 6;
               break;
             }
 
-            _context4.next = 4;
-            return api('/schools/' + _this4.schoolId);
+            _context5.next = 4;
+            return api('/schools/' + _this5.schoolId);
 
           case 4:
-            _this4.school = _context4.sent;
+            _this5.school = _context5.sent;
 
-            if (_this4.school.loc.coordinates) {
+            if (_this5.school.loc.coordinates) {
               params += params ? '&' : '?';
-              params += 'from=' + _this4.school.loc.coordinates[1] + ',' + _this4.school.loc.coordinates[0];
+              params += 'from=' + _this5.school.loc.coordinates[1] + ',' + _this5.school.loc.coordinates[0];
             }
 
           case 6:
-            _context4.next = 8;
-            return api('/actors/search/' + normalizeString(_this4.q) + params);
+            _context5.next = 8;
+            return api('/actors/search/' + normalizeString(_this5.q) + params);
 
           case 8:
-            _this4.actors = _context4.sent;
+            _this5.actors = _context5.sent;
 
-            _this4.department = _this4.school.postalCode && _this4.school.postalCode.substr(0, 2);
-            _this4.update();
+            _this5.department = _this5.school.postalCode && _this5.school.postalCode.substr(0, 2);
+            _this5.update();
 
           case 11:
           case 'end':
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4, _this4);
+    }, _callee5, _this5);
   })));
 
   this.setViewType = function (event) {
-    _this4.viewType = event.target.value;
+    _this5.viewType = event.target.value;
   };
 });
 
@@ -308,48 +343,48 @@ riot.tag2('actor-card', '<h3>{this.actor.name} <small>(dept {this.actor.departme
 });
 
 riot.tag2('actors-externals', '<nav> <a if="{this.inDepartment(\'26\')}" target="_blank" href="http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges"> <img src="http://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png"> </a> <a if="{this.inDepartment([\'44\', \'49\', \'53\', \'72\', \'85\'])}" target="_blank" href="https://www.laplateforme.net/pages/type/structures"> <img src="https://www.laplateforme.net/app/themes/p2/dist/images/logo.svg"> </a> <a if="{this.inDepartment(\'38\')}" target="_blank" href="http://www.ac-grenoble.fr/educationartistique.isere"> <img src="http://cache.media.education.gouv.fr/image/Academie/04/9/Logo_Grenoble_956049.png"> </a> </nav>', 'actors-externals a,[data-is="actors-externals"] a{ display: inline-block; width: 30%; padding: 2rem; text-align: center; }', '', function (opts) {
-  var _this5 = this;
+  var _this6 = this;
 
   this.inDepartment = function (codes) {
     if (!Array.isArray(codes)) {
       codes = [codes];
     }
-    return _this5.opts.department && (!_this5.opts.department.length || codes.includes(_this5.opts.department));
+    return _this6.opts.department && (!_this6.opts.department.length || codes.includes(_this6.opts.department));
   };
 });
 
 riot.tag2('actors-map', '<div ref="map"></div>', 'actors-map,[data-is="actors-map"]{ display: block; width: 100%; height: auto; } actors-map [ref=map],[data-is="actors-map"] [ref=map]{ height: 600px; } actors-map .leaflet-popup a,[data-is="actors-map"] .leaflet-popup a{ color: inherit; } actors-map .leaflet-user,[data-is="actors-map"] .leaflet-user{ background: red; border: 5px solid rgba(255,255,255,0.5); color: blue; font-weight: bold; text-align: center; border-radius: 50%; line-height: 80px; width: 50px; }', '', function (opts) {
-  var _this6 = this;
+  var _this7 = this;
 
   this.schoolId = opts.schoolId;
   this.actors = opts.actors;
 
-  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
     var school, lngLat, zoom, map, actorMarker, markers;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
             school = null;
             lngLat = [46.495, 2.207];
             zoom = 6;
 
-            if (!_this6.schoolId) {
-              _context5.next = 9;
+            if (!_this7.schoolId) {
+              _context6.next = 9;
               break;
             }
 
-            _context5.next = 6;
-            return api('/schools/' + _this6.schoolId);
+            _context6.next = 6;
+            return api('/schools/' + _this7.schoolId);
 
           case 6:
-            school = _context5.sent;
+            school = _context6.sent;
 
             lngLat = school.loc.coordinates.reverse();
             zoom = 9;
 
           case 9:
-            map = L.map(_this6.refs.map).setView(lngLat, zoom);
+            map = L.map(_this7.refs.map).setView(lngLat, zoom);
             actorMarker = L.icon({ iconUrl: '/images/marker.svg', iconSize: [40, 45] });
 
 
@@ -359,17 +394,17 @@ riot.tag2('actors-map', '<div ref="map"></div>', 'actors-map,[data-is="actors-ma
               id: 'mapbox.streets'
             }).addTo(map);
 
-            markers = _this6.actors.filter(function (a) {
+            markers = _this7.actors.filter(function (a) {
               return a.loc && a.loc.coordinates[0];
             }).map(function (a) {
               var marker = L.marker(a.loc.coordinates, { icon: actorMarker });
               marker.actor = a;
-              marker.bindPopup('\n            <a href=/actor/' + a._id + '?school=' + _this6.schoolId + ' title="Voir le d\xE9tail">\n              <h4>' + a.name + '</h4>\n              <p>' + (a.description.length > 80 ? a.description.substr(0, 300) + '…' : a.description) + '</p>\n              <p>Voir le d\xE9tail</p>\n            </a>\n          ');
+              marker.bindPopup('\n            <a href=/actor/' + a._id + '?school=' + _this7.schoolId + ' title="Voir le d\xE9tail">\n              <h4>' + a.name + '</h4>\n              <p>' + (a.description.length > 80 ? a.description.substr(0, 300) + '…' : a.description) + '</p>\n              <p>Voir le d\xE9tail</p>\n            </a>\n          ');
               return marker;
             });
 
 
-            if (_this6.schoolId) {
+            if (_this7.schoolId) {
               L.marker(lngLat, {
                 icon: L.divIcon({ className: 'leaflet-user', iconSize: [25, 25] })
               }).bindPopup('Votre établissement scolaire').addTo(map);
@@ -379,10 +414,10 @@ riot.tag2('actors-map', '<div ref="map"></div>', 'actors-map,[data-is="actors-ma
 
           case 15:
           case 'end':
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5, _this6);
+    }, _callee6, _this7);
   })));
 });
 
@@ -396,7 +431,7 @@ riot.tag2('color-tag', '<a class="tag"> <span riot-style="background-color: {thi
 });
 
 riot.tag2('search-filters', '<details title="Domaine" open> <summary>Affiner par domaines</summary> <label each="{domain in this.domains}"> <input type="checkbox" name="domains" riot-value="{domain}" onchange="{this.submit}" checked="{this.filters.domains && this.filters.domains.includes(domain)}"> {domain} </label> </details>', 'search-filters label,[data-is="search-filters"] label{ font-weight: normal; cursor: pointer; margin-left: 1.5rem; } search-filters label > input,[data-is="search-filters"] label > input{ margin-right: 0.75rem; } search-filters summary,[data-is="search-filters"] summary{ margin-bottom: 1rem; cursor: pointer; }', '', function (opts) {
-  var _this7 = this;
+  var _this8 = this;
 
   this.filters = opts.filters || {};
   this.actors = opts.actors || [];
@@ -404,10 +439,10 @@ riot.tag2('search-filters', '<details title="Domaine" open> <summary>Affiner par
   this.schoolId = opts.schoolId;
 
   this.on('update', function () {
-    var _ref6;
+    var _ref7;
 
-    _this7.actors = opts.actors;
-    _this7.domains = Array.from(new Set((_ref6 = []).concat.apply(_ref6, _toConsumableArray(_this7.actors.filter(function (a) {
+    _this8.actors = opts.actors;
+    _this8.domains = Array.from(new Set((_ref7 = []).concat.apply(_ref7, _toConsumableArray(_this8.actors.filter(function (a) {
       return a.domains;
     }).map(function (a) {
       return a.domains;
@@ -423,9 +458,9 @@ riot.tag2('search-filters', '<details title="Domaine" open> <summary>Affiner par
   });
 
   this.submit = function (event) {
-    var q = _this7.q;
-    var schoolId = _this7.schoolId;
-    var filters = _this7.filters;
+    var q = _this8.q;
+    var schoolId = _this8.schoolId;
+    var filters = _this8.filters;
     var category = event.target.name;
     var value = event.target.value;
     var activate = event.target.checked;
@@ -441,12 +476,12 @@ riot.tag2('search-filters', '<details title="Domaine" open> <summary>Affiner par
 });
 
 riot.tag2('search-form', '<form onsubmit="{this.submit}"> <label for="q">Vous recherchez</label> <input type="search" name="q" id="q" riot-value="{this.opts.q}" placeholder="Ex : Visite artisan" autofocus> <label for="search">À proximité de</label> <select-school ref="school" type="search" name="school" id="school" school-id="{this.opts.schoolId}"></select-school> <input class="button" type="submit" value="Rechercher"> </form>', 'search-form form,[data-is="search-form"] form{ display: grid; grid-template: \'label-q label-school .\' \'q school button\' / 2fr 1fr auto; grid-column-gap: 1rem; max-width: 120rem; margin: 2rem auto 0 auto; } search-form label,[data-is="search-form"] label{ margin-bottom: 0; } search-form [for=q],[data-is="search-form"] [for=q]{ grid-area: label-q; } search-form #q,[data-is="search-form"] #q{ grid-area: q; } search-form [for=school],[data-is="search-form"] [for=school]{ grid-area: label-school; } search-form #school,[data-is="search-form"] #school{ grid-area: school; } search-form [type=submit],[data-is="search-form"] [type=submit]{ grid-area: button; }', '', function (opts) {
-  var _this8 = this;
+  var _this9 = this;
 
   this.submit = function (event) {
     event.preventDefault();
     var params = '?q=' + encodeURI(event.target.q.value);
-    var schoolId = _this8.refs.school.schoolId;
+    var schoolId = _this9.refs.school.schoolId;
     if (schoolId) {
       params += '&school=' + schoolId;
     }
@@ -455,35 +490,35 @@ riot.tag2('search-form', '<form onsubmit="{this.submit}"> <label for="q">Vous re
 });
 
 riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : Lycée Jean Moulin Paris">', '', '', function (opts) {
-  var _this9 = this;
+  var _this10 = this;
 
   this.displaySchool = function (school) {
     return school.name + ' (' + school.postalCode + ' ' + school.city + ')';
   };
 
-  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+  this.on('mount', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
     var id, school, completer;
-    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
-            id = _this9.opts.schoolId;
+            id = _this10.opts.schoolId;
 
             if (!id) {
-              _context7.next = 6;
+              _context8.next = 6;
               break;
             }
 
-            _context7.next = 4;
+            _context8.next = 4;
             return api('/schools/' + id);
 
           case 4:
-            school = _context7.sent;
+            school = _context8.sent;
 
-            _this9.refs.input.value = _this9.displaySchool(school);
+            _this10.refs.input.value = _this10.displaySchool(school);
 
           case 6:
-            completer = new Awesomplete(_this9.refs.input, {
+            completer = new Awesomplete(_this10.refs.input, {
               replace: function replace(suggestion) {
                 this.input.value = suggestion.label;
                 id = suggestion.value;
@@ -500,62 +535,62 @@ riot.tag2('select-school', '<input type="search" ref="input" placeholder="Ex : L
             });
 
 
-            _this9.refs.input.addEventListener('input', function () {
-              var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(event) {
+            _this10.refs.input.addEventListener('input', function () {
+              var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(event) {
                 var q, schools;
-                return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                return regeneratorRuntime.wrap(function _callee7$(_context7) {
                   while (1) {
-                    switch (_context6.prev = _context6.next) {
+                    switch (_context7.prev = _context7.next) {
                       case 0:
                         q = event.target.value;
 
                         if (q === '') {
-                          _this9.schoolId = '';
+                          _this10.schoolId = '';
                         }
 
                         if (!(!q || q.length < 3)) {
-                          _context6.next = 4;
+                          _context7.next = 4;
                           break;
                         }
 
-                        return _context6.abrupt('return');
+                        return _context7.abrupt('return');
 
                       case 4:
-                        _context6.next = 6;
+                        _context7.next = 6;
                         return api('/schools/search/' + q);
 
                       case 6:
-                        schools = _context6.sent;
+                        schools = _context7.sent;
 
                         completer.list = schools && schools.map(function (s) {
                           return {
-                            label: _this9.displaySchool(s),
+                            label: _this10.displaySchool(s),
                             value: s._id
                           };
                         });
 
                       case 8:
                       case 'end':
-                        return _context6.stop();
+                        return _context7.stop();
                     }
                   }
-                }, _callee6, _this9);
+                }, _callee7, _this10);
               }));
 
               return function (_x2) {
-                return _ref8.apply(this, arguments);
+                return _ref9.apply(this, arguments);
               };
             }());
 
-            _this9.refs.input.addEventListener('awesomplete-selectcomplete', function (event) {
-              _this9.schoolId = id;
+            _this10.refs.input.addEventListener('awesomplete-selectcomplete', function (event) {
+              _this10.schoolId = id;
             });
 
           case 9:
           case 'end':
-            return _context7.stop();
+            return _context8.stop();
         }
       }
-    }, _callee7, _this9);
+    }, _callee8, _this10);
   })));
 });

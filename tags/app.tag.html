@@ -57,6 +57,14 @@
       this.update()
     })
 
+    page('/actor/:id/action/:index', (ctx) => {
+      this.refs.container.innerHTML = `<page-action
+        actor-id="${ctx.params.id}" action-index="${ctx.params.index}"
+        />`
+      riot.mount('page-action')
+      this.update()
+    })
+
     this.on('mount', () => {
       page()
       document.body.classList.add('ready')

@@ -22,14 +22,20 @@
       </p>
     </section>
 
-    <section class="block actions">
-      <h2>Actions proposées</h2>
-      <article each={ action in this.actor.actions }>
-        <h3>{ action.name }</h3>
-        <p>{ action.description }</p>
+    <section id=actions>
+      <h3>Actions animée par { this.actor.name } :</h3>
+      <article each={ action, i in this.actor.actions } class=block>
+        <h4>{ action.name }</h4>
+        <p>{ action.description.substr(0, 200) }…</p>
+        <a href="/actor/{ this.actor._id }/action/{ i }" title="Voir l'action « { action.name } »">Voir cette action en détail</a>
       </article>
-      <article if={ !this.actor.actions }>Les actions proposées par cet acteur sont sur demande.<br>
-        Veillez à prendre contact avec cet Acteur Culturel.</article>
+    </section>
+
+    <section if={ !this.actor.actions }>
+      <p>
+        Les actions proposées par cet acteur sont sur demande.<br>
+        Veillez à prendre contact avec cet Acteur Culturel.
+      </p>
     </section>
 
     <aside>
@@ -76,11 +82,11 @@
   </article>
 
   <script>
-    /* global api, opts, location */
+    /* global api, location */
     this.actor = {}
 
     this.on('mount', async () => {
-      this.actor = await api(`/actors/${opts.actorId}`)
+      this.actor = await api(`/actors/${this.opts.actorId}`)
       this.phone = this.actor.contactPhone || this.actor.ownerPhone
       this.email = this.actor.contactEmail || this.actor.ownerEmail
       this.latLng = this.actor.loc.coordinates[0] && this.actor.loc.coordinates
@@ -107,7 +113,7 @@
     .actor {
       grid-area: actor;
     }
-    .actions {
+    #actions {
       grid-area: actions;
     }
     .edit {
@@ -118,10 +124,22 @@
       grid-area: aside;
     }
 
-    .actions article:not(:last-of-type) {
+    #actions article {
+      position: relative;
+      display: grid;
+      margin-right: 2%;
       padding-bottom: 1rem;
       margin-bottom: 1rem;
       border-bottom: 1px solid #ccc;
+    }
+    #actions article a {
+      position: absolute;
+      display: block;
+      text-indent: -9999px;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
 
     .actor > nav {
