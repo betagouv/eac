@@ -6,6 +6,16 @@
         <color-tag each={ tag in this.actor.domains } label={ tag } />
       </nav>
       <p if={ this.actor.description }>{ this.actor.description }</p>
+
+      <virtual if={ this.actor.mainPhone || this.actor.website }>
+        <h4>En savoir plus</h4>
+        <ul>
+          <li if={ this.actor.mainPhone }><a href="tel:{ this.actor.mainPhone }">Téléphone : { this.actor.mainPhone }</a></li>
+          <li if={ this.actor.website }>
+            <a target=_blank href={ this.actor.website }>Visiter le site internet</a></li>
+        </ul>
+      </virtual>
+
       <p if={ !this.actor.description }>
         Cet acteur culturel n'a pas renseigné ses informations.<br>
         <a class=button href="https://duckduckgo.com/?q={ encodeURI(`${this.actor.name} ${this.actor.city}`) }" target=_blank>Faire une recherche</a>
@@ -23,8 +33,13 @@
     </section>
 
     <aside>
+      <section class=block if={ this.actor.image } id=image>
+        <img src={ this.actor.image } alt="Photo de { this.actor.name }">
+      </section>
+
       <section class=block id=contact>
-        <h3>Contacter { this.contact }</h3>
+        <h3 if={ this.contact }>Contacter { this.contact }</h3>
+        <h3 if={ !this.contact }>Contacter le responsable EAC</h3>
         <ul>
           <li if={ this.phone }>Par téléphone : { this.phone }</li>
           <li if={ this.email }>Par email : { this.email }</li>
@@ -38,7 +53,7 @@
       </section>
 
       <section class=block>
-        <geo if={ this.actor.distance }>à { Math.ceil(this.actor.distance) }}&nbsp;km</geo>
+        <geo if={ this.actor.distance }>à { Math.ceil(this.actor.distance) }&nbsp;km</geo>
         <address if={ this.latLng }>
           <iframe width=425 height=350 frameborder=0 scrolling=no marginheight=0 marginwidth=0 src="https://www.openstreetmap.org/export/embed.html?bbox={ Number(this.latLng[1]) - 0.02 }%2C{ Number(this.latLng[0]) - 0.02 }%2C{ Number(this.latLng[1]) + 0.02 }%2C{ Number(this.latLng[0]) + 0.02 }&amp;layer=hot&amp;marker={ this.latLng[0] }%2C{ this.latLng[1] }"></iframe><br/>
           <small>
@@ -48,6 +63,7 @@
             </a>
           </small>
         </address>
+        <a if={ this.actor.mainPhone } href="tel:{ this.actor.mainPhone }">Tél. : { this.actor.mainPhone }</a>
       </section>
     </aside>
 
@@ -113,6 +129,11 @@
     }
     .actor > p:first-of-type {
       white-space: pre-wrap;
+    }
+
+    #image {
+      text-align: center;
+      max-width: 100%;
     }
   </style>
 </page-actor>
