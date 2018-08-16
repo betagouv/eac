@@ -74,6 +74,12 @@ main {
   color: inherit;
 }
 
+/* x-ribbon component parent's style. Can't be in component because of
+scoped css */
+.x-ribbon_parent {
+  position: relative;
+}
+
 /* Awesomplete wraps input in a div which breaks width */
 .awesomplete {
   width: 100%;
@@ -82,3 +88,4 @@ main {
 select[multiple] {
   height: auto;
 }
+

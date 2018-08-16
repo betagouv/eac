@@ -9,6 +9,8 @@
     </nav>
 
     <a if={ this.action.website } href={ this.action.website } target=_blank>Voir la page internet de cette action</a>
+
+    <x-ribbon if={ this.actor.labels }>{ this.actor.labels.join(' / ') }</x-ribbon>
   </article>
 
   <aside>

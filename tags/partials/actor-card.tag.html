@@ -1,4 +1,5 @@
 <actor-card>
+
   <h3>{ this.actor.name } <small>(dept { this.actor.department })</small></h3>
   <p>{ this.actor.description.length < this.maxlength ? this.actor.description : this.actor.description.substr(0, this.maxlength) + '…' }</p>
 
@@ -12,6 +13,8 @@
   </footer>
 
   <a href=/actor/{ this.actor._id }?school={ this.schoolId }></a>
+
+  <x-ribbon if={ this.actor.labels }>{ this.actor.labels.join(' / ') }</x-ribbon>
 
   <script>
     /* global opts */
