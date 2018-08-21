@@ -190,14 +190,10 @@
           cost: getActionProperty('cost', i),
 
         }
-      })
+      }).filter(a => a.name)
 
-      let loc = null
-      if (address) {
-        loc = address.geometry
-        loc.coordinates.reverse()
-      }
-      
+      const loc = address.geometry
+      loc.coordinates.reverse()
 
       const actor = await api(actorId ? `/actors/${actorId}` : '/actors', {
         method: actorId ? 'PUT' : 'POST',
@@ -222,7 +218,6 @@
           actions: actions
         })
       })
-      console.log(actor)
 
       page(`/actor/${actor._id}`)
     }
