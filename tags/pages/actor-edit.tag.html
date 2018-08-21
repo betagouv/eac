@@ -192,21 +192,12 @@
         }
       })
 
-      // const actions = Array.from(data.get('action-name')).length
-      //   ? Array.from(form['action-name']).map((name, index) => {
-      //     return {
-      //       name: name.value,
-      //       description: form['action-description'][index].value
-      //     }
-      //   })
-      //   : [{
-      //     name: form['action-name'].value,
-      //     description: form['action-description'].value
-      //   }]
-      debugger;
-
-      const loc = address.geometry
-      loc.coordinates.reverse()
+      let loc = null
+      if (address) {
+        loc = address.geometry
+        loc.coordinates.reverse()
+      }
+      
 
       const actor = await api(actorId ? `/actors/${actorId}` : '/actors', {
         method: actorId ? 'PUT' : 'POST',
@@ -231,6 +222,7 @@
           actions: actions
         })
       })
+      console.log(actor)
 
       page(`/actor/${actor._id}`)
     }
