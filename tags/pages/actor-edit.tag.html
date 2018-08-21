@@ -165,8 +165,8 @@
           <label>Établissement(s) scolaire(s) en lien avec cette action</label>
           <input type=text name="action[{ index }].school" value={ action.school }>
 
-          <label>Coût prévisionnel total pour cette action (€)</label>
-          <textarea name="action[{ index }].cost">{ action.cost }</textarea>
+          <label>Coût prévisionnel total pour cette action</label>
+          <textarea rows=3 name="action[{ index }].cost">{ action.cost ? action.cost : '' }</textarea>
 
         </section>
         <button onclick={ this.addAction } class="button-outline" type=button>Ajouter une action</button>
