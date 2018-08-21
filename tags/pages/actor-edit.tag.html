@@ -33,6 +33,9 @@
 
         <label for=postalCode>Code postal</label>
         <input type=text name=postalCode id=postalCode value={ this.actor && this.actor.postalCode } required>
+
+        <label for=timetable>Horaires d'ouverture</label>
+        <textarea name=timetable id=timetable>{ this.actor && this.actor.timetable }</textarea>
       </fieldset>
 
       <fieldset class=block>
@@ -168,6 +171,9 @@
           <label>Coût prévisionnel total pour cette action</label>
           <textarea rows=3 name="action[{ index }].cost">{ action.cost ? action.cost : '' }</textarea>
 
+          <label for=action-timetable>Horaires applicables</label>
+          <textarea name="action[{ index }].timetable" id=action-timetable>{ action.timetable }</textarea>
+
         </section>
         <button onclick={ this.addAction } class="button-outline" type=button>Ajouter une action</button>
       </fieldset>
@@ -232,6 +238,7 @@
           dateRange: [getActionProperty('dateRangeStart', i), getActionProperty('dateRangeStart', i)],
           capacity: getActionProperty('capacity', i),
           duration: getActionProperty('duration', i),
+          timetable: getActionProperty('timetable', i),
           status: getActionProperty('status', i),
           topics: getActionProperty('topics', i, true),
           schoolLevels: getActionProperty('schoolLevels', i, true),
@@ -262,6 +269,7 @@
           address: data.get('address'),
           city: data.get('city'),
           postalCode: data.get('postalCode'),
+          timetable: data.get('timetable'),
           loc: loc,
           domains: data.getAll('domains'),
           actions: actions
@@ -287,7 +295,7 @@
       float: left;
     }
     textarea {
-      min-height: 20rem;
+      min-height: 15rem;
     }
   </style>
 
