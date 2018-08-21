@@ -102,7 +102,7 @@
             </label>
           </div>
 
-          
+
           <div class=topics>
             <h5>Matières concernées</h5>
             <label>
@@ -150,7 +150,7 @@
               Autre(s)
             </label>
           </div>
-          
+
 
           <label>Page internet de l'action</label>
           <input type=url name="action[{ index }].website" value={ action.website }>
@@ -163,6 +163,13 @@
             <option value=done selected={ action.status == 'done' }>C'est une action achevée</option>
             <option value=progress selected={ action.status == 'progress' }>Il y a déjà des établissements scolaires sur cette action</option>
             <option value=todo selected={ action.status == 'todo' }>Cette action est plannifiée</option>
+          </select>
+
+          <label for=type>Type d'action</label>
+          <select name="action[{ index }].type" id=type>
+            <option value=intervention selected={ action.type == 'intervention' }>Déplacement jusqu'à l'établissement scolaire</option>
+            <option value=sortie selected={ action.type == 'sortie' }>Sortie pour les élèves sur mon lieu</option>
+            <option value=mix selected={ action.type == 'mix' }>En partie à l'école, et en partie sur mon lieu</option>
           </select>
 
           <label>Établissement(s) scolaire(s) en lien avec cette action</label>
@@ -249,11 +256,11 @@
           duration: getActionProperty('duration', i),
           timetable: getActionProperty('timetable', i),
           status: getActionProperty('status', i),
+          type: getActionProperty('type', i),
           topics: getActionProperty('topics', i, true),
           schoolLevels: getActionProperty('schoolLevels', i, true),
           school: getActionProperty('school', i),
           cost: getActionProperty('cost', i),
-
         }
       }).filter(a => a.name)
 
