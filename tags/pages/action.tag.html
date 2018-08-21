@@ -22,9 +22,11 @@
         <li if={ this.action.capacity }>Capacité maximum de { this.action.capacity } élèves</li>
         <li if={ this.action.duration }>Durée estimée de { this.action.duration }</li>
         <li if={ this.action.cost }>Coût global approximatif de { this.action.cost }€</li>
-        <li if={ this.action.dateRange[0] && this.action.dateRange[1] }>Disponible entre le { this.action.dateRange[0] } et le { this.action.dateRange[1] }</li>
-        <li if={ this.action.dateRange[0] && !this.action.dateRange[1] }>Débute le { this.action.dateRange[0] }</li>
-        <li if={ !this.action.dateRange[0] && this.action.dateRange[1] }>Effective jusqu'au { this.action.dateRange[1] }</li>
+        <virtual if={this.action.dateRange}>
+          <li if={ this.action.dateRange[0] && this.action.dateRange[1] }>Disponible entre le { this.action.dateRange[0] } et le { this.action.dateRange[1] }</li>
+          <li if={ this.action.dateRange[0] && !this.action.dateRange[1] }>Débute le { this.action.dateRange[0] }</li>
+          <li if={ !this.action.dateRange[0] && this.action.dateRange[1] }>Effective jusqu'au { this.action.dateRange[1] }</li>
+        </virtual>
       </ul>
     </section>
 
