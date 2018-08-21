@@ -11,7 +11,7 @@
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
       <div class=block>
         <h4 if={ this.q }>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
-        <h4 if={ !this.q && this.school }> Résultats autour de { this.school.name } ({ this.school.city })</h4>
+        <h4 if={ !this.q && this.school.name }> Résultats autour de { this.school.name } ({ this.school.city })</h4>
         <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
       </div>
       <actor-card class=block each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
@@ -48,7 +48,7 @@
     this.actors = []
     this.viewType = 'list'
     this.domains = this.filters.domains || []
-    this.school = null
+    this.school = {}
 
     this.on('mount', async () => {
       let params = this.filters.domains ? `?domains=${this.domains}` : ''
