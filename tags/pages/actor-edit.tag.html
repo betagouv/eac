@@ -33,18 +33,21 @@
 
         <label for=postalCode>Code postal</label>
         <input type=text name=postalCode id=postalCode value={ this.actor && this.actor.postalCode } required>
+
+        <label for=timetable>Horaires d'ouverture</label>
+        <textarea name=timetable id=timetable>{ this.actor && this.actor.timetable }</textarea>
       </fieldset>
 
       <fieldset class=block>
         <h3>Contact pour l'organisation d'une sortie / intervention</h3>
         <label for=contactName>Nom du contact EAC</label>
-        <input type=text name=contactName id=contactName value={ this.actor && this.actor.contactName } required>
+        <input type=text name=contactName id=contactName value={ this.actor && this.actor.contactName }>
 
         <label for=contactPhone>Téléphone du contact EAC</label>
-        <input type=tel name=contactPhone id=contactPhone value={ this.actor && this.actor.contactPhone } required>
+        <input type=tel name=contactPhone id=contactPhone value={ this.actor && this.actor.contactPhone }>
 
         <label for=contactEmail>Email du contact EAC</label>
-        <input type=email name=contactEmail id=contactEmail value={ this.actor && this.actor.contactEmail } required>
+        <input type=email name=contactEmail id=contactEmail value={ this.actor && this.actor.contactEmail }>
       </fieldset>
 
       <fieldset class="block domains">
@@ -60,8 +63,6 @@
           <h4>Action n°{ index + 1 }</h4>
           <input type=hidden name="action[{ index }].id" value={ action.id }>
           <button class="delete button-outline" type=button onclick={ this.deleteAction } data-id={ index }>Supprimer</button>
-
-         
 
           <label>Intitulé</label>
           <input type=text name="action[{ index }].name" value={ action.name }>
@@ -167,8 +168,11 @@
           <label>Établissement(s) scolaire(s) en lien avec cette action</label>
           <input type=text name="action[{ index }].school" value={ action.school }>
 
-          <label>Coût prévisionnel total pour cette action (€)</label>
-          <input type=number name="action[{ index }].cost" value={ action.cost }>
+          <label>Coût prévisionnel total pour cette action</label>
+          <textarea rows=3 name="action[{ index }].cost">{ action.cost ? action.cost : '' }</textarea>
+
+          <label for=action-timetable>Horaires applicables</label>
+          <textarea name="action[{ index }].timetable" id=action-timetable>{ action.timetable }</textarea>
 
         </section>
         <button onclick={ this.addAction } class="button-outline" type=button>Ajouter une action</button>
@@ -243,6 +247,7 @@
           dateRange: [getActionProperty('dateRangeStart', i), getActionProperty('dateRangeStart', i)],
           capacity: getActionProperty('capacity', i),
           duration: getActionProperty('duration', i),
+          timetable: getActionProperty('timetable', i),
           status: getActionProperty('status', i),
           topics: getActionProperty('topics', i, true),
           schoolLevels: getActionProperty('schoolLevels', i, true),
@@ -273,6 +278,7 @@
           address: data.get('address'),
           city: data.get('city'),
           postalCode: data.get('postalCode'),
+          timetable: data.get('timetable'),
           loc: loc,
           domains: data.getAll('domains'),
           actions: actions
@@ -298,7 +304,7 @@
       float: left;
     }
     textarea {
-      min-height: 20rem;
+      min-height: 15rem;
     }
   </style>
 
