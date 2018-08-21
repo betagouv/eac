@@ -101,29 +101,31 @@
   </script>
 
   <style scoped>
-    :scope {
-      display: grid;
-      grid-template:
-        'actor aside'
-        'actions aside'
-        'edit edit'
-        / auto 51rem;
-    }
-    :scope > article {
-      display: contents;
-    }
-    .actor {
-      grid-area: actor;
-    }
-    #actions {
-      grid-area: actions;
-    }
-    .edit {
-      grid-area: edit;
-      margin: 1rem auto;
-    }
-    aside {
-      grid-area: aside;
+    @media(min-width: 800px) {
+      :scope {
+        display: grid;
+        grid-template:
+          'actor aside'
+          'actions aside'
+          'edit edit'
+          / auto 51rem;
+      }
+      :scope > article {
+        display: contents;
+      }
+      .actor {
+        grid-area: actor;
+      }
+      #actions {
+        grid-area: actions;
+      }
+      .edit {
+        grid-area: edit;
+        margin: 1rem auto;
+      }
+      aside {
+        grid-area: aside;
+      }
     }
 
     #actions article {
