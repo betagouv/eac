@@ -4,8 +4,8 @@
     <section>
       { this.action.description }
     </section>
-    <nav if={ this.action.medias }>
-      <a each={ media in this.action.medias } href={ media } target=_blank>Consulter { media.split('/').splice(-1)[0] }</a>
+    <nav if={ this.medias }>
+      <a each={ media in this.medias } href={ media } target=_blank>Consulter { media.split('/').splice(-1)[0] }</a>
     </nav>
 
     <a if={ this.action.website } href={ this.action.website } target=_blank>Voir la page internet de cette action</a>
@@ -39,27 +39,32 @@
     /* globals api */
     this.actor = {}
     this.action = {}
+    this.medias = []
 
     this.on('mount', async () => {
       this.actor = await api(`/actors/${this.opts.actorId}`)
       this.action = this.actor.actions[this.opts.actionIndex]
+      this.medias = this.action.medias.filter(m => m)
       this.update()
     })
   </script>
 
   <style scoped>
-    :scope {
-      display: grid;
-      grid-template:
-        "article aside";
-        / auto minmax(1fr, 20rem);
+    @media(min-width: 800px) {
+      :scope {
+        display: grid;
+        grid-template:
+          "article aside"
+          / auto 45rem;
+      }
+      article {
+        grid-area: article;
+      }
+      aside {
+        grid-area: aside;
+      }
     }
-    article {
-      grid-area: article;
-    }
-    aside {
-      grid-area: aside;
-    }
+    
     #actor {
       position: relative;
     }
