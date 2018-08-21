@@ -58,7 +58,10 @@
         <h3>Actions proposées</h3>
         <section each={ action, index in this.actions } class=block>
           <h4>Action n°{ index + 1 }</h4>
+          <input type=hidden name="action[{ index }].id" value={ action.id }>
           <button class="delete button-outline" type=button onclick={ this.deleteAction } data-id={ index }>Supprimer</button>
+
+         
 
           <label>Intitulé</label>
           <input type=text name="action[{ index }].name" value={ action.name }>
@@ -176,6 +179,7 @@
 
       const actions = this.actions.map((_, i) => {
         return {
+          id: getActionProperty('id', i),
           name: getActionProperty('name', i),
           description: getActionProperty('description', i),
           medias: getActionProperty('medias', i).split(',').map(s => s.trim()),
