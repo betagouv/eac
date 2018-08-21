@@ -1,7 +1,7 @@
 <page-action>
   <article class=block>
     <h1>{ this.action.name }</h1>
-    <section>
+    <section class=description>
       { this.action.description }
     </section>
     <nav if={ this.medias }>
@@ -10,7 +10,7 @@
 
     <a if={ this.action.website } href={ this.action.website } target=_blank>Voir la page internet de cette action</a>
 
-    <x-ribbon if={ this.actor.labels }>{ this.actor.labels.join(' / ') }</x-ribbon>
+    <x-ribbon if={ this.actor && this.actor.labels }>{ this.actor.labels.join(' / ') }</x-ribbon>
   </article>
 
   <aside>
@@ -82,6 +82,9 @@
       left: 0;
       right: 0;
       text-indent: -9999px;
+    }
+    .description {
+      white-space: pre-wrap;
     }
   </style>
 </page-action>
