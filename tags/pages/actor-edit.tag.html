@@ -81,28 +81,75 @@
           <label>Durée sur place</label>
           <input type=text name="action[{ index }].duration" value={ action.duration }>
 
-          <label>Niveaux concernés</label>
-          <select name="action[{ index }].schoolLevels" multiple>
-            <option value=maternelle selected={ 'maternelle' in action.schoolLevels }>Maternelle</option>
-            <option value=elementaire selected={ 'elementaire' in action.schoolLevels }>Élémentaire</option>
-            <option value=college selected={ 'college' in action.schoolLevels }>Collège</option>
-            <option value=lycee selected={ 'lycee' in action.schoolLevels }>Lycée</option>
-          </select>
+          <div class=schoolLevels>
+            <h5>Niveaux concernés</h5>
+            <label>
+              <input type=checkbox name="action[{ index }].schoolLevels" value=maternelle checked={ action.schoolLevels.includes('maternelle') }>
+              Maternelle
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].schoolLevels" value=elementaire checked={ action.schoolLevels.includes('elementaire') }>
+              Élémentaire
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].schoolLevels" value=college checked={ action.schoolLevels.includes('college') }>
+              Collège
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].schoolLevels" value=lycee checked={ action.schoolLevels.includes('lycee') }>
+              Lycée
+            </label>
+          </div>
 
-          <label>Matières concernées</label>
-          <select name="action[{ index }].topics" multiple>
-            <option value=francais selected={ 'francais' in action.topics }>Français</option>
-            <option value=mathematiques selected={ 'mathematiques' in action.topics }>Mathématiques</option>
-            <option value=histoire selected={ 'histoire' in action.topics }>Histoire</option>
-            <option value=geographie selected={ 'geographie' in action.topics }>Géographie</option>
-            <option value=langue-vivante selected={ 'langue-vivante' in action.topics }>Langue Vivante</option>
-            <option value=physique selected={ 'physique' in action.topics }>Physique</option>
-            <option value=chimie selected={ 'chimie' in action.topics }>Chimie</option>
-            <option value=svt selected={ 'svt' in action.topics }>Sciences de la vie et de la Terre</option>
-            <option value=eps selected={ 'eps' in action.topics }>Éducation physique et sportive</option>
-            <option value=civisme selected={ 'civisme' in action.topics }>Éducation civique, juridique et sociale</option>
-            <option value=autre selected={ 'autre' in action.topics }>Autre(s)</option>
-          </select>
+          
+          <div class=topics>
+            <h5>Matières concernées</h5>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=francais checked={ action.topics.includes('francais') }>
+              Français
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=mathematiques checked={ action.topics.includes('mathematiques') }>
+              Mathématiques
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=histoire checked={ action.topics.includes('histoire') }>
+              Histoire
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=geographie checked={ action.topics.includes('geographie') }>
+              Géographie
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=langue-vivante checked={ action.topics.includes('langue-vivante') }>
+              Langue Vivante
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=physique checked={ action.topics.includes('physique') }>
+              Physique
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=chimie checked={ action.topics.includes('chimie') }>
+              Chimie
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=svt checked={ action.topics.includes('svt') }>
+              Sciences de la vie et de la Terre
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=eps checked={ action.topics.includes('eps') }>
+              Éducation physique et sportive
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=civisme checked={ action.topics.includes('civisme') }>
+              Éducation civique, juridique et sociale
+            </label>
+            <label>
+              <input type=checkbox name="action[{ index }].topics" value=autre checked={ action.topics.includes('autre') }>
+              Autre(s)
+            </label>
+          </div>
+          
 
           <label>Page internet de l'action</label>
           <input type=url name="action[{ index }].website" value={ action.website }>
@@ -237,7 +284,7 @@
   </script>
 
   <style scoped>
-    .domains > label {
+    .domains > label, .topics > label, .schoolLevels > label {
       display: inline-block;
       margin: 1rem;
     }
