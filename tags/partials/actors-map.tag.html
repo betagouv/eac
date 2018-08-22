@@ -10,8 +10,9 @@
       let school = null
       let lngLat = [46.495, 2.207] // center of France
       let zoom = 6 // France overview
+
       if (this.schoolId) {
-        school = await api(`/schools/${this.schoolId}`)
+        school = await schoolById(this.schoolId)
         lngLat = school.loc.coordinates.reverse()
         zoom = 9
       }

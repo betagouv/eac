@@ -4,15 +4,20 @@
   <script>
     /* global api, Awesomplete, normalizeString */
 
-    this.displaySchool = (school) => {
-      return `${school.name} (${school.postalCode} ${school.city})`
+    this.displaySchool = (school) => `${school.name} (${school.postalCode} ${school.city})`
+    
+    this.fromAddress = (feature) => { 
+      return {
+        label: `${feature.properties.label} (${feature.properties.postcode} ${feature.properties.city.toUpperCase()})`, 
+        value: feature.geometry.coordinates.join(',')
+      }
     }
 
     this.on('mount', async () => {
       let id = this.opts.schoolId
 
       if (id) {
-        const school = await api(`/schools/${id}`)
+        const school = await schoolById(id)
         this.refs.input.value = this.displaySchool(school)
       }
 
@@ -38,13 +43,21 @@
         if (!q || q.length < 3) {
           return
         }
-        const schools = await api(`/schools/search/${q}`)
-        completer.list = schools && schools.map(s => {
-          return {
-            label: this.displaySchool(s),
-            value: s._id
-          }
-        })
+
+        const [schools, addresses] = await Promise.all([
+          api(`/schools/search/${q}`),
+          request(`https://api-adresse.data.gouv.fr/search/?q=${q}&limit=1`)
+        ])
+
+        completer.list = [
+          ...schools.map(s => {
+            return {
+              label: this.displaySchool(s),
+              value: s._id
+            }
+          }), 
+          addresses.features && addresses.features[0] ? this.fromAddress(addresses.features[0]) : null
+        ].filter(x => x)
       })
 
       this.refs.input.addEventListener('awesomplete-selectcomplete', event => {
