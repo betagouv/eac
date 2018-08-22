@@ -48,9 +48,10 @@
 
     this.on('mount', async () => {
       let params = this.filters.domains ? `?domains=${this.domains}` : ''
+
       if (this.schoolId) {
-        this.school = await api(`/schools/${this.schoolId}`)
-        if (this.school.loc.coordinates) {
+        this.school = await schoolById(this.schoolId)
+        if (this.school.loc && this.school.loc.coordinates) {
           params += (params ? '&' : '?')
           params += `from=${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`
         }

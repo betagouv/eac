@@ -23,3 +23,22 @@ function urlParams(queryString = location.search) {
 function normalizeString (str) {
   return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
+
+async function schoolById(id) {
+  if (id.includes(',')) {
+    const [lng, lat] = id.split(',')
+    const addresses = await request(`https://api-adresse.data.gouv.fr/reverse/?lon=${lng}&lat=${lat}&limit=1`)
+    if (addresses.features) {
+      const f = addresses.features[0]
+      return Promise.resolve({
+        name: f.properties.label, 
+        city: f.properties.city.toUpperCase(),
+        postalCode: f.properties.postcode,
+        loc: {
+          coordinates: f.geometry.coordinates 
+        }
+      })
+    }    
+  } 
+  return api(`/schools/${id}`)
+}
