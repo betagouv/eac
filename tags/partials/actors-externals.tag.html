@@ -1,21 +1,21 @@
 <actors-externals>
+  <p if={ this.inDepartment(['44', '49', '53', '72', '85', '26', '38']) }>
+    Si aucun résultat ne correspond à vos attentes, d'autres sites peuvent éventuellement
+    compléter votre recherche&nbsp;:
+  </p>
   <nav>
-    <a if={ this.inDepartment('26') } target=_blank href=http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges>
+    <a if={ this.inDepartment(['26']) } target=_blank href=http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges>
       <img src=https://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png>
     </a>
     <a if={ this.inDepartment(['44', '49', '53', '72', '85']) } target=_blank href=https://www.laplateforme.net/pages/type/structures>
       <img src=https://www.laplateforme.net/app/themes/p2/dist/images/logo.svg>
     </a>
-    <a if={ this.inDepartment('38') } target=_blank href=http://www.ac-grenoble.fr/educationartistique.isere>
+    <a if={ this.inDepartment(['38']) } target=_blank href=http://www.ac-grenoble.fr/educationartistique.isere>
       <img src=/images/grenoble.png>
     </a>
   </nav>
-
   <script>
     this.inDepartment = (codes) => {
-      if (!Array.isArray(codes)) {
-        codes = [codes]
-      }
       return this.opts.department && (!this.opts.department.length || codes.includes(this.opts.department))
     }
   </script>
