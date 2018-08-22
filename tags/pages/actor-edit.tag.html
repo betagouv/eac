@@ -17,9 +17,11 @@
         <textarea name=description id=description placeholder="Présentez votre structure ou compagnie, vos missions, votre éthique, tout ce qui peut être utile à comprendre votre démarche en tant qu'acteur culturel" required>{ this.actor && this.actor.description }</textarea>
 
         <h4>À quels domaines culturels se rapportent vos actions ?</h4>
-        <label each={ domain in this.domains }>
-          <input type=checkbox name=domains value={ domain } checked={ this.actor && this.actor.domains.includes(domain) }> { domain }
-        </label>
+        <div class=checkbox-list>
+          <label each={ domain in this.domains }>
+            <input type=checkbox name=domains value={ domain } checked={ this.actor && this.actor.domains.includes(domain) }> { domain }
+          </label>
+        </div>
 
         <label for=website>Votre site internet</label>
         <input type=url name=website id=website value="{ this.actor && this.actor.website }">
@@ -57,7 +59,7 @@
 
       <fieldset>
         <h3>Actions proposées</h3>
-        <section each={ action, index in this.actions } class=block>
+        <section each={ action, index in this.actions } class="action block">
           <input type=hidden name="action[{ index }].id" value={ action.id }>
 
           <h4>Action n°{ index + 1 }</h4>
@@ -81,7 +83,7 @@
           <label>Durée sur place</label>
           <input type=text name="action[{ index }].duration" value={ action.duration }>
 
-          <div class=schoolLevels>
+          <div class=checkbox-list>
             <h5>Accessible aux publics</h5>
             <label>
               <input type=checkbox name="action[{ index }].schoolLevels" value=maternelle checked={ action.schoolLevels.includes('maternelle') }>
@@ -102,7 +104,7 @@
           </div>
 
 
-          <div class=topics>
+          <div class=checkbox-list>
             <h5>En lien pédagogique avec </h5>
             <label>
               <input type=checkbox name="action[{ index }].topics" value=francais checked={ action.topics.includes('francais') }>
@@ -297,7 +299,7 @@
   </script>
 
   <style scoped>
-    .domains > label, .topics > label, .schoolLevels > label {
+    .checkbox-list > label {
       display: inline-block;
       margin: 1rem;
     }
@@ -307,7 +309,7 @@
     .delete + label {
       clear: both;
     }
-    h4 {
+    .action h4 {
       float: left;
     }
     textarea {
