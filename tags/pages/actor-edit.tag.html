@@ -166,11 +166,11 @@
             <option value=todo selected={ action.status == 'todo' }>Cette action est plannifiée</option>
           </select>
 
-          <label for=type>Type d'action</label>
-          <select name="action[{ index }].type" id=type>
-            <option value=intervention selected={ action.type == 'intervention' }>Déplacement jusqu'à l'établissement scolaire</option>
-            <option value=sortie selected={ action.type == 'sortie' }>Sortie pour les élèves sur mon lieu</option>
-            <option value=mix selected={ action.type == 'mix' }>En partie à l'école, et en partie sur mon lieu</option>
+          <label for=place>Type d'action</label>
+          <select name="action[{ index }].place" id=place>
+            <option value=intervention selected={ action.place == 'school' }>Dans l'établissement scolaire</option>
+            <option value=sortie selected={ action.place == 'trip' }>Hors de l'établissement scolaire</option>
+            <option value=mix selected={ action.place == 'mixed' }>En partie dans l'établissement scolaire, en partie en dehors</option>
           </select>
 
           <label>Établissement(s) scolaire(s) en lien avec cette action</label>
