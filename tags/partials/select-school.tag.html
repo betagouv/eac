@@ -6,10 +6,10 @@
 
     this.displaySchool = (school) => `${school.name} (${school.postalCode} ${school.city})`
     
-    this.fromAddress = (f) => { 
+    this.fromAddress = (feature) => { 
       return {
-        label: `${f.properties.label} (${f.properties.postcode} ${f.properties.city.toUpperCase()})`, 
-        value: f.geometry.coordinates.join(',')
+        label: `${feature.properties.label} (${feature.properties.postcode} ${feature.properties.city.toUpperCase()})`, 
+        value: feature.geometry.coordinates.join(',')
       }
     }
 

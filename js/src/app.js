@@ -29,13 +29,13 @@ async function schoolById(id) {
     const [lng, lat] = id.split(',')
     const addresses = await request(`https://api-adresse.data.gouv.fr/reverse/?lon=${lng}&lat=${lat}&limit=1`)
     if (addresses.features) {
-      const f = addresses.features[0]
+      const feature = addresses.features[0]
       return Promise.resolve({
-        name: f.properties.label, 
-        city: f.properties.city.toUpperCase(),
-        postalCode: f.properties.postcode,
+        name: feature.properties.label, 
+        city: feature.properties.city.toUpperCase(),
+        postalCode: feature.properties.postcode,
         loc: {
-          coordinates: f.geometry.coordinates 
+          coordinates: feature.geometry.coordinates 
         }
       })
     }    
