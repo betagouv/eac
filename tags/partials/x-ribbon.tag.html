@@ -21,14 +21,26 @@
       padding-top: 15px;
     }
     .ribbon > span {
+      display: inline-block;
       background: #79A70A;
       color: #FFF;
-      font-size: 12px;
+      font-size: 1.2rem;
       font-weight: bold;
       text-transform: capitalize;
       cursor: help;
       position: relative;
-      padding: 4px 6px;
+      padding: .4rem 1.5rem 0 1.1rem;
+      height: 26px;
+    }
+    .ribbon > span:before {
+      content: ' ';
+      position: absolute;
+      width: 10px;
+      left: -10px;
+      top: 0;
+      border-width: 13px 10px;
+      border-style: solid;
+      border-color: #79A70A #79A70A #79A70A transparent;
     }
     .ribbon > span:after {
       border: rgb(108, 119, 81) solid 0;
