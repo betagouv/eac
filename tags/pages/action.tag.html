@@ -44,7 +44,6 @@
 
     this.on('mount', async () => {
       this.actor = await api(`/actors/${this.opts.actorId}`)
-      console.log(this.actor)
       this.action = this.actor.actions[this.opts.actionIndex]
       this.medias = this.action.medias ? this.action.medias.filter(m => m) : []
       this.update()
