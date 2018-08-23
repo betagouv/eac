@@ -152,7 +152,6 @@
             </label>
           </div>
 
-
           <label>Page internet de l'action</label>
           <input type=url name="action[{ index }].website" value={ action.website }>
 
@@ -189,6 +188,7 @@
       <small>* Les champs marqués d'une * sont obligatoires</small>
 
       <button type=submit>Enregistrer</button>
+      <button class=button-clear id=delete-actor type=button onclick={ this.deleteActor }>Supprimer</button>
 
     </form>
   </section>
@@ -212,6 +212,19 @@
 
     this.deleteAction = (event) => {
       this.actions.splice(event.target.dataset.id, 1)
+    }
+
+    this.deleteActor = async event => {
+      if (confirm('Êtes-vous sûr de vouloir supprimer cette acteur culturel ?')) {
+        await api(`/actors/${actorId}`, {
+          method: 'DELETE',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+        page('/')
+      }
     }
 
     this.updateImage = (event) => {
