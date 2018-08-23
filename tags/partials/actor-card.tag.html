@@ -14,7 +14,7 @@
 
   <a href=/actor/{ this.actor._id }?school={ this.schoolId }></a>
 
-  <x-ribbon if={ this.actor.labels }>{ this.actor.labels.join(' / ') }</x-ribbon>
+  <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
 
   <script>
     /* global opts */
