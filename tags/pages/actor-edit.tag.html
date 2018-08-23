@@ -6,14 +6,14 @@
 
       <fieldset class=block>
         <h3>Quelques mots sur vous</h3>
-        <label for=name>Nom de l'acteur culturel</label>
+        <label for=name class=required>Nom de l'acteur culturel</label>
         <input type=text name=name id=name value={ this.actor && this.actor.name } required>
 
         <label for=image>Illustration de l'acteur culturel</label>
         <input type=url oninput={ this.updateImage } name=image id=image value={ this.actor && this.actor.image } placeholder="Entrez un lien web vers l'image">
         <small><img ref=image show={ this.actor.image } src="{ this.actor.image }" alt="L'image mentionnée n'existe pas" height=100></small>
 
-        <label for=description>Ce qu'il faut savoir sur vous</label>
+        <label for=description class=required>Ce qu'il faut savoir sur vous</label>
         <textarea name=description id=description placeholder="Présentez votre structure ou compagnie, vos missions, votre éthique, tout ce qui peut être utile à comprendre votre démarche en tant qu'acteur culturel" required>{ this.actor && this.actor.description }</textarea>
 
         <h4>À quels domaines culturels se rapportent vos actions ?</h4>
@@ -29,13 +29,13 @@
         <label for=mainPhone>Numéro de téléphone principal</label>
         <input type=text name=mainPhone id=mainPhone value="{ this.actor && this.actor.mainPhone }">
 
-        <label for=address>Votre adresse</label>
+        <label for=address class=required>Votre adresse</label>
         <input type=text name=address id=address ref=address oninput={ this.setValidity } value={ this.actor && this.actor.address } required>
 
-        <label for=city>Ville</label>
+        <label for=city class=required>Ville</label>
         <input type=text name=city id=city value={ this.actor && this.actor.city } required>
 
-        <label for=postalCode>Code postal</label>
+        <label for=postalCode class=required>Code postal</label>
         <input type=text name=postalCode id=postalCode value={ this.actor && this.actor.postalCode } required>
 
         <label for=timetable>Horaires d'ouverture</label>
@@ -54,7 +54,7 @@
         <input type=email name=contactEmail id=contactEmail value={ this.actor && this.actor.contactEmail }>
 
         <label for=contactTimetable>Disponibilité du contact EAC</label>
-        <input type=email name=contactTimetable id=contactTimetable value={ this.actor && this.actor.contactTimetable }>
+        <textarea name=contactTimetable id=contactTimetable>{ this.actor && this.actor.contactTimetable }</textarea>
       </fieldset>
 
       <fieldset>
@@ -65,11 +65,11 @@
           <h4>Action n°{ index + 1 }</h4>
           <button class="delete button-outline" type=button onclick={ this.deleteAction } data-id={ index }>Supprimer</button>
 
-          <label>Comment intitulez vous cette activité ?</label>
-          <input type=text name="action[{ index }].name" value={ action.name }>
+          <label class=required>Comment intitulez vous cette activité ?</label>
+          <input type=text name="action[{ index }].name" value={ action.name } required>
 
-          <label>En quoi consiste cette activité et quelle est sa finalité ?</label>
-          <textarea name="action[{ index }].description">{ action.description }</textarea>
+          <label class=required>En quoi consiste cette activité et quelle est sa finalité ?</label>
+          <textarea name="action[{ index }].description" required>{ action.description }</textarea>
 
           <label>Illustration de l'activité</label>
           <input type=text name="action[{ index }].medias" placeholder="Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)" value={ action.medias.join(', ') }>
@@ -156,7 +156,7 @@
           <label>Page internet de l'action</label>
           <input type=url name="action[{ index }].website" value={ action.website }>
 
-          <label>Nombre maximum d'élèves</label>
+          <label>Nombre d'élèves</label>
           <input type=number name="action[{ index }].capacity" value={ action.capacity }>
 
           <label>État de l'action</label>
@@ -185,6 +185,8 @@
         </section>
         <button onclick={ this.addAction } class="button-outline" type=button>Ajouter une action</button>
       </fieldset>
+
+      <small>* Les champs marqués d'une * sont obligatoires</small>
 
       <button type=submit>Enregistrer</button>
 
@@ -299,9 +301,14 @@
   </script>
 
   <style scoped>
+    label {
+      margin-top: 1rem;
+    }
+
     .checkbox-list > label {
       display: inline-block;
-      margin: 1rem;
+      margin: inherit;
+      margin-right: 1rem;
     }
     .delete {
       float: right;
@@ -314,6 +321,10 @@
     }
     textarea {
       min-height: 15rem;
+    }
+
+    label.required::after {
+      content: ' *';
     }
   </style>
 
