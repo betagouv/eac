@@ -16,10 +16,10 @@
         </ul>
       </virtual>
 
-      <p if={ !this.actor.description }>
-        Cet acteur culturel n'a pas renseigné ses informations.<br>
+      <virtual if={ !this.actor.description }>
+        <p>Cet acteur culturel n'a pas renseigné ses informations.</p>
         <a class=button href="https://duckduckgo.com/?q={ encodeURI(`${this.actor.name} ${this.actor.city}`) }" target=_blank>Faire une recherche</a>
-      </p>
+      </virtual>
 
       <x-ribbon if={ this.actor.labels }>{ this.actor.labels.join(' / ') }</x-ribbon>
     </section>
