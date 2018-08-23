@@ -21,7 +21,7 @@
         <a class=button href="https://duckduckgo.com/?q={ encodeURI(`${this.actor.name} ${this.actor.city}`) }" target=_blank>Faire une recherche</a>
       </p>
 
-      <x-ribbon if={ this.actor.labels }>{ this.actor.labels.join(' / ') }</x-ribbon>
+      <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
     </section>
 
     <section id=actions if= { this.actor.actions && this.actor.actions.length }>
