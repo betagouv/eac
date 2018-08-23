@@ -1,156 +1,156 @@
 <page-actor-edit>
-  <section>
-    <h2>{ this.actor ? 'Modifier' : 'Ajouter' } un acteur culturel</h2>
-
-    <form onsubmit={ this.submit }>
-
-      <fieldset class=block>
-        <h3>Quelques mots sur vous</h3>
-        <label for=name>Nom de l'acteur culturel</label>
-        <input type=text name=name id=name value={ this.actor && this.actor.name } required>
-
-        <label for=image>Illustration de l'acteur culturel</label>
-        <input type=url oninput={ this.updateImage } name=image id=image value={ this.actor && this.actor.image } placeholder="Entrez un lien web vers l'image">
-        <small><img ref=image show={ this.actor.image } src="{ this.actor.image }" alt="L'image mentionnée n'existe pas" height=100></small>
-
-        <label for=description>Ce qu'il faut savoir sur vous</label>
-        <textarea name=description id=description placeholder="Présentez votre structure ou compagnie, vos missions, votre éthique, tout ce qui peut être utile à comprendre votre démarche en tant qu'acteur culturel" required>{ this.actor && this.actor.description }</textarea>
-
-        <h4>À quels domaines culturels se rapportent vos actions ?</h4>
-        <div class=checkbox-list>
-          <label each={ domain in this.domains }>
-            <input type=checkbox name=domains value={ domain } checked={ this.actor && this.actor.domains.includes(domain) }> { domain }
-          </label>
-        </div>
-
-        <label for=website>Votre site internet</label>
-        <input type=url name=website id=website value="{ this.actor && this.actor.website }">
-
-        <label for=mainPhone>Numéro de téléphone principal</label>
-        <input type=text name=mainPhone id=mainPhone value="{ this.actor && this.actor.mainPhone }">
-
-        <label for=address>Votre adresse</label>
-        <input type=text name=address id=address ref=address oninput={ this.setValidity } value={ this.actor && this.actor.address } required>
-
-        <label for=city>Ville</label>
-        <input type=text name=city id=city value={ this.actor && this.actor.city } required>
-
-        <label for=postalCode>Code postal</label>
-        <input type=text name=postalCode id=postalCode value={ this.actor && this.actor.postalCode } required>
-
-        <label for=timetable>Horaires d'ouverture</label>
-        <textarea name=timetable id=timetable>{ this.actor && this.actor.timetable }</textarea>
-      </fieldset>
-
-      <fieldset class=block>
-        <h3>Qui contacter pour organiser une activité EAC ?</h3>
-        <label for=contactName>Nom du contact EAC</label>
-        <input type=text name=contactName id=contactName value={ this.actor && this.actor.contactName }>
-
-        <label for=contactPhone>Téléphone du contact EAC</label>
-        <input type=tel name=contactPhone id=contactPhone value={ this.actor && this.actor.contactPhone }>
-
-        <label for=contactEmail>Email du contact EAC</label>
-        <input type=email name=contactEmail id=contactEmail value={ this.actor && this.actor.contactEmail }>
-
-        <label for=contactTimetable>Disponibilité du contact EAC</label>
-        <input type=email name=contactTimetable id=contactTimetable value={ this.actor && this.actor.contactTimetable }>
-      </fieldset>
-
-      <fieldset>
-        <h3>Actions proposées</h3>
-        <section each={ action, index in this.actions } class="action block">
-          <input type=hidden name="action[{ index }].id" value={ action.id }>
-
-          <h4>Action n°{ index + 1 }</h4>
-          <button class="delete button-outline" type=button onclick={ this.deleteAction } data-id={ index }>Supprimer</button>
-
-          <label>Comment intitulez vous cette activité ?</label>
-          <input type=text name="action[{ index }].name" value={ action.name }>
-
-          <label>En quoi consiste cette activité et quelle est sa finalité ?</label>
-          <textarea name="action[{ index }].description">{ action.description }</textarea>
-
-          <label>Illustration de l'activité</label>
-          <input type=text name="action[{ index }].medias" placeholder="Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)" value={ action.medias.join(', ') }>
-
-          <label>Date de début</label>
-          <input type=date name="action[{ index }].dateRangeStart" value={ action.dateRange && action.dateRange[0] }>
-
-          <label>Date de fin</label>
-          <input type=date name="action[{ index }].dateRangeEnd" value={ action.dateRange.length && action.dateRange[1] }>
-
-          <label>Durée sur place</label>
-          <input type=text name="action[{ index }].duration" value={ action.duration }>
-
+    <section>
+      <h2>{ this.actor ? 'Modifier' : 'Ajouter' } un acteur culturel</h2>
+  
+      <form onsubmit={ this.submit }>
+  
+        <fieldset class=block>
+          <h3>Quelques mots sur vous</h3>
+          <label for=name>Nom de l'acteur culturel</label>
+          <input type=text name=name id=name value={ this.actor && this.actor.name } required>
+  
+          <label for=image>Illustration de l'acteur culturel</label>
+          <input type=url oninput={ this.updateImage } name=image id=image value={ this.actor && this.actor.image } placeholder="Entrez un lien web vers l'image">
+          <small><img ref=image show={ this.actor.image } src="{ this.actor.image }" alt="L'image mentionnée n'existe pas" height=100></small>
+  
+          <label for=description>Ce qu'il faut savoir sur vous</label>
+          <textarea name=description id=description placeholder="Présentez votre structure ou compagnie, vos missions, votre éthique, tout ce qui peut être utile à comprendre votre démarche en tant qu'acteur culturel" required>{ this.actor && this.actor.description }</textarea>
+  
+          <h4>À quels domaines culturels se rapportent vos actions ?</h4>
           <div class=checkbox-list>
-            <h5>Accessible aux publics</h5>
-            <label>
-              <input type=checkbox name="action[{ index }].schoolLevels" value=maternelle checked={ action.schoolLevels.includes('maternelle') }>
-              Maternelle
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].schoolLevels" value=elementaire checked={ action.schoolLevels.includes('elementaire') }>
-              Élémentaire
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].schoolLevels" value=college checked={ action.schoolLevels.includes('college') }>
-              Collège
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].schoolLevels" value=lycee checked={ action.schoolLevels.includes('lycee') }>
-              Lycée
+            <label each={ domain in this.domains }>
+              <input type=checkbox name=domains value={ domain } checked={ this.actor && this.actor.domains.includes(domain) }> { domain }
             </label>
           </div>
-
-
-          <div class=checkbox-list>
-            <h5>En lien pédagogique avec </h5>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=francais checked={ action.topics.includes('francais') }>
-              Français
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=mathematiques checked={ action.topics.includes('mathematiques') }>
-              Mathématiques
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=histoire checked={ action.topics.includes('histoire') }>
-              Histoire
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=geographie checked={ action.topics.includes('geographie') }>
-              Géographie
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=langue-vivante checked={ action.topics.includes('langue-vivante') }>
-              Langue Vivante
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=physique checked={ action.topics.includes('physique') }>
-              Physique
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=chimie checked={ action.topics.includes('chimie') }>
-              Chimie
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=svt checked={ action.topics.includes('svt') }>
-              Sciences de la vie et de la Terre
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=eps checked={ action.topics.includes('eps') }>
-              Éducation physique et sportive
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=civisme checked={ action.topics.includes('civisme') }>
-              Éducation civique, juridique et sociale
-            </label>
-            <label>
-              <input type=checkbox name="action[{ index }].topics" value=autre checked={ action.topics.includes('autre') }>
-              Autre(s)
-            </label>
-          </div>
+  
+          <label for=website>Votre site internet</label>
+          <input type=url name=website id=website value="{ this.actor && this.actor.website }">
+  
+          <label for=mainPhone>Numéro de téléphone principal</label>
+          <input type=text name=mainPhone id=mainPhone value="{ this.actor && this.actor.mainPhone }">
+  
+          <label for=address>Votre adresse</label>
+          <input type=text name=address id=address ref=address oninput={ this.setValidity } value={ this.actor && this.actor.address } required>
+  
+          <label for=city>Ville</label>
+          <input type=text name=city id=city value={ this.actor && this.actor.city } required>
+  
+          <label for=postalCode>Code postal</label>
+          <input type=text name=postalCode id=postalCode value={ this.actor && this.actor.postalCode } required>
+  
+          <label for=timetable>Horaires d'ouverture</label>
+          <textarea name=timetable id=timetable>{ this.actor && this.actor.timetable }</textarea>
+        </fieldset>
+  
+        <fieldset class=block>
+          <h3>Qui contacter pour organiser une activité EAC ?</h3>
+          <label for=contactName>Nom du contact EAC</label>
+          <input type=text name=contactName id=contactName value={ this.actor && this.actor.contactName }>
+  
+          <label for=contactPhone>Téléphone du contact EAC</label>
+          <input type=tel name=contactPhone id=contactPhone value={ this.actor && this.actor.contactPhone }>
+  
+          <label for=contactEmail>Email du contact EAC</label>
+          <input type=email name=contactEmail id=contactEmail value={ this.actor && this.actor.contactEmail }>
+  
+          <label for=contactTimetable>Disponibilité du contact EAC</label>
+          <input type=email name=contactTimetable id=contactTimetable value={ this.actor && this.actor.contactTimetable }>
+        </fieldset>
+  
+        <fieldset>
+          <h3>Actions proposées</h3>
+          <section each={ action, index in this.actions } class="action block">
+            <input type=hidden name="action[{ index }].id" value={ action.id }>
+  
+            <h4>Action n°{ index + 1 }</h4>
+            <button class="delete button-outline" type=button onclick={ this.deleteAction } data-id={ index }>Supprimer</button>
+  
+            <label>Comment intitulez vous cette activité ?</label>
+            <input type=text name="action[{ index }].name" value={ action.name }>
+  
+            <label>En quoi consiste cette activité et quelle est sa finalité ?</label>
+            <textarea name="action[{ index }].description">{ action.description }</textarea>
+  
+            <label>Illustration de l'activité</label>
+            <input type=text name="action[{ index }].medias" placeholder="Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)" value={ action.medias.join(', ') }>
+  
+            <label>Date de début</label>
+            <input type=date name="action[{ index }].dateRangeStart" value={ action.dateRange && action.dateRange[0] }>
+  
+            <label>Date de fin</label>
+            <input type=date name="action[{ index }].dateRangeEnd" value={ action.dateRange.length && action.dateRange[1] }>
+  
+            <label>Durée sur place</label>
+            <input type=text name="action[{ index }].duration" value={ action.duration }>
+  
+            <div class=checkbox-list>
+              <h5>Accessible aux publics</h5>
+              <label>
+                <input type=checkbox name="action[{ index }].schoolLevels" value=maternelle checked={ action.schoolLevels.includes('maternelle') }>
+                Maternelle
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].schoolLevels" value=elementaire checked={ action.schoolLevels.includes('elementaire') }>
+                Élémentaire
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].schoolLevels" value=college checked={ action.schoolLevels.includes('college') }>
+                Collège
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].schoolLevels" value=lycee checked={ action.schoolLevels.includes('lycee') }>
+                Lycée
+              </label>
+            </div>
+  
+  
+            <div class=checkbox-list>
+              <h5>En lien pédagogique avec </h5>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=francais checked={ action.topics.includes('francais') }>
+                Français
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=mathematiques checked={ action.topics.includes('mathematiques') }>
+                Mathématiques
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=histoire checked={ action.topics.includes('histoire') }>
+                Histoire
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=geographie checked={ action.topics.includes('geographie') }>
+                Géographie
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=langue-vivante checked={ action.topics.includes('langue-vivante') }>
+                Langue Vivante
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=physique checked={ action.topics.includes('physique') }>
+                Physique
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=chimie checked={ action.topics.includes('chimie') }>
+                Chimie
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=svt checked={ action.topics.includes('svt') }>
+                Sciences de la vie et de la Terre
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=eps checked={ action.topics.includes('eps') }>
+                Éducation physique et sportive
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=civisme checked={ action.topics.includes('civisme') }>
+                Éducation civique, juridique et sociale
+              </label>
+              <label>
+                <input type=checkbox name="action[{ index }].topics" value=autre checked={ action.topics.includes('autre') }>
+                Autre(s)
+              </label>
+            </div>
 
 
           <label>Page internet de l'action</label>
@@ -187,6 +187,7 @@
       </fieldset>
 
       <button type=submit>Enregistrer</button>
+      <button class= button-clear id=delete-actor type=button onclick={ this.deleteActor }>Supprimer</button>
 
     </form>
   </section>
@@ -210,6 +211,19 @@
 
     this.deleteAction = (event) => {
       this.actions.splice(event.target.dataset.id, 1)
+    }
+
+    this.deleteActor = async event => {
+      if (confirm('Êtes-vous sûr de vouloir supprimer cette acteur culturel ?')) {
+        await api(`/actors/${actorId}`, {
+          method: 'DELETE',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+        page('/')
+      }
     }
 
     this.updateImage = (event) => {
@@ -298,7 +312,7 @@
     }
   </script>
 
-  <style scoped>
+<style scoped>
     .checkbox-list > label {
       display: inline-block;
       margin: 1rem;
