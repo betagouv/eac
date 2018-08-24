@@ -5,7 +5,7 @@
       <nav class=tags>
         <color-tag each={ tag in this.actor.domains } label={ tag } />
       </nav>
-      <p if={ this.actor.description }>{ this.actor.description }</p>
+      <p if={ this.actor.description }><marked text={ this.actor.description }></marked></p>
 
       <virtual if={ this.actor.mainPhone || this.actor.website }>
         <h4>En savoir plus</h4>
@@ -148,9 +148,6 @@
 
     .actor > nav {
       margin-bottom: 1rem;
-    }
-    .actor > p:first-of-type {
-      white-space: pre-wrap;
     }
 
     #image {

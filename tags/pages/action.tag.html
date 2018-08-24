@@ -1,8 +1,8 @@
 <page-action>
   <article class=block>
     <h1>{ this.action.name }</h1>
-    <section class=description>
-      { this.action.description }
+    <section class=description if={ this.action.description }>
+      <marked text={ this.action.description }></marked>
     </section>
     <nav if={ this.medias }>
       <a each={ media in this.medias } href={ media } target=_blank>Consulter { media.split('/').splice(-1)[0] }</a>
@@ -81,9 +81,6 @@
       left: 0;
       right: 0;
       text-indent: -9999px;
-    }
-    .description {
-      white-space: pre-wrap;
     }
   </style>
 </page-action>
