@@ -23,8 +23,8 @@
 
       <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
 
-      <p id=maj>
-        <small>Dernière mise à jour le { this.actorFormatDate() }</small>
+      <p id=updated-at>
+        <small>Dernière mise à jour le <time>{ this.actorFormatDate() }</time></small>
       </p>
       
     </section>
@@ -92,10 +92,7 @@
     /* global api, location */
     this.actor = {}
 
-    this.actorFormatDate = () => {
-      const date = new Date(this.actor.updatedAt || this.actor.createdAt || '2018-07-01')
-      return date.toLocaleDateString('fr-FR')
-    }
+    this.actorFormatDate = () => (new Date(this.actor.updatedAt)).toLocaleDateString('fr-FR')
 
     this.on('mount', async () => {
       this.actor = await api(`/actors/${this.opts.actorId}`)
@@ -168,10 +165,10 @@
       max-width: 100%;
     }
 
-    #maj {
+    #updated-at {
       position: relative;
     }
-    #maj > small {
+    #updated-at > small {
       position: absolute;
       right: 0;
     }
