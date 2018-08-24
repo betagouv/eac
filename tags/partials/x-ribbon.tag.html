@@ -1,59 +1,55 @@
 <x-ribbon>
-  <div class=ribbon title="Cette action est en partenariat avec les organismes suivants : { this.text }">
-    <span ref=content><yield /></span>
+  <div class="ribbon">
+    <span title={ this.title }>{ this.text }</span>
   </div>
 
   <script>
+    this.text = this.opts.text
+    this.title = `Cette action est en partenariat avec les collectivités territoriales et organismes suivants : ${this.text}`
+
     this.on('mount', () => {
       this.root.parentNode.classList.add('x-ribbon_parent')
-      this.text = this.refs.content.textContent
     })
   </script>
 
   <style scoped>
     .ribbon {
       position: absolute;
-      right: -5px; top: -5px;
+      right: -10px;
+      top: 0;
       z-index: 1;
-      overflow: hidden;
-      width: 75px; height: 75px;
-      text-align: right;
-      cursor: help;
+      padding-top: 15px;
     }
-    .ribbon span {
-      font-size: 10px;
-      font-weight: bold;
-      color: #FFF;
-      text-transform: uppercase;
-      text-align: center;
-      line-height: 20px;
-      transform: rotate(45deg);
-      -webkit-transform: rotate(45deg);
-      width: 100px;
-      display: block;
+    .ribbon > span {
+      display: inline-block;
       background: #79A70A;
-      background: linear-gradient(#9BC90D 0%, #79A70A 100%);
-      box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+      color: #FFF;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-transform: capitalize;
+      cursor: help;
+      position: relative;
+      padding: .4rem 1.5rem 0 1.1rem;
+      height: 26px;
+    }
+    .ribbon > span:before {
+      content: ' ';
       position: absolute;
-      top: 19px; right: -21px;
+      width: 10px;
+      left: -10px;
+      top: 0;
+      border-width: 13px 10px;
+      border-style: solid;
+      border-color: #79A70A #79A70A #79A70A transparent;
     }
-    .ribbon span::before {
-      content: "";
-      position: absolute; left: 0px; top: 100%;
-      z-index: -1;
-      border-left: 3px solid #79A70A;
-      border-right: 3px solid transparent;
-      border-bottom: 3px solid transparent;
-      border-top: 3px solid #79A70A;
-    }
-    .ribbon span::after {
-      content: "";
-      position: absolute; right: 0px; top: 100%;
-      z-index: -1;
-      border-left: 3px solid transparent;
-      border-right: 3px solid #79A70A;
-      border-bottom: 3px solid transparent;
-      border-top: 3px solid #79A70A;
+    .ribbon > span:after {
+      border: rgb(108, 119, 81) solid 0;
+      border-top-width: 6px;
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: -6px;
+      border-right: 10px solid transparent;
     }
   </style>
 </x-ribbon>
