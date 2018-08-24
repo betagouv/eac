@@ -24,7 +24,7 @@
       <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
     </section>
 
-    <section id=actions if= { this.actor.actions && this.actor.actions.length }>
+    <section id=actions if={ this.actor.actions && this.actor.actions.length }>
       <h3>Actions animée par { this.actor.name } :</h3>
       <article each={ action, i in this.actor.actions } class=block>
         <h4>{ action.name }</h4>
