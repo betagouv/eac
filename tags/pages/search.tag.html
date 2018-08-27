@@ -12,7 +12,7 @@
       <div class=block>
         <h4 if={ this.q }>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
         <h4 if={ !this.q && this.school.name }> Résultats autour de { this.school.name } ({ this.school.city })</h4>
-        <p if={ !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
+        <p if={ this.ready && !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
       </div>
       <actor-card class=block each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
     </section>
@@ -22,7 +22,7 @@
       <actors-map class=block actors={ this.actors } school-id={ this.schoolId } />
     </section>
 
-    <section id=extra class=block>
+    <section if={ this.ready } id=extra class=block>
       <h4>Vous n'avez rien trouvé d'intéressant&nbsp;?</h4>
       <actors-externals department={ this.department }></actors-externals>
       <p>
@@ -34,6 +34,7 @@
 
   <script>
     /* global api, normalizeString */
+    this.ready = false
     this.q = this.opts.q
     this.schoolId = this.opts.schoolId
     try {
@@ -58,6 +59,7 @@
       }
       this.actors = await api(`/actors/search/${normalizeString(this.q)}${params}`)
       this.department = this.school.postalCode && this.school.postalCode.substr(0, 2)
+      this.ready = true
       this.update()
     })
 
