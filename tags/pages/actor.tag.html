@@ -22,6 +22,11 @@
       </virtual>
 
       <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
+
+      <p id=updated-at>
+        <small>Dernière mise à jour le <time>{ this.actorFormatDate() }</time></small>
+      </p>
+      
     </section>
 
     <section id=actions if={ this.actor.actions && this.actor.actions.length }>
@@ -86,6 +91,8 @@
   <script>
     /* global api, location */
     this.actor = {}
+
+    this.actorFormatDate = () => (new Date(this.actor.updatedAt)).toLocaleDateString('fr-FR')
 
     this.on('mount', async () => {
       this.actor = await api(`/actors/${this.opts.actorId}`)
@@ -156,6 +163,14 @@
     #image {
       text-align: center;
       max-width: 100%;
+    }
+
+    #updated-at {
+      position: relative;
+    }
+    #updated-at > small {
+      position: absolute;
+      right: 0;
     }
   </style>
 </page-actor>
