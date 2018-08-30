@@ -57,7 +57,20 @@
           params += `from=${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`
         }
       }
-      this.actors = await api(`/actors/search/${normalizeString(this.q)}${params}`)
+      let [actors, actions] = await Promise.all([
+        api(`/actors/search/${normalizeString(this.q)}${params}`),
+        api(`/actions/search/${normalizeString(this.q)}${params}`)
+      ])
+      // Todo: refactor to spread object (need https://babeljs.io/docs/en/babel-plugin-transform-object-rest-spread)
+      actions = actions.filter(a => a.name).map(action => {
+        action.domains = action.actor.domains
+        action.distance = action.actor.distance
+        action.labels = action.actor.labels
+        action.department = action.actor.department
+        action._id = action.actor._id
+        return action
+      })
+      this.actors = [...actions, ...actors]
       this.department = this.school.postalCode && this.school.postalCode.substr(0, 2)
       this.ready = true
       this.update()
