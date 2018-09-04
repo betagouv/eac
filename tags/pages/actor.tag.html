@@ -78,6 +78,9 @@
         </address>
         <a if={ this.actor.mainPhone } href="tel:{ this.actor.mainPhone }">Tél. : { this.actor.mainPhone }</a>
       </section>
+      <section class=block if={ this.latLng && this.schoolLocation }>
+        <journey from={ this.schoolLocation } to={ this.latLng }></journey>
+      </section>
     </aside>
 
   <section class=edit>
@@ -103,6 +106,12 @@
       this.emailBody = `Bonjour ${this.contact},\n\n` +
         `Je vous contacte suite à ma consultation de la fiche ${location.href}.\n\n` +
         `Questions ou remarques :\n\n\n\n`
+      if (this.opts.schoolId) {
+        const school = await schoolById(this.opts.schoolId)
+        if (school.loc && school.loc.coordinates) {
+          this.schoolLocation = [school.loc.coordinates[1],school.loc.coordinates[0]]
+        }
+      }
       this.update()
     })
   </script>
