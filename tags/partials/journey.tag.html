@@ -72,7 +72,6 @@
     const token = '038459f1-4120-47d4-950e-a18bbaca483c'
     const from = this.opts.from
     const to = this.opts.to
-    console.log(from, to)
 
     this.nav = {}
     this.journeys = []
@@ -89,7 +88,6 @@
         `${navitiaUrl}/journeys?from=${from[1]};${from[0]}&to=${to[1]};${to[0]}`, 
         { headers: { 'Authorization': token } }
       )
-      console.log(this.nav)
       this.journeys = this.nav.journeys
       this.feed_publishers = this.nav.feed_publishers
       this.update()
