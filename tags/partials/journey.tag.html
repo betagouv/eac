@@ -1,9 +1,12 @@
 <journey>
-  <h3 if={ this.nav }>
+  <h3 if={ this.nav && this.journeys }>
     {this.journeys.length} 
     itinéraire{ this.journeys.length > 1 ? 's' : '' } 
     disponible{ this.journeys.length > 1 ? 's' : '' } 
     depuis votre établissement
+  </h3>
+  <h3 if={ !(this.nav && this.journeys) }>
+    Aucun itinéraire disponible depuis votre établissement
   </h3>
   <ol>
     <li each={ this.journeys }>
