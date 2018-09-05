@@ -48,7 +48,7 @@
     })
 
     page('/actor/:id', (ctx) => {
-      this.schoolId = ctx.params.school
+      this.schoolId = urlParams(ctx.querystring).get('school') || ''
       this.refs.container.innerHTML = `<page-actor
         school-id="${this.schoolId}"
         actor-id="${ctx.params.id}"
