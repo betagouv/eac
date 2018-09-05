@@ -9,11 +9,11 @@
     Aucun itinéraire disponible depuis votre établissement
   </h3>
   <ol>
-    <li each={ this.journeys }>
-      <virtual if={ durations.total }>
+    <li each={ journey in this.journeys }>
+      <virtual if={ journey.durations.total }>
         <img src=/images/duration.svg class=icon>
         <span class=duration>
-          { this.toMinutes(durations.total) }
+          { this.toMinutes(journey.durations.total) }
         </span>
       </virtual>
 
@@ -29,29 +29,29 @@
         </span>
       </virtual>
       <ul>
-        <virtual each={ sections }>
-          <li if={ (mode == 'walking' || type == 'transfer') && from.name != to.name }>
+        <virtual each={ section in journey.sections }>
+          <li if={ (section.mode == 'walking' || section.type == 'transfer') && section.from.name != section.to.name }>
             <img src=/images/walking.svg class=icon>
             Marcher depuis 
-            <a href={ this.toOsm(coord(from)) }><strong>{ from.name }</strong></a> 
+            <a href={ this.toOsm(coord(section.from)) }><strong>{ section.from.name }</strong></a> 
             jusqu'à 
-            <a href={ this.toOsm(coord(to)) }><strong>{ to.name }</strong></a> 
+            <a href={ this.toOsm(coord(section.to)) }><strong>{ section.to.name }</strong></a> 
             pendant 
-            { this.toMinutes(duration) }
+            { this.toMinutes(section.duration) }
           </li>
-          <li if={ type == 'on_demand_transport' || type == 'public_transport' }>
+          <li if={ section.type == 'on_demand_transport' || section.type == 'public_transport' }>
             <img src=/images/bus.svg class=icon>
-            { display_informations.physical_mode || display_informations.commercial_mode } 
-            <span if={ display_informations.code } class=bus-label style={ this.toStyle(display_informations) }>
-              { display_informations.code }
+            { section.display_informations.physical_mode || section.display_informations.commercial_mode } 
+            <span if={ section.display_informations.code } class=bus-label style={ this.toStyle(section.display_informations) }>
+              { section.display_informations.code }
             </span>
             depuis l'arrêt 
-            <strong>{ from.name }</strong> <em>→&nbsp;{ display_informations.direction }</em>
+            <strong>{ section.from.name }</strong> <em>→&nbsp;{ section.display_informations.direction }</em>
             jusqu'à 
-            <strong>{ to.name }</strong> 
+            <strong>{ section.to.name }</strong> 
             pendant 
-            { this.toMinutes(duration) }
-            - Réseau { display_informations.network }
+            { this.toMinutes(section.duration) }
+            - Réseau { section.display_informations.network }
           </li>
         </virtual>
       </ul>
@@ -60,8 +60,8 @@
   <virtual if={ this.feedPublishers.length }>
     <h5>Sources</h5>
     <ul id=sources>
-      <li each={ this.feedPublishers }>
-        <a href={ this.toUrl(url) }>{ name }</a>
+      <li each={ feedPublisher in this.feedPublishers }>
+        <a href={ this.toUrl(feedPublisher.url) }>{ feedPublisher.name }</a>
       </li>
     </ul>
   </virtual>
