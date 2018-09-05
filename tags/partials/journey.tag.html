@@ -1,6 +1,6 @@
 <journey>
   <h3 if={ this.nav && this.journeys }>
-    {this.journeys.length} 
+    { this.journeys.length } 
     itinéraire{ this.journeys.length > 1 ? 's' : '' } 
     disponible{ this.journeys.length > 1 ? 's' : '' } 
     depuis votre établissement
@@ -57,10 +57,10 @@
       </ul>
     </li>
   </ol>
-  <virtual if={ this.feed_publishers.length }>
+  <virtual if={ this.feedPublishers.length }>
     <h5>Sources</h5>
     <ul id=sources>
-      <li each={ this.feed_publishers }>
+      <li each={ this.feedPublishers }>
         <a href={ this.toUrl(url) }>{ name }</a>
       </li>
     </ul>
@@ -78,12 +78,12 @@
 
     this.nav = {}
     this.journeys = []
-    this.feed_publishers = []
+    this.feedPublishers = []
     
     this.toMinutes = (s) => Math.ceil(s/60) + "min"
     this.toStyle = (s) => `color: #${s.text_color}; background-color: #${s.color};`
     this.toUrl = (s) => s.match(/^http/) ? s : `https://${s}`
-    this.coord = (o) => o[o.address ? 'address' : 'stop_point'].coord
+    this.coord = (o) => (o.address || o.stop_point).coord
     this.toOsm = (c) => `${osmUrl}?mlat=${c.lat}&mlon=${c.lon}#map=15/${c.lon}/${c.lng}&layers=T`
     
     this.on('mount', async () => {
@@ -92,7 +92,7 @@
         { headers: { 'Authorization': token } }
       )
       this.journeys = this.nav.journeys
-      this.feed_publishers = this.nav.feed_publishers
+      this.feedPublishers = this.nav.feed_publishers
       this.update()
     }) 
   </script>
@@ -118,7 +118,8 @@
     ul#sources > li {
       margin-bottom: 0.5rem;
     }
-    a, a:visited {
+    a, 
+    a:visited {
       color: #1b87b6;
     }
     a:hover {
