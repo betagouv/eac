@@ -1,6 +1,6 @@
 const apiUrl = location.hostname === 'localhost'
   ? 'http://localhost:3000'
-  : 'https://eac-api.herokuapp.com'
+  : 'http://api.education-artistique-culturelle.fr'
 
 function request (url, options = {}) {
   const params = Object.assign(options, {
@@ -31,14 +31,14 @@ async function schoolById(id) {
     if (addresses.features) {
       const feature = addresses.features[0]
       return Promise.resolve({
-        name: feature.properties.label, 
+        name: feature.properties.label,
         city: feature.properties.city.toUpperCase(),
         postalCode: feature.properties.postcode,
         loc: {
-          coordinates: feature.geometry.coordinates 
+          coordinates: feature.geometry.coordinates
         }
       })
-    }    
-  } 
+    }
+  }
   return api(`/schools/${id}`)
 }
