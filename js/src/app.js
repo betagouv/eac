@@ -1,6 +1,6 @@
 const apiUrl = location.hostname === 'localhost'
   ? 'http://localhost:3000'
-  : 'http://api.education-artistique-culturelle.fr'
+  : 'https://api.education-artistique-culturelle.fr'
 
 function request (url, options = {}) {
   const params = Object.assign(options, {
