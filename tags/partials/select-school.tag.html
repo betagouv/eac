@@ -58,6 +58,9 @@
           }), 
           addresses.features && addresses.features[0] ? this.fromAddress(addresses.features[0]) : null
         ].filter(x => x)
+        if (completer.suggestions.length) {
+          this.schoolId = completer.suggestions[0].value
+        }
       })
 
       this.refs.input.addEventListener('awesomplete-selectcomplete', event => {
