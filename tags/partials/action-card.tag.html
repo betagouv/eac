@@ -1,0 +1,92 @@
+<action-card>
+
+  <h3>{ this.action.name }</h3>
+  <small>({ this.actor.name } — { this.actor.city }, { this.actor.postalCode })</small>
+
+  <marked text={ this.action.description.length < this.maxlength ? this.action.description : this.action.description.substr(0, this.maxlength) + '…' }></marked>
+
+  <footer>
+    <geo if={ this.action.distance }>{ Math.ceil(this.action.distance) }&nbsp;km</geo>
+    <nav class=tags>
+      <color-tag class=tag each={ domain in this.actor.domains } label={ domain }>
+        <a>{ domain }</a>
+      </color-tag>
+    </nav>
+  </footer>
+
+  <a href=/action/{ this.action._id }?school={ this.schoolId }></a>
+
+  <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
+
+  <script>
+    this.schoolId = this.opts.schoolId
+    this.action = this.opts.action
+    this.actor = this.action.actor
+    this.maxlength = this.opts.maxlength || 150
+  </script>
+
+  <style scoped>
+    :scope {
+      position: relative;
+      display: block;
+    }
+    :scope > a {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+    :scope:hover {
+      color: #111;
+      transition: color .3s;
+    }
+
+    h3 {
+      font-size: 1.4em;
+      margin: 1rem 0 0 0;
+    }
+    small {
+      line-height: .8em;
+    }
+    marked {
+      display: block;
+      margin-top: 1rem;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      padding-top: 1rem;
+      margin-top: 1rem;
+      border-top: 1px solid #ccc;
+      align-items: center;
+      margin-bottom: -2rem; /* compensate .block padding  */
+    }
+
+    .tags {
+      text-align: right;
+    }
+
+    geo {
+      font-size: 1.3rem;
+      background: url(/images/gps.icon.png) no-repeat;
+      background-size: 1.8rem;
+      padding-left: 2rem;
+    }
+    marked h1,
+    marked h2,
+    marked h3 {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #888;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</action-card>

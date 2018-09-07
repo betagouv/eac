@@ -38,13 +38,13 @@
 
   <script>
     /* globals api */
-    this.actor = {}
     this.action = {}
+    this.actor = {}
     this.medias = []
 
     this.on('mount', async () => {
-      this.actor = await api(`/actors/${this.opts.actorId}`)
-      this.action = this.actor.actions[this.opts.actionIndex]
+      this.action = await api(`/actions/${this.opts.id}`)
+      this.actor = this.action.actor
       this.medias = this.action.medias ? this.action.medias.filter(m => m) : []
       this.update()
     })
@@ -65,7 +65,7 @@
         grid-area: aside;
       }
     }
-    
+
     #actor {
       position: relative;
     }

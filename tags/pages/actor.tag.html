@@ -26,7 +26,7 @@
       <p id=updated-at>
         <small>Dernière mise à jour le <time>{ this.actorFormatDate() }</time></small>
       </p>
-      
+
     </section>
 
     <section id=actions if={ this.actor.actions && this.actor.actions.length }>
@@ -34,7 +34,7 @@
       <article each={ action, i in this.actor.actions } class=block>
         <h4>{ action.name }</h4>
         <p>{ action.description.substr(0, 200) }…</p>
-        <a href="/actor/{ this.actor._id }/action/{ i }" title="Voir l'action « { action.name } »">Voir cette action en détail</a>
+        <a href="/action/{ action._id }" title="Voir l'action « { action.name } »">Voir cette action en détail</a>
       </article>
     </section>
 

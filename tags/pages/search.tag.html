@@ -14,6 +14,7 @@
         <h4 if={ !this.q && this.school.name }> Résultats autour de { this.school.name } ({ this.school.city })</h4>
         <p if={ this.ready && !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
       </div>
+      <action-card class=block each={ action in this.actions } action={ action } school-id={ this.schoolId } />
       <actor-card class=block each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
     </section>
 
@@ -57,20 +58,8 @@
           params += `from=${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`
         }
       }
-      let [actors, actions] = await Promise.all([
-        api(`/actors/search/${normalizeString(this.q)}${params}`),
-        api(`/actions/search/${normalizeString(this.q)}${params}`)
-      ])
-      // Todo: refactor to spread object (need https://babeljs.io/docs/en/babel-plugin-transform-object-rest-spread)
-      actions = actions.filter(a => a.name).map(action => {
-        action.domains = action.actor.domains
-        action.distance = action.actor.distance
-        action.labels = action.actor.labels
-        action.department = action.actor.department
-        action._id = action.actor._id
-        return action
-      })
-      this.actors = [...actions, ...actors]
+      this.actors = await api(`/actors/search/${normalizeString(this.q)}${params}`),
+      this.actions = await api(`/actions/search/${normalizeString(this.q)}${params}`)
       this.department = this.school.postalCode && this.school.postalCode.substr(0, 2)
       this.ready = true
       this.update()
