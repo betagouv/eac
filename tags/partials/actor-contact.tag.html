@@ -1,0 +1,34 @@
+<actor-contact>
+  <h3 if={ this.contact }>Contacter { this.contact }</h3>
+  <h3 if={ !this.contact }>Contacter le responsable EAC</h3>
+  <ul>
+    <li if={ this.phone }>Par téléphone : { this.phone }</li>
+    <li if={ this.email }>Par email : { this.email }</li>
+  </ul>
+  <a if={ this.email } class=button target="_blank" href="mailto:{ this.email }?subject=À propos de { this.actor.name }&cc=loup.wolff@beta.gouv.fr&body={ encodeURIComponent(this.emailBody) }">Envoyer un email</a>
+  <a if={ this.phone } class=button href="tel:{ this.phone }">Appeler</a>
+  <p if={ !this.phone && !this.email }>
+    Aucune information de contact n'est disponible pour cet acteur culturel.<br>
+    <a class=button href="https://duckduckgo.com/?q={ encodeURI(`${this.actor.name} ${this.actor.city}`) }" target=_blank>Faire une recherche</a>
+  </p>
+
+  <script>
+    this.actor = {}
+
+    this.on('update', () => {
+      this.actor = this.opts.actor
+      this.phone = this.actor.contactPhone || this.actor.ownerPhone
+      this.email = this.actor.contactEmail || this.actor.ownerEmail
+      this.contact = (this.actor.contactName || this.actor.ownerName || '').replace(',', '')
+      this.emailBody = `Bonjour ${this.contact},\n\n` +
+        `Je vous contacte suite à ma consultation de la fiche ${location.href}.\n\n` +
+        `Questions ou remarques :\n\n\n\n`
+    })
+  </script>
+
+  <style>
+    :scope {
+      display: block;
+    }
+  </style>
+</actor-contact>

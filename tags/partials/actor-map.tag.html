@@ -1,0 +1,31 @@
+<actor-map>
+  <geo if={ this.actor.distance }>à { Math.ceil(this.actor.distance) }&nbsp;km</geo>
+  <address if={ this.latLng }>
+    <iframe width=100% height=350 frameborder=0 scrolling=no marginheight=0 marginwidth=0 src="https://www.openstreetmap.org/export/embed.html?bbox={ Number(this.latLng[1]) - 0.02 }%2C{ Number(this.latLng[0]) - 0.02 }%2C{ Number(this.latLng[1]) + 0.02 }%2C{ Number(this.latLng[0]) + 0.02 }&amp;layer=hot&amp;marker={ this.latLng[0] }%2C{ this.latLng[1] }"></iframe><br/>
+    <small>
+      <a href="https://www.openstreetmap.org/?mlat={ this.latLng[0] }&mlon={ this.latLng[1] }#map=15/{ this.latLng[0] }/{ this.latLng[1] }&layers=T" target=_blank>
+        { this.actor.address }<br>
+        { this.actor.postalCode } { this.actor.city }
+      </a>
+    </small>
+  </address>
+  <a if={ this.actor.mainPhone } href="tel:{ this.actor.mainPhone }">Tél. : { this.actor.mainPhone }</a>
+
+
+  <script>
+    this.actor = {}
+
+    this.on('update', () => {
+      this.actor = this.opts.actor
+      this.latLng = this.actor.loc.coordinates[0] && this.actor.loc.coordinates
+    })
+  </script>
+
+
+  <style>
+    :scope {
+      display: block;
+
+    }
+  </style>
+</actor-map>

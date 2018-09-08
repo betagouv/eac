@@ -1,9 +1,10 @@
 <page-action>
   <article class=block>
     <h1>{ this.action.name }</h1>
-    <section class=description if={ this.action.description }>
-      <marked text={ this.action.description }></marked>
-    </section>
+    <marked class=description if={ this.action.description } text={ this.action.description }></marked>
+    <p if={ !this.action.description }>
+      Contactez <a href="/actor/{ this.actor._id }">this.actor.name</a> pour en savoir plus sur ses actions d'éducation artistique et culturelle.
+    </p>
     <nav if={ this.medias }>
       <a each={ media in this.medias } href={ media } target=_blank>Consulter { media.split('/').splice(-1)[0] }</a>
     </nav>
@@ -12,29 +13,33 @@
     <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
   </article>
 
+  <section class=block>
+    <h3>Informations complémentaires</h3>
+    <ul>
+      <li if={ this.action.schoolLevels }>Niveaux concernés : { this.action.schoolLevels.join(', ') }</li>
+      <li if={ this.action.topics }>Matières concernées : { this.action.topics.join(', ') }</li>
+      <li if={ this.action.capacity }>Capacité maximum de { this.action.capacity } élèves</li>
+      <li if={ this.action.duration }>Durée estimée de { this.action.duration }</li>
+      <li if={ this.action.cost }>Coût global approximatif de { this.action.cost }€</li>
+      <virtual if={this.action.dateRange}>
+        <li if={ this.action.dateRange[0] && this.action.dateRange[1] }>Disponible entre le { this.action.dateRange[0] } et le { this.action.dateRange[1] }</li>
+        <li if={ this.action.dateRange[0] && !this.action.dateRange[1] }>Débute le { this.action.dateRange[0] }</li>
+        <li if={ !this.action.dateRange[0] && this.action.dateRange[1] }>Effective jusqu'au { this.action.dateRange[1] }</li>
+      </virtual>
+    </ul>
+  </section>
+
   <aside>
-    <section class=block>
-      <h3>Informations complémentaires</h3>
-      <ul>
-        <li if={ this.action.schoolLevels }>Niveaux concernés : { this.action.schoolLevels.join(', ') }</li>
-        <li if={ this.action.topics }>Matières concernées : { this.action.topics.join(', ') }</li>
-        <li if={ this.action.capacity }>Capacité maximum de { this.action.capacity } élèves</li>
-        <li if={ this.action.duration }>Durée estimée de { this.action.duration }</li>
-        <li if={ this.action.cost }>Coût global approximatif de { this.action.cost }€</li>
-        <virtual if={this.action.dateRange}>
-          <li if={ this.action.dateRange[0] && this.action.dateRange[1] }>Disponible entre le { this.action.dateRange[0] } et le { this.action.dateRange[1] }</li>
-          <li if={ this.action.dateRange[0] && !this.action.dateRange[1] }>Débute le { this.action.dateRange[0] }</li>
-          <li if={ !this.action.dateRange[0] && this.action.dateRange[1] }>Effective jusqu'au { this.action.dateRange[1] }</li>
-        </virtual>
-      </ul>
+    <section class=block id=actor>
+      <h3>Poposé par { this.actor.name }</h3>
+      <img if={ this.actor.image } src={ this.actor.image }>
+      <a class=button href="/actor/{ this.actor._id }" title="Voir la fiche de { this.actor.name }">Voir sa fiche</a>
     </section>
 
-    <section class=block id=actor>
-      <h3>Animé par { this.actor.name }</h3>
-      <img if={ this.actor.image } src={ this.actor.image }>
-      <a href="/actor/{ this.actor._id }" title="Voir la fiche de { this.actor.name }">Voir la fiche</a>
-    </section>
+    <actor-contact class=block actor={ this.actor } />
+    <actor-map class=block actor={ this.actor } />
   </aside>
+
 
   <script>
     /* globals api */
@@ -72,15 +77,6 @@
     #actor img {
       display: block;
       margin: 0 auto;
-    }
-    #actor a {
-      display: block;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      text-indent: -9999px;
     }
   </style>
 </page-action>

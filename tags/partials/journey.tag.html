@@ -1,8 +1,8 @@
 <journey>
   <h3 if={ this.nav && this.journeys }>
-    { this.journeys.length } 
-    itinéraire{ this.journeys.length > 1 ? 's' : '' } 
-    disponible{ this.journeys.length > 1 ? 's' : '' } 
+    { this.journeys.length }
+    itinéraire{ this.journeys.length > 1 ? 's' : '' }
+    disponible{ this.journeys.length > 1 ? 's' : '' }
     depuis votre établissement
   </h3>
   <h3 if={ !(this.nav && this.journeys) }>
@@ -32,24 +32,24 @@
         <virtual each={ section in journey.sections }>
           <li if={ (section.mode == 'walking' || section.type == 'transfer') && section.from.name != section.to.name }>
             <img src=/images/walking.svg class=icon>
-            Marcher depuis 
-            <a href={ this.toOsm(coord(section.from)) }><strong>{ section.from.name }</strong></a> 
-            jusqu'à 
-            <a href={ this.toOsm(coord(section.to)) }><strong>{ section.to.name }</strong></a> 
-            pendant 
+            Marcher depuis
+            <a href={ this.toOsm(coord(section.from)) }><strong>{ section.from.name }</strong></a>
+            jusqu'à
+            <a href={ this.toOsm(coord(section.to)) }><strong>{ section.to.name }</strong></a>
+            pendant
             { this.toMinutes(section.duration) }
           </li>
           <li if={ section.type == 'on_demand_transport' || section.type == 'public_transport' }>
             <img src=/images/bus.svg class=icon>
-            { section.display_informations.physical_mode || section.display_informations.commercial_mode } 
+            { section.display_informations.physical_mode || section.display_informations.commercial_mode }
             <span if={ section.display_informations.code } class=bus-label style={ this.toStyle(section.display_informations) }>
               { section.display_informations.code }
             </span>
-            depuis l'arrêt 
+            depuis l'arrêt
             <strong>{ section.from.name }</strong> <em>→&nbsp;{ section.display_informations.direction }</em>
-            jusqu'à 
-            <strong>{ section.to.name }</strong> 
-            pendant 
+            jusqu'à
+            <strong>{ section.to.name }</strong>
+            pendant
             { this.toMinutes(section.duration) }
             - Réseau { section.display_informations.network }
           </li>
@@ -67,7 +67,7 @@
   </virtual>
 
   <script>
-    
+
     // See: http://doc.navitia.io/
 
     const navitiaUrl = 'https://api.navitia.io/v1'
@@ -79,25 +79,37 @@
     this.nav = {}
     this.journeys = []
     this.feedPublishers = []
-    
+
     this.toMinutes = (s) => Math.ceil(s/60) + "min"
     this.toStyle = (s) => `color: #${s.text_color}; background-color: #${s.color};`
     this.toUrl = (s) => s.match(/^http/) ? s : `https://${s}`
     this.coord = (o) => (o.address || o.stop_point).coord
     this.toOsm = (c) => `${osmUrl}?mlat=${c.lat}&mlon=${c.lon}#map=15/${c.lon}/${c.lng}&layers=T`
-    
+
     this.on('mount', async () => {
       this.nav = await request(
-        `${navitiaUrl}/journeys?from=${from[1]};${from[0]}&to=${to[1]};${to[0]}`, 
+        `${navitiaUrl}/journeys?from=${from[1]};${from[0]}&to=${to[1]};${to[0]}`,
         { headers: { 'Authorization': token } }
       )
       this.journeys = this.nav.journeys
       this.feedPublishers = this.nav.feed_publishers
+
+      this.latLng = this.actor.loc.coordinates[0] && this.actor.loc.coordinates
+      if (this.opts.schoolId) {
+        const school = await schoolById(this.opts.schoolId)
+        if (school.loc && school.loc.coordinates) {
+          this.schoolLocation = [school.loc.coordinates[1],school.loc.coordinates[0]]
+        }
+      }
+
       this.update()
-    }) 
+    })
   </script>
 
   <style scoped>
+    :scope {
+      display: block;
+    }
     .icon {
       margin-bottom: -5px;
       opacity: 0.5;
@@ -110,7 +122,7 @@
       text-align: center;
       line-height: 1.2em;
       min-width: 1em;
-      padding: 0.2em 0.3em; 
+      padding: 0.2em 0.3em;
     }
     ul#sources {
       font-size: 1.2rem;
@@ -118,7 +130,7 @@
     ul#sources > li {
       margin-bottom: 0.5rem;
     }
-    a, 
+    a,
     a:visited {
       color: #1b87b6;
     }
