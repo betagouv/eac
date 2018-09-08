@@ -1,10 +1,15 @@
 <page-actor>
-  <article class="block actor">
+  <article class=block>
     <h2>{ this.actor.name }</h2>
     <nav class=tags>
       <color-tag each={ tag in this.actor.domains } label={ tag } />
     </nav>
-    <virtual if={ this.actor.description }><marked text={ this.actor.description }></marked></virtual>
+
+    <marked if={ this.actor.description } text={ this.actor.description }></marked>
+    <virtual if={ !this.actor.description }>
+      <p>Cet acteur culturel n'a pas renseigné ses informations.</p>
+      <a class=button href="https://duckduckgo.com/?q={ encodeURI(`${this.actor.name} ${this.actor.city}`) }" target=_blank>Faire une recherche</a>
+    </virtual>
 
     <virtual if={ this.actor.mainPhone || this.actor.website }>
       <h4>En savoir plus</h4>
@@ -13,11 +18,6 @@
         <li if={ this.actor.website }>
           <a target=_blank href={ this.actor.website }>Visiter le site internet</a></li>
       </ul>
-    </virtual>
-
-    <virtual if={ !this.actor.description }>
-      <p>Cet acteur culturel n'a pas renseigné ses informations.</p>
-      <a class=button href="https://duckduckgo.com/?q={ encodeURI(`${this.actor.name} ${this.actor.city}`) }" target=_blank>Faire une recherche</a>
     </virtual>
 
     <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
@@ -86,19 +86,10 @@
       :scope {
         display: grid;
         grid-template:
-          'actor aside'
-          'actions aside'
+          '. aside'
+          '. aside'
           'edit edit'
           / auto 51rem;
-      }
-      :scope > article {
-        display: contents;
-      }
-      .actor {
-        grid-area: actor;
-      }
-      #actions {
-        grid-area: actions;
       }
       .edit {
         grid-area: edit;
@@ -127,7 +118,7 @@
       right: 0;
     }
 
-    .actor > nav {
+    article > nav {
       margin-bottom: 1rem;
     }
 

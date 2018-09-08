@@ -31,8 +31,9 @@
 
   <aside>
     <section class=block id=actor>
-      <h3>Poposé par { this.actor.name }</h3>
+      <h3>Proposé par { this.actor.name }</h3>
       <img if={ this.actor.image } src={ this.actor.image }>
+      <p if={ this.actor.description }>{ this.actor.description.substr(0, 200) }…</p>
       <a class=button href="/actor/{ this.actor._id }" title="Voir la fiche de { this.actor.name }">Voir sa fiche</a>
     </section>
 
