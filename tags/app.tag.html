@@ -17,7 +17,8 @@
   <script>
     /* global page, riot, urlParams */
     page('/', (ctx) => {
-      this.refs.container.innerHTML = ''
+      this.refs.container.innerHTML = `<page-intro/>`
+      riot.mount('page-intro')
       this.update()
     })
 
