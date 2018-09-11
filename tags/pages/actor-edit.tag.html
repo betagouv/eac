@@ -256,7 +256,7 @@
         return
       }
 
-      function getActionProperty(name, index, isArray) {
+      function getActionProperty (name, index, isArray) {
         return data[isArray ? 'getAll' : 'get'](`action[${index}].${name}`)
       }
 
@@ -276,7 +276,7 @@
           topics: getActionProperty('topics', i, true),
           schoolLevels: getActionProperty('schoolLevels', i, true),
           school: getActionProperty('school', i),
-          cost: getActionProperty('cost', i),
+          cost: getActionProperty('cost', i)
         }
       }).filter(a => a.name)
 
