@@ -1,0 +1,19 @@
+<marked-small>
+  <script>
+    this.root.innerHTML = marked(this.opts.text, { sanitize: true })
+  </script>
+  <style scoped>
+    h1,
+    h2,
+    h3 {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #888;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    ul, li {
+      margin-bottom: 0;
+    }
+  </style>
+</marked-small>

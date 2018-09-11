@@ -31,7 +31,7 @@
     <h3>Actions animée par { this.actor.name } :</h3>
     <article each={ action, i in this.actor.actions } class=block>
       <h4>{ action.name }</h4>
-      <p>{ action.description.substr(0, 200) }…</p>
+      <marked-small text={ action.description.length < 150 ? action.description : action.description.substr(0, 150) + '…' }></marked-small>
       <a href="/action/{ action._id }" title="Voir l'action « { action.name } »">Voir cette action en détail</a>
     </article>
   </section>
