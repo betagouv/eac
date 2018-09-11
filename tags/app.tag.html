@@ -17,10 +17,10 @@
   <script>
     /* global page, riot, urlParams, window */
 
-    if (window.location.hostname === 'localhost') {
+    if (window.location.hostname !== 'localhost') {
       let currentUrl = window.location.href
       const _paq = window._paq
-      page('*', (ctx) => {
+      page('*', (ctx, next) => {
         _paq.push(['setReferrerUrl', currentUrl])
         currentUrl = ctx.path
         _paq.push(['setCustomUrl', currentUrl])
@@ -36,6 +36,7 @@
         _paq.push(['MediaAnalytics::scanForMedia', content])
         _paq.push(['FormAnalytics::scanForForms', content])
         _paq.push(['trackContentImpressionsWithinNode', content])
+        next()
       })
     }
 
