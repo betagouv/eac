@@ -6,9 +6,9 @@
 
     this.displaySchool = (school) => `${school.name} (${school.postalCode} ${school.city})`
     
-    this.fromAddress = (feature) => { 
+    this.fromAddress = (feature) => {
       return {
-        label: `${feature.properties.label} (${feature.properties.postcode} ${feature.properties.city.toUpperCase()})`, 
+        label: `${feature.properties.label} (${feature.properties.postcode} ${feature.properties.city.toUpperCase()})`,
         value: feature.geometry.coordinates.join(',')
       }
     }
@@ -55,7 +55,7 @@
               label: this.displaySchool(s),
               value: s._id
             }
-          }), 
+          }),
           addresses.features && addresses.features[0] ? this.fromAddress(addresses.features[0]) : null
         ].filter(x => x)
         if (completer.suggestions.length) {

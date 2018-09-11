@@ -15,9 +15,34 @@
 
 
   <script>
-    /* global page, riot, urlParams */
+    /* global page, riot, urlParams, window */
+
+    if (window.location.hostname !== 'localhost') {
+      let currentUrl = window.location.href
+      const _paq = window._paq
+      page('*', (ctx, next) => {
+        _paq.push(['setReferrerUrl', currentUrl])
+        currentUrl = ctx.path
+        _paq.push(['setCustomUrl', currentUrl])
+        _paq.push(['setDocumentTitle', 'EAC page'])
+
+        // remove all previously assigned custom variables, requires Matomo (formerly Piwik) 3.0.2
+        _paq.push(['deleteCustomVariables', 'page'])
+        _paq.push(['setGenerationTimeMs', 0])
+        _paq.push(['trackPageView'])
+
+        // make Matomo aware of newly added content
+        var content = document.querySelector('main')
+        _paq.push(['MediaAnalytics::scanForMedia', content])
+        _paq.push(['FormAnalytics::scanForForms', content])
+        _paq.push(['trackContentImpressionsWithinNode', content])
+        next()
+      })
+    }
+
     page('/', (ctx) => {
       this.refs.container.innerHTML = `<page-intro/>`
+      this.q = ''
       riot.mount('page-intro')
       this.update()
     })
@@ -75,7 +100,8 @@
     header {
       padding: 3rem;
       margin-bottom: 3rem;
-      border-bottom: .5rem solid;
+      border-bottom-style: solid;
+      border-width: 0 0 .5rem 0; /* Safari fix */
       border-image: linear-gradient(
         to right,
         #4f2559 calc(100%/6),
