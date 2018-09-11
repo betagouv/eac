@@ -17,15 +17,15 @@
         </span>
       </virtual>
 
-      <virtual if={ durations.walking }>
+      <virtual if={ journey.durations.walking }>
         · <img src=/images/walking.svg class=icon>
         <span class=duration-walk>
-          { this.toMinutes(durations.walking) }
+          { this.toMinutes(journey.durations.walking) }
         </span>
       </virtual>
-      <virtual if={ co2_emission.value }>
+      <virtual if={ journey.co2_emission.value }>
         <span class=co2>
-          · CO<small>2</small>&nbsp;: { Math.round(co2_emission.value) } { co2_emission.unit }
+          · CO<small>2</small>&nbsp;: { Math.round(journey.co2_emission.value) } { journey.co2_emission.unit }
         </span>
       </virtual>
       <ul>
