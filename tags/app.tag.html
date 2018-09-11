@@ -83,7 +83,8 @@
     })
 
     page('/action/:id', (ctx) => {
-      this.refs.container.innerHTML = `<page-action id="${ctx.params.id}" />`
+      this.schoolId = urlParams(ctx.querystring).get('school') || ''
+      this.refs.container.innerHTML = `<page-action id="${ctx.params.id}" school-id="${this.schoolId}" />`
       riot.mount('page-action')
       this.update()
     })
