@@ -1,5 +1,6 @@
 <app>
   <header>
+    <img src=/images/marianne-betagouv.svg>
     <a href="/">
       <img id=logo src=/images/logo-eac.gif alt="Logo de la Plateforme EAC">
       <h1>Plateforme EAC</h1>
@@ -17,7 +18,8 @@
   <script>
     /* global page, riot, urlParams */
     page('/', (ctx) => {
-      this.refs.container.innerHTML = ''
+      this.refs.container.innerHTML = '<page-home />'
+      riot.mount('page-home')
       this.update()
     })
 
@@ -99,6 +101,10 @@
         / 1fr 8rem 38rem 1fr
         ;
       color: inherit;
+    }
+    header > img {
+      max-width: 250px;
+      float: left;
     }
     header > a #logo {
       grid-area: logo;
