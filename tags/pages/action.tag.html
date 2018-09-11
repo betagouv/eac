@@ -50,7 +50,7 @@
 
     this.on('mount', async () => {
       this.action = await api(`/actions/${this.opts.id}`)
-      this.actor = this.action.actor
+      this.actor = this.action.actor[0] || this.action.actor
       this.medias = this.action.medias ? this.action.medias.filter(m => m) : []
       this.update()
     })

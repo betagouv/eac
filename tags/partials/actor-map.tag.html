@@ -17,7 +17,9 @@
 
     this.on('update', () => {
       this.actor = this.opts.actor
-      this.latLng = this.actor.loc.coordinates[0] && this.actor.loc.coordinates
+      if (this.actor.loc) {
+        this.latLng = this.actor.loc.coordinates[0] && this.actor.loc.coordinates
+      }
     })
   </script>
 
