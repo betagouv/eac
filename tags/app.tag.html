@@ -41,8 +41,9 @@
     }
 
     page('/', (ctx) => {
+      this.refs.container.innerHTML = `<page-intro/>`
       this.q = ''
-      this.refs.container.innerHTML = ''
+      riot.mount('page-intro')
       this.update()
     })
 
