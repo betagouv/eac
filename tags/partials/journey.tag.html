@@ -93,14 +93,6 @@
       this.journeys = this.nav.journeys
       this.feedPublishers = this.nav.feed_publishers
 
-      this.latLng = this.actor.loc.coordinates[0] && this.actor.loc.coordinates
-      if (this.opts.schoolId) {
-        const school = await schoolById(this.opts.schoolId)
-        if (school.loc && school.loc.coordinates) {
-          this.schoolLocation = [school.loc.coordinates[1], school.loc.coordinates[0]]
-        }
-      }
-
       this.update()
     })
   </script>
