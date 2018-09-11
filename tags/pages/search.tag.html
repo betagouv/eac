@@ -62,8 +62,12 @@
           params += `from=${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`
         }
       }
-      this.actors = await api(`/actors/search/${normalizeString(this.q)}${params}`),
-      this.actions = await api(`/actions/search/${normalizeString(this.q)}${params}`)
+      
+      ;[this.actors, this.actions] = await Promise.all([
+        api(`/actors/search/${normalizeString(this.q)}${params}`),
+        api(`/actions/search/${normalizeString(this.q)}${params}`)
+      ])
+
       this.department = this.school.postalCode && this.school.postalCode.substr(0, 2)
       this.ready = true
       this.update()
