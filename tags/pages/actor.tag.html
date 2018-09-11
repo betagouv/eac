@@ -32,7 +32,7 @@
     <article each={ action, i in this.actor.actions } class=block>
       <h4>{ action.name }</h4>
       <marked-small text={ action.description.length < 150 ? action.description : action.description.substr(0, 150) + '…' }></marked-small>
-      <a href="/action/{ action._id }" title="Voir l'action « { action.name } »">Voir cette action en détail</a>
+      <a href="{ this.actionUrl(action._id) }" title="Voir l'action « { action.name } »">Voir cette action en détail</a>
     </article>
   </section>
 
@@ -66,6 +66,7 @@
     this.actor = {}
 
     this.actorFormatDate = () => (new Date(this.actor.updatedAt)).toLocaleDateString('fr-FR')
+    this.actionUrl = (id) => `/action/${id}${this.opts.schoolId && `?school=${this.opts.schoolId}` }`
 
     this.on('mount', async () => {
       this.actor = await api(`/actors/${this.opts.actorId}`)
