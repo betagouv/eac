@@ -41,6 +41,7 @@
     }
 
     page('/', (ctx) => {
+      this.q = ''
       this.refs.container.innerHTML = ''
       this.update()
     })
