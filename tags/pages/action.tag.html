@@ -1,9 +1,10 @@
 <page-action>
+
   <article class=block>
     <h1>{ this.action.name }</h1>
     <marked class=description if={ this.action.description } text={ this.action.description }></marked>
-    <p if={ !this.action.description }>
-      Contactez <a href="{ this.actor._id }">this.actor.name</a> pour en savoir plus sur ses actions d'éducation artistique et culturelle.
+    <p if={ !this.action.description && this.actor.name }>
+      Contactez <a href="{ this.actor._id }">{ this.actor.name }</a> pour en savoir plus sur ses actions d'éducation artistique et culturelle.
     </p>
     <nav if={ this.medias }>
       <a each={ media in this.medias } href={ media } target=_blank>Consulter { media.split('/').splice(-1)[0] }</a>
@@ -74,11 +75,9 @@
       :scope {
         display: grid;
         grid-template:
-          "article aside"
+          ". aside"
+          ". aside"
           / auto 45rem;
-      }
-      article {
-        grid-area: article;
       }
       aside {
         grid-area: aside;
