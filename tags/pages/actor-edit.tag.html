@@ -72,13 +72,13 @@
           <textarea name="action[{ index }].description" required>{ action.description }</textarea>
 
           <label>Illustration de l'activité</label>
-          <input type=text name="action[{ index }].medias" placeholder="Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)" value={ action.medias.join(', ') }>
+          <input type=text name="action[{ index }].medias" placeholder="Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)" value={ action.medias && action.medias.join(', ') }>
 
           <label>Date de début</label>
           <input type=date name="action[{ index }].dateRangeStart" value={ action.dateRange && action.dateRange[0] }>
 
           <label>Date de fin</label>
-          <input type=date name="action[{ index }].dateRangeEnd" value={ action.dateRange.length && action.dateRange[1] }>
+          <input type=date name="action[{ index }].dateRangeEnd" value={ action.dateRange && action.dateRange.length && action.dateRange[1] }>
 
           <label>Durée sur place</label>
           <input type=text name="action[{ index }].duration" value={ action.duration }>
@@ -86,19 +86,19 @@
           <div class=checkbox-list>
             <h5>Accessible aux publics</h5>
             <label>
-              <input type=checkbox name="action[{ index }].schoolLevels" value=maternelle checked={ action.schoolLevels.includes('maternelle') }>
+              <input type=checkbox name="action[{ index }].schoolLevels" value=maternelle checked={ this.includes(action.schoolLevels, 'maternelle') }>
               Maternelle
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].schoolLevels" value=elementaire checked={ action.schoolLevels.includes('elementaire') }>
+              <input type=checkbox name="action[{ index }].schoolLevels" value=elementaire checked={ this.includes(action.schoolLevels, 'elementaire') }>
               Élémentaire
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].schoolLevels" value=college checked={ action.schoolLevels.includes('college') }>
+              <input type=checkbox name="action[{ index }].schoolLevels" value=college checked={ this.includes(action.schoolLevels, 'college') }>
               Collège
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].schoolLevels" value=lycee checked={ action.schoolLevels.includes('lycee') }>
+              <input type=checkbox name="action[{ index }].schoolLevels" value=lycee checked={ this.includes(action.schoolLevels, 'lycee') }>
               Lycée
             </label>
           </div>
@@ -107,47 +107,47 @@
           <div class=checkbox-list>
             <h5>En lien pédagogique avec </h5>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=francais checked={ action.topics.includes('francais') }>
+              <input type=checkbox name="action[{ index }].topics" value=francais checked={ this.includes(action.topics, 'francais') }>
               Français
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=mathematiques checked={ action.topics.includes('mathematiques') }>
+              <input type=checkbox name="action[{ index }].topics" value=mathematiques checked={ this.includes(action.topics, 'mathematiques') }>
               Mathématiques
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=histoire checked={ action.topics.includes('histoire') }>
+              <input type=checkbox name="action[{ index }].topics" value=histoire checked={ this.includes(action.topics, 'histoire') }>
               Histoire
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=geographie checked={ action.topics.includes('geographie') }>
+              <input type=checkbox name="action[{ index }].topics" value=geographie checked={ this.includes(action.topics, 'geographie') }>
               Géographie
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=langue-vivante checked={ action.topics.includes('langue-vivante') }>
+              <input type=checkbox name="action[{ index }].topics" value=langue-vivante checked={ this.includes(action.topics, 'langue-vivante') }>
               Langue Vivante
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=physique checked={ action.topics.includes('physique') }>
+              <input type=checkbox name="action[{ index }].topics" value=physique checked={ this.includes(action.topics, 'physique') }>
               Physique
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=chimie checked={ action.topics.includes('chimie') }>
+              <input type=checkbox name="action[{ index }].topics" value=chimie checked={ this.includes(action.topics, 'chimie') }>
               Chimie
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=svt checked={ action.topics.includes('svt') }>
+              <input type=checkbox name="action[{ index }].topics" value=svt checked={ this.includes(action.topics, 'svt') }>
               Sciences de la vie et de la Terre
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=eps checked={ action.topics.includes('eps') }>
+              <input type=checkbox name="action[{ index }].topics" value=eps checked={ this.includes(action.topics, 'eps') }>
               Éducation physique et sportive
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=civisme checked={ action.topics.includes('civisme') }>
+              <input type=checkbox name="action[{ index }].topics" value=civisme checked={ this.includes(action.topics, 'civisme') }>
               Éducation civique, juridique et sociale
             </label>
             <label>
-              <input type=checkbox name="action[{ index }].topics" value=autre checked={ action.topics.includes('autre') }>
+              <input type=checkbox name="action[{ index }].topics" value=autre checked={ this.includes(action.topics, 'autre') }>
               Autre(s)
             </label>
           </div>
@@ -214,6 +214,8 @@
       this.actions.splice(event.target.dataset.id, 1)
     }
 
+    this.includes = (item, val) => item && item.includes(val) 
+
     this.deleteActor = async event => {
       if (confirm('Êtes-vous sûr de vouloir supprimer cette acteur culturel ?')) {
         await api(`/actors/${actorId}`, {
@@ -256,7 +258,7 @@
         return
       }
 
-      function getActionProperty(name, index, isArray) {
+      function getActionProperty (name, index, isArray) {
         return data[isArray ? 'getAll' : 'get'](`action[${index}].${name}`)
       }
 
@@ -265,9 +267,9 @@
           id: getActionProperty('id', i),
           name: getActionProperty('name', i),
           description: getActionProperty('description', i),
-          medias: getActionProperty('medias', i).split(',').map(s => s.trim()),
+          medias: getActionProperty('medias', i) && getActionProperty('medias', i).split(',').map(s => s.trim()),
           website: getActionProperty('website', i),
-          dateRange: [getActionProperty('dateRangeStart', i), getActionProperty('dateRangeStart', i)],
+          dateRange: [getActionProperty('dateRangeStart', i), getActionProperty('dateRangeEnd', i)],
           capacity: getActionProperty('capacity', i),
           duration: getActionProperty('duration', i),
           timetable: getActionProperty('timetable', i),
@@ -276,7 +278,7 @@
           topics: getActionProperty('topics', i, true),
           schoolLevels: getActionProperty('schoolLevels', i, true),
           school: getActionProperty('school', i),
-          cost: getActionProperty('cost', i),
+          cost: getActionProperty('cost', i)
         }
       }).filter(a => a.name)
 

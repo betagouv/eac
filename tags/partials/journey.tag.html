@@ -17,15 +17,15 @@
         </span>
       </virtual>
 
-      <virtual if={ durations.walking }>
+      <virtual if={ journey.durations.walking }>
         · <img src=/images/walking.svg class=icon>
         <span class=duration-walk>
-          { this.toMinutes(durations.walking) }
+          { this.toMinutes(journey.durations.walking) }
         </span>
       </virtual>
-      <virtual if={ co2_emission.value }>
+      <virtual if={ journey.co2_emission.value }>
         <span class=co2>
-          · CO<small>2</small>&nbsp;: { Math.round(co2_emission.value) } { co2_emission.unit }
+          · CO<small>2</small>&nbsp;: { Math.round(journey.co2_emission.value) } { journey.co2_emission.unit }
         </span>
       </virtual>
       <ul>
@@ -67,7 +67,6 @@
   </virtual>
 
   <script>
-
     // See: http://doc.navitia.io/
 
     const navitiaUrl = 'https://api.navitia.io/v1'
@@ -80,7 +79,7 @@
     this.journeys = []
     this.feedPublishers = []
 
-    this.toMinutes = (s) => Math.ceil(s/60) + "min"
+    this.toMinutes = (s) => Math.ceil(s / 60) + 'min'
     this.toStyle = (s) => `color: #${s.text_color}; background-color: #${s.color};`
     this.toUrl = (s) => s.match(/^http/) ? s : `https://${s}`
     this.coord = (o) => (o.address || o.stop_point).coord
@@ -93,14 +92,6 @@
       )
       this.journeys = this.nav.journeys
       this.feedPublishers = this.nav.feed_publishers
-
-      this.latLng = this.actor.loc.coordinates[0] && this.actor.loc.coordinates
-      if (this.opts.schoolId) {
-        const school = await schoolById(this.opts.schoolId)
-        if (school.loc && school.loc.coordinates) {
-          this.schoolLocation = [school.loc.coordinates[1],school.loc.coordinates[0]]
-        }
-      }
 
       this.update()
     })

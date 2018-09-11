@@ -1,5 +1,5 @@
 <page-search>
-    <section class=block id=filters>
+    <section class="block {!this.ready && 'hidden' }"" id=filters>
       <search-filters filters={ this.filters } q={ this.q } school-id={ this.schoolId } actors={ this.actors } />
     </section>
 
@@ -10,12 +10,14 @@
     <section if={ this.viewType == 'list' } id=results>
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
       <div class=block>
-        <h4 if={ this.q }>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
-        <h4 if={ !this.q && this.school.name }> Résultats autour de { this.school.name } ({ this.school.city })</h4>
+        <h4 if={ !this.ready }> Chargement des résultats</h4>
+        <h4 if={ this.ready && this.q }>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
+        <h4 if={ this.ready && !this.q && this.school.name }> Résultats autour de { this.school.name } ({ this.school.city })</h4>
+        <h4 if={ this.ready && !this.q && !this.school.name }> Résultats de la recherche</h4>
         <p if={ this.ready && !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
       </div>
-      <action-card class=block each={ action in this.actions } action={ action } school-id={ this.schoolId } />
-      <actor-card class=block each={ actor in this.actors } actor={ actor } school-id={ this.schoolId } />
+      <action-card class=block each={ action in this.withName(this.actions) } action={ action } school-id={ this.schoolId } />
+      <actor-card class=block each={ actor in this.withName(this.actors) } actor={ actor } school-id={ this.schoolId } />
     </section>
 
     <section if={ this.viewType == 'map' } id=map>
@@ -48,6 +50,8 @@
     this.domains = this.filters.domains || []
     this.school = {}
 
+    this.withName = (resources) => resources && resources.filter(r => r.name)
+
     this.on('mount', async () => {
       let params = this.filters.domains ? `?domains=${this.domains}` : ''
 
@@ -58,8 +62,12 @@
           params += `from=${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`
         }
       }
-      this.actors = await api(`/actors/search/${normalizeString(this.q)}${params}`),
-      this.actions = await api(`/actions/search/${normalizeString(this.q)}${params}`)
+      
+      ;[this.actors, this.actions] = await Promise.all([
+        api(`/actors/search/${normalizeString(this.q)}${params}`),
+        api(`/actions/search/${normalizeString(this.q)}${params}`)
+      ])
+
       this.department = this.school.postalCode && this.school.postalCode.substr(0, 2)
       this.ready = true
       this.update()
@@ -80,6 +88,9 @@
         'filters extra'
         / minmax(auto, 35%) 1fr;
       grid-gap: 2rem;
+    }
+    .hidden {
+      display: none;
     }
     #search {
       grid-area: search;

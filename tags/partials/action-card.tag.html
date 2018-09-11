@@ -3,7 +3,7 @@
   <h3>{ this.action.name }</h3>
   <small>({ this.actor.name } — { this.actor.city }, { this.actor.postalCode })</small>
 
-  <marked text={ this.action.description.length < this.maxlength ? this.action.description : this.action.description.substr(0, this.maxlength) + '…' }></marked>
+  <marked-small text={ this.action.description.length < this.maxlength ? this.action.description : this.action.description.substr(0, this.maxlength) + '…' }></marked-small>
 
   <footer>
     <geo if={ this.action.distance }>{ Math.ceil(this.action.distance) }&nbsp;km</geo>
@@ -78,15 +78,6 @@
       background: url(/images/gps.icon.png) no-repeat;
       background-size: 1.8rem;
       padding-left: 2rem;
-    }
-    marked h1,
-    marked h2,
-    marked h3 {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #888;
-      margin-top: 1.5rem;
-      margin-bottom: 0.5rem;
     }
   </style>
 </action-card>

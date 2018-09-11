@@ -1,7 +1,7 @@
 <actor-card>
 
   <h3>{ this.actor.name } <small>(dept { this.actor.department })</small></h3>
-  <marked text={ this.actor.description.length < this.maxlength ? this.actor.description : this.actor.description.substr(0, this.maxlength) + '…' }></marked>
+  <marked-small text={ this.actor.description.length < this.maxlength ? this.actor.description : this.actor.description.substr(0, this.maxlength) + '…' }></marked-small>
 
   <footer>
     <geo if={ this.actor.distance }>{ Math.ceil(this.actor.distance) }&nbsp;km</geo>
@@ -73,13 +73,6 @@
       background: url(/images/gps.icon.png) no-repeat;
       background-size: 1.8rem;
       padding-left: 2rem;
-    }
-    marked h1, marked h2, marked h3 {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #888;
-      margin-top: 1.5rem;
-      margin-bottom: 0.5rem;
     }
   </style>
 </actor-card>

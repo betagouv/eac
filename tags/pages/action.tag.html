@@ -1,9 +1,10 @@
 <page-action>
+
   <article class=block>
     <h1>{ this.action.name }</h1>
     <marked class=description if={ this.action.description } text={ this.action.description }></marked>
-    <p if={ !this.action.description }>
-      Contactez <a href="/actor/{ this.actor._id }">this.actor.name</a> pour en savoir plus sur ses actions d'éducation artistique et culturelle.
+    <p if={ !this.action.description && this.actor.name }>
+      Contactez <a href="{ this.actor._id }">{ this.actor.name }</a> pour en savoir plus sur ses actions d'éducation artistique et culturelle.
     </p>
     <nav if={ this.medias }>
       <a each={ media in this.medias } href={ media } target=_blank>Consulter { media.split('/').splice(-1)[0] }</a>
@@ -34,11 +35,13 @@
       <h3>Proposé par { this.actor.name }</h3>
       <img if={ this.actor.image } src={ this.actor.image }>
       <p if={ this.actor.description }>{ this.actor.description.substr(0, 200) }…</p>
-      <a class=button href="/actor/{ this.actor._id }" title="Voir la fiche de { this.actor.name }">Voir sa fiche</a>
+      <a class=button href="{ this.actorUrl() }" title="Voir la fiche de { this.actor.name }">Voir sa fiche</a>
     </section>
 
     <actor-contact class=block actor={ this.actor } />
     <actor-map class=block actor={ this.actor } />
+
+    <journey class=block if={ this.latLng && this.schoolLocation } from={ this.schoolLocation } to={ this.latLng }></journey>
   </aside>
 
 
@@ -48,10 +51,21 @@
     this.actor = {}
     this.medias = []
 
+    this.actorUrl = () => `/actor/${this.actor._id}${this.opts.schoolId && `?school=${this.opts.schoolId}` }`
+
     this.on('mount', async () => {
       this.action = await api(`/actions/${this.opts.id}`)
-      this.actor = this.action.actor
+      this.actor = this.action.actor[0] || this.action.actor
       this.medias = this.action.medias ? this.action.medias.filter(m => m) : []
+      // <journey> specific
+      this.latLng = this.actor.loc.coordinates[0] && this.actor.loc.coordinates
+      if (this.opts.schoolId) {
+        const school = await schoolById(this.opts.schoolId)
+        if (school.loc && school.loc.coordinates) {
+          this.schoolLocation = [school.loc.coordinates[1], school.loc.coordinates[0]]
+        }
+      }
+
       this.update()
     })
   </script>
@@ -61,11 +75,9 @@
       :scope {
         display: grid;
         grid-template:
-          "article aside"
+          ". aside"
+          ". aside"
           / auto 45rem;
-      }
-      article {
-        grid-area: article;
       }
       aside {
         grid-area: aside;

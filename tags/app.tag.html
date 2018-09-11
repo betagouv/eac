@@ -16,8 +16,33 @@
 
 
   <script>
-    /* global page, riot, urlParams */
+    /* global page, riot, urlParams, window */
+
+    if (window.location.hostname !== 'localhost') {
+      let currentUrl = window.location.href
+      const _paq = window._paq
+      page('*', (ctx, next) => {
+        _paq.push(['setReferrerUrl', currentUrl])
+        currentUrl = ctx.path
+        _paq.push(['setCustomUrl', currentUrl])
+        _paq.push(['setDocumentTitle', 'EAC page'])
+
+        // remove all previously assigned custom variables, requires Matomo (formerly Piwik) 3.0.2
+        _paq.push(['deleteCustomVariables', 'page'])
+        _paq.push(['setGenerationTimeMs', 0])
+        _paq.push(['trackPageView'])
+
+        // make Matomo aware of newly added content
+        var content = document.querySelector('main')
+        _paq.push(['MediaAnalytics::scanForMedia', content])
+        _paq.push(['FormAnalytics::scanForForms', content])
+        _paq.push(['trackContentImpressionsWithinNode', content])
+        next()
+      })
+    }
+
     page('/', (ctx) => {
+      this.q = ''
       this.refs.container.innerHTML = '<page-home />'
       riot.mount('page-home')
       this.update()
@@ -60,7 +85,8 @@
     })
 
     page('/action/:id', (ctx) => {
-      this.refs.container.innerHTML = `<page-action id="${ctx.params.id}" />`
+      this.schoolId = urlParams(ctx.querystring).get('school') || ''
+      this.refs.container.innerHTML = `<page-action id="${ctx.params.id}" school-id="${this.schoolId}" />`
       riot.mount('page-action')
       this.update()
     })

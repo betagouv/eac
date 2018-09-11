@@ -31,8 +31,8 @@
     <h3>Actions animée par { this.actor.name } :</h3>
     <article each={ action, i in this.actor.actions } class=block>
       <h4>{ action.name }</h4>
-      <p>{ action.description.substr(0, 200) }…</p>
-      <a href="/action/{ action._id }" title="Voir l'action « { action.name } »">Voir cette action en détail</a>
+      <marked-small text={ action.description.length < 150 ? action.description : action.description.substr(0, 150) + '…' }></marked-small>
+      <a href="{ this.actionUrl(action._id) }" title="Voir l'action « { action.name } »">Voir cette action en détail</a>
     </article>
   </section>
 
@@ -66,6 +66,7 @@
     this.actor = {}
 
     this.actorFormatDate = () => (new Date(this.actor.updatedAt)).toLocaleDateString('fr-FR')
+    this.actionUrl = (id) => `/action/${id}${this.opts.schoolId && `?school=${this.opts.schoolId}` }`
 
     this.on('mount', async () => {
       this.actor = await api(`/actors/${this.opts.actorId}`)
@@ -74,7 +75,7 @@
       if (this.opts.schoolId) {
         const school = await schoolById(this.opts.schoolId)
         if (school.loc && school.loc.coordinates) {
-          this.schoolLocation = [school.loc.coordinates[1],school.loc.coordinates[0]]
+          this.schoolLocation = [school.loc.coordinates[1], school.loc.coordinates[0]]
         }
       }
       this.update()
