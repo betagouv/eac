@@ -1,31 +1,163 @@
 <page-home>
   <section class=block>
-    <h2>Bienvenue sur la plateforme pour l'éducation artistique
-      et culturelle</h2>
-    <p>
-      Initiative conjointe des ministères de la culture et de
-      l'éducation nationale.
-    </p>
-    <p>
-      Pour que toujours plus d'enfants puissent rencontrer et expérimenter les arts,
-      le patrimoine et la culture scientifique&nbsp;; pour une jeunesse créative&nbsp;!
-    </p>
-    <section>
-      <img src=/images/marianne-culture.jpg>
-      <img src=/images/marianne-education-nationale.png>
+    <virtual if={ !this.about }>
+      <h2>Bienvenue sur la plateforme pour l'éducation artistique
+        et culturelle</h2>
+      <p>
+        Initiative conjointe des ministères de la culture et de
+        l'éducation nationale.
+      </p>
+      <p>
+        Pour que toujours plus d'enfants puissent rencontrer et expérimenter les arts,
+        le patrimoine et la culture scientifique&nbsp;; pour une jeunesse créative&nbsp;!
+      </p>
+      <section>
+      <button class="button button-outline" onclick={ this.toggle }>
+        En savoir plus
+      </button>
     </section>
-  </section>
+    </virtual>
+    <virtual if={ this.about }>
+      <h2>Présentation de la plateforme</h2>
+      <p>
+        La plateforme EAC est une application qui contribue à donner une plus
+        grande visibilité aux projets EAC portés par les acteurs culturels dans
+        les territoires et qui aide les enseignants à identifier et mettre en
+        oeuvre ces projets.
+        Pour que toujours plus d'enfants puissent rencontrer et expérimenter les arts
+        et la culture.
+      </p>
 
-  <style>
-    h2 {
-      text-align: center;
-    }
-    section section {
-      text-align: center;
-    }
-    section section img {
-      height: 120px;
-      margin: auto 1rem;
-    }
-  </style>
+      <p>
+        Se devant de servir la réalité des pratiques, cette plateforme se
+        construit progressivement et continuellement, à partir des contributions
+        et suggestions de ses usagers. En d'autres termes, cette plateforme c'est la vôtre&nbsp;!
+      </p>
+
+      <h2>À quoi et à qui sert-elle&nbsp;?</h2>
+      <ul>
+        <li>
+          Permettre aux enseignants de prendre connaissance des actions
+          artistiques et culturelles accessibles sur leurs territoires
+        </li>
+        <li>
+          Mettre en lumière la richesse des propositions artistiques et
+          culturelles dans l'ensemble du territoire
+        </li>
+        <li>
+          Mettre en relation les différents intervenants soutenant ces
+          initiatives (structures culturelles ou artistes, enseignants, acteurs institutionnels)
+        </li>
+        <li>
+          Accompagner ces intervenants dans la mise en place de projets
+        </li>
+      </ul>
+
+      <p>
+        Aujourd'hui, au travers de la plateforme EAC, vous pouvez aisément vous
+        inspirer, rechercher des projets correspondant à vos attentes, contacter
+        directement un acteur culturel ou encore proposer un projet original.
+      </p>
+
+      <p>
+        Nous vous invitons à utiliser cette plateforme sans modération
+        et à rejoindre notre communauté en nous faisant part&nbsp;:
+      </p>
+      <ul>
+        <li>
+          De vos propositions d'acteurs culturels et réalisations de parcours EAC,
+          par ici&nbsp;:
+          <a href="http://www.education-artistique-culturelle.fr/actor/create">
+            http://www.education-artistique-culturelle.fr/actor/create
+          </a>
+        </li>
+        <li>
+          de vos réactions et suggestions, par là&nbsp;:
+          <a href="mailto:plateforme.eac@culture.gouv.fr">
+            plateforme.eac@culture.gouv.fr
+          </a>
+        </li>
+      </ul>
+
+      <p>
+        Pour vous, acteurs scolaires (enseignants), la plateforme offre des
+        ressources permettant de prendre connaissance et d'organiser les nombreuses
+        possibilités existantes autour de vous&nbsp;: fonctionnalités permettant la recherche rapide,
+        repérage des partenaires culturels potentiels, d’établissements scolaires
+        impliqués dans le type d’action envisagée, des sources de financement possibles.
+      </p>
+
+      <p>
+        Pour vous, acteurs culturels (établissements, associations, lieux publics
+        ou privés), cette plateforme se veut une vitrine de votre savoir-faire et
+        pourra ainsi directement alimenter vos échanges avec les pouvoirs publics (collectivités
+        territoriales, rectorats, DRAC) en vous épargnant des procédures de
+        reporting parfois fastidieuses.
+      </p>
+
+      <h2>
+        Qui la réalise et l'édite&nbsp;?
+      </h2>
+      <p>
+        La plateforme nationale de référence pour l'éducation artistique et culturelle
+        est une initiative conjointe des ministères de la culture et de l'éducation nationale.
+        Cette initiative est soutenue par l’incubateur de services numériques
+        (<a href="https://beta.gouv.fr/">https://beta.gouv.fr/</a>), au sein de la direction interministérielle des systèmes
+        d'information et de commmunication de l'état.
+      </p>
+
+      <h2>
+        Qui la réalise et l'édite&nbsp;?
+      </h2>
+      <p>
+        Nous sommes une petite équipe engagée au service de cette cause publique
+        (<a href="beta.gouv.fr/startup/eac.html">beta.gouv.fr/startup/eac.html</a>).
+        N'hésitez pas à nous écrire pour nous faire
+        part de vos réflexions, critiques, encouragements à cette adresse&nbsp;:
+        <a href="mailto:plateforme.eac@culture.gouv.fr">plateforme.eac@culture.gouv.fr</a>
+      </p>
+
+      <h2>
+        Documentation de référence sur l'éducation artistique et culturelle
+      </h2>
+      <ul>
+        <li>
+          <a href="http://www.culture.gouv.fr/Thematiques/Education-artistique-et-culturelle">
+            http://www.culture.gouv.fr/Thematiques/Education-artistique-et-culturelle
+          </a>
+        </li>
+        <li>
+          <a href="http://www.education.gouv.fr/cid20725/l-education-artistique-et-culturelle.html">
+            http://www.education.gouv.fr/cid20725/l-education-artistique-et-culturelle.html
+          </a>
+        </li>
+      </ul>
+      <section>
+      <button class="button button-outline" onclick={ this.toggle }>
+        Revenir à la page d'accueil
+      </button>
+    </section>
+    </virtual>
+    <section>
+      <img src=/images/marianne-culture.jpg> <img src=/images/marianne-education-nationale.png> </section> </section> <script>
+      this.toggle = () => this.about = !this.about
+      </script>
+
+      <style>
+        h2 {
+          text-align: center;
+        }
+
+        section section {
+          text-align: center;
+        }
+        section section button.button {
+          margin-bottom: 5rem;
+        }
+
+        section section img {
+          height: 120px;
+          margin: auto 1rem;
+        }
+      </style>
 </page-home>
