@@ -18,6 +18,8 @@
   <script>
     /* global page, riot, urlParams, window */
 
+    this.q = ''
+
     if (window.location.hostname !== 'localhost') {
       let currentUrl = window.location.href
       const _paq = window._paq
@@ -42,9 +44,14 @@
     }
 
     page('/', (ctx) => {
-      this.q = ''
       this.refs.container.innerHTML = '<page-home />'
       riot.mount('page-home')
+      this.update()
+    })
+
+    page('/intro', (ctx) => {
+      this.refs.container.innerHTML = '<page-intro />'
+      riot.mount('page-intro')
       this.update()
     })
 

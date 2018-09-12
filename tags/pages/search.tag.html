@@ -1,5 +1,5 @@
 <page-search>
-    <section class="block {!this.ready && 'hidden' }"" id=filters>
+    <section class="block {!this.ready && 'hidden' }" id=filters>
       <search-filters filters={ this.filters } q={ this.q } school-id={ this.schoolId } actors={ this.actors } />
     </section>
 
@@ -62,7 +62,7 @@
           params += `from=${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`
         }
       }
-      
+
       ;[this.actors, this.actions] = await Promise.all([
         api(`/actors/search/${normalizeString(this.q)}${params}`),
         api(`/actions/search/${normalizeString(this.q)}${params}`)
