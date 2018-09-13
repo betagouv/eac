@@ -5,7 +5,7 @@
     <li if={ this.phone }>Par téléphone : { this.phone }</li>
     <li if={ this.email }>Par email : { this.email }</li>
   </ul>
-  <a if={ this.email } class=button target="_blank" href="mailto:{ this.email }?subject=À propos de { this.actor.name }&cc=loup.wolff@beta.gouv.fr&body={ encodeURIComponent(this.emailBody) }">Envoyer un email</a>
+  <a if={ this.email } class=button target="_blank" href="mailto:{ this.email }?subject=À propos de { this.actor.name }&cc=plateforme.eac@culture.gouv.fr&body={ encodeURIComponent(this.emailBody) }">Envoyer un email</a>
   <a if={ this.phone } class=button href="tel:{ this.phone }">Appeler</a>
   <p if={ !this.phone && !this.email }>
     Aucune information de contact n'est disponible pour cet acteur culturel.<br>

@@ -1,0 +1,47 @@
+<request-button>
+  <a href=# onclick={ this.send }><yield></a>
+
+  <script>
+    /* globals encodeURIComponent, location */
+    this.send = () => {
+      const body = `\
+Afin de vous mettre en contact au mieux avec les acteurs les plus pertinents, \
+merci de renseigner les quelques informations ci-dessous.
+Vous êtes également invité à compléter tout autres renseignements qui vous sembleraient nécessaires.
+
+Ces informations nous permettront de comprendre au mieux le programme que \
+vous souhaitez mettre en place et de revenir vers vous avec des propositions \
+qui vous correspondent.
+
+À propos de vous
+----------------
+
+- nom : .....
+- établissement scolaire : .....
+- ville : .....
+
+À propos de votre projet
+------------------------
+
+Combien d'élèves participeront ?
+
+Avez-vous la possibilité de vous déplacer ? Si oui, sous quelles conditions ?
+.....
+.....
+
+Description du programme éducatif que vous souhaitez mettre en place :
+.....
+.....
+---
+
+L'équipe EAC\n\n`
+      location.href = `mailto:platefome.eac@culture.gouv.fr?subject=Demande directe&body=${encodeURIComponent(body)}`
+    }
+  </script>
+
+  <style>
+    a {
+      text-decoration: underline;
+    }
+  </style>
+</request-button>
