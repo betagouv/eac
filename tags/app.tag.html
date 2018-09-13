@@ -14,6 +14,19 @@
 
   <main ref=container></main>
 
+  <footer>
+    <nav>
+      <h2>Autour de cette plateforme</h2>
+      <a href=mailto:plateforme.eac@culture.gouv.fr>Contacter l'équipe</a>
+      <a href=/intro>À propos du projet</a>
+      <a href=https://github.com/betagouv/eac>Code source</a>
+    </nav>
+
+    <section>
+      <a href=https://culture.gouv.fr><img src=/images/marianne-culture.jpg></a>
+    </section>
+  </footer>
+
 
   <script>
     /* global page, riot, urlParams, window */
@@ -160,6 +173,40 @@
       font-size: 2.5rem;
       font-weight: 100;
       margin: 2rem auto 0 auto;
+    }
+
+    footer {
+      background-color: #fff;
+      padding: 5rem 2rem 2rem 2rem;
+      display: grid;
+      grid-template:
+        '. nav section';
+    }
+    footer nav {
+      grid-area: nav;
+    }
+    footer nav h2 {
+      display: inline-block;
+      border-bottom: 1px solid;
+      font-size: 1.1em;
+      margin-bottom: .2em;
+      font-weight: 600;
+    }
+    footer nav a {
+      display: block;
+      color: inherit;
+      list-style-type: disc;
+    }
+    footer section {
+      grid-area: section;
+      justify-self: center;
+      align-self: end;
+    }
+    footer section img {
+      height: 100px;
+    }
+    footer nav a:hover {
+      text-decoration: underline;
     }
   </style>
 </app>
