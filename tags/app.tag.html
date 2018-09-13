@@ -1,6 +1,8 @@
 <app>
   <header>
-    <img src=/images/marianne-betagouv.svg>
+    <a id=beta href=https://beta.gouv.fr>
+      <img src=/images/marianne-betagouv.svg>
+    </a>
     <a href="/">
       <img id=logo src=/images/logo-eac.gif alt="Logo de la Plateforme EAC">
       <h1>Plateforme EAC</h1>
@@ -148,7 +150,9 @@
         ;
       color: inherit;
     }
-    header > img {
+    header #beta {
+      display: block;
+      width: 100%;
       max-width: 250px;
       float: left;
     }
