@@ -181,6 +181,10 @@
 
       <p><small>* Les champs marqués d'une * sont obligatoires</small></p>
 
+      <ul class=errors show={ this.errors.length }>
+        <li each={ error in this.errors }>{ error }</li>
+      </ul>
+
       <button type=submit>Enregistrer</button>
       <button class=button-clear id=delete-actor type=button onclick={ this.deleteActor }>Supprimer</button>
 
@@ -194,16 +198,12 @@
     this.actor = {}
     this.address = {}
     this.fullAddress = ''
+    this.errors = []
 
-    function actionTemplate () {
-      return {
-        name: '',
-        description: ''
-      }
-    }
+    const emptyAction = { name: '', description: '' }
 
     this.addAction = (event) => {
-      this.actions.push(actionTemplate())
+      this.actions.push(emptyAction)
     }
 
     this.deleteAction = (event) => {
@@ -235,8 +235,10 @@
 
     this.on('mount', async () => {
       this.actor = actorId ? await api(`/actors/${actorId}`) : {}
-      this.fullAddress = this.actor && this.actor.fullAddress || `${this.actor.address} ${this.actor.postalCode} ${this.actor.city}`
-      this.actions = this.actor && this.actor.actions ? this.actor.actions : [actionTemplate()]
+      if (this.actor.id) {
+        this.fullAddress = this.actor.fullAddress || `${this.actor.address} ${this.actor.postalCode} ${this.actor.city}`
+        this.actions = this.actor.actions ? this.actor.actions : [emptyAction]
+      }
       this.domains = await api('/domains')
       this.update()
     })
@@ -270,7 +272,7 @@
         }
       }).filter(a => a.name)
 
-      let actorData = {
+      const actorData = {
         name: data.get('name'),
         image: data.get('image'),
         description: data.get('description'),
@@ -286,13 +288,20 @@
       }
 
       if (this.address.data && this.address.latLng) {
-        actorData = Object.assign(actorData, {
+        Object.assign(actorData, {
           address: this.address.data.name,
           city: this.address.data.city,
           postalCode: this.address.data.postcode,
           fullAddress: this.address.data.label,
           loc: { type: 'Point', coordinates: this.address.latLng }
         })
+      }
+      else if (!this.actor.address) {
+        this.errors.push("L'adresse postale n'est pas valide. Veuillez corriger ce champs.")
+      }
+
+      if (this.errors.length) {
+        return
       }
 
       const actor = await api(actorId ? `/actors/${actorId}` : '/actors', {
@@ -333,6 +342,11 @@
 
     label.required::after {
       content: ' *';
+    }
+    .errors li {
+      background-color: #c00;
+      color: #fff;
+      padding: .5rem 1rem;
     }
   </style>
 

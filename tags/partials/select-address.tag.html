@@ -37,6 +37,7 @@
       })
 
       this.refs.input.addEventListener('input', async event => {
+        this.errors = []
         const q = event.target.value
         if (q === '') {
           this.address = ''
