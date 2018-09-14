@@ -30,13 +30,7 @@
         <input type=text name=mainPhone id=mainPhone value="{ this.actor && this.actor.mainPhone }">
 
         <label for=address class=required>Votre adresse</label>
-        <input type=text name=address id=address ref=address oninput={ this.setValidity } value={ this.actor && this.actor.address } required>
-
-        <label for=city class=required>Ville</label>
-        <input type=text name=city id=city value={ this.actor && this.actor.city } required>
-
-        <label for=postalCode class=required>Code postal</label>
-        <input type=text name=postalCode id=postalCode value={ this.actor && this.actor.postalCode } required>
+        <select-address onselect={ this.selectAddress } name=address id=address ref=address label={ this.fullAddress } required></select-address>
 
         <label for=timetable>Horaires d'ouverture</label>
         <textarea name=timetable id=timetable>{ this.actor && this.actor.timetable }</textarea>
@@ -198,6 +192,8 @@
 
     const actorId = this.opts.actorId
     this.actor = {}
+    this.address = {}
+    this.fullAddress = ''
 
     function actionTemplate () {
       return {
@@ -214,7 +210,11 @@
       this.actions.splice(event.target.dataset.id, 1)
     }
 
-    this.includes = (item, val) => item && item.includes(val) 
+    this.selectAddress = (data, latLng) => {
+      this.address = { data, latLng }
+    }
+
+    this.includes = (item, val) => item && item.includes(val)
 
     this.deleteActor = async event => {
       if (confirm('Êtes-vous sûr de vouloir supprimer cette acteur culturel ?')) {
@@ -233,10 +233,9 @@
       this.actor.image = event.target.value
     }
 
-    this.setValidity = (event) => event.target.setCustomValidity('')
-
     this.on('mount', async () => {
       this.actor = actorId ? await api(`/actors/${actorId}`) : {}
+      this.fullAddress = this.actor && this.actor.fullAddress || `${this.actor.address} ${this.actor.postalCode} ${this.actor.city}`
       this.actions = this.actor && this.actor.actions ? this.actor.actions : [actionTemplate()]
       this.domains = await api('/domains')
       this.update()
@@ -246,17 +245,6 @@
       event.preventDefault()
 
       const data = new FormData(event.target)
-
-      // Try to get address.
-      const apiAddress = 'https://api-adresse.data.gouv.fr/search/?limit=1&autocomplete=0'
-      const addresses = await request(
-        `${apiAddress}&q=${data.get('address')} ${data.get('city')}&postcode=${data.get('postalCode')}`)
-      const address = addresses.features[0]
-      if (!address) {
-        this.refs.address.setCustomValidity('L‘adresse est invalide, veuillez la vérifier ou en essayer une autre.')
-        this.refs.address.reportValidity()
-        return
-      }
 
       function getActionProperty (name, index, isArray) {
         return data[isArray ? 'getAll' : 'get'](`action[${index}].${name}`)
@@ -282,8 +270,30 @@
         }
       }).filter(a => a.name)
 
-      const loc = address.geometry
-      loc.coordinates.reverse()
+      let actorData = {
+        name: data.get('name'),
+        image: data.get('image'),
+        description: data.get('description'),
+        website: data.get('website'),
+        mainPhone: data.get('mainPhone'),
+        contactName: data.get('contactName'),
+        contactPhone: data.get('contactPhone'),
+        contactEmail: data.get('contactEmail'),
+        contactTimetable: data.get('contactTimetable'),
+        timetable: data.get('timetable'),
+        domains: data.getAll('domains'),
+        actions: actions
+      }
+
+      if (this.address.data && this.address.latLng) {
+        actorData = Object.assign(actorData, {
+          address: this.address.data.name,
+          city: this.address.data.city,
+          postalCode: this.address.data.postcode,
+          fullAddress: this.address.data.label,
+          loc: { type: 'Point', coordinates: this.address.latLng }
+        })
+      }
 
       const actor = await api(actorId ? `/actors/${actorId}` : '/actors', {
         method: actorId ? 'PUT' : 'POST',
@@ -291,24 +301,7 @@
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          name: data.get('name'),
-          image: data.get('image'),
-          description: data.get('description'),
-          website: data.get('website'),
-          mainPhone: data.get('mainPhone'),
-          contactName: data.get('contactName'),
-          contactPhone: data.get('contactPhone'),
-          contactEmail: data.get('contactEmail'),
-          contactTimetable: data.get('contactTimetable'),
-          address: data.get('address'),
-          city: data.get('city'),
-          postalCode: data.get('postalCode'),
-          timetable: data.get('timetable'),
-          loc: loc,
-          domains: data.getAll('domains'),
-          actions: actions
-        })
+        body: JSON.stringify(actorData)
       })
 
       page(`/actor/${actor._id}`)

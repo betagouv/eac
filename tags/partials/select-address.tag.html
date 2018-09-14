@@ -1,0 +1,68 @@
+<select-address>
+  <input type=search ref=input placeholder="Ex : 1 rue grande, Cannes" value={ this.opts.label }>
+
+  <script>
+    /* global api, Awesomplete, normalizeString */
+
+
+    this.fromAddress = (data, latLng) => {
+      return {
+        label: data.label,
+        value: { data, latLng }
+      }
+    }
+
+    this.on('mount', async () => {
+      let address = {}
+      let latLng = []
+
+      console.log(
+        'default value', this.opts.label
+      )
+      const completer = new Awesomplete(this.refs.input, {
+        replace: function (suggestion) {
+          this.input.value = suggestion.label
+          address = suggestion.value.data
+          latLng = suggestion.value.latLng
+        },
+
+        filter: function (text, input) {
+          const words = normalizeString(input).split(' ')
+          return words.filter(word => normalizeString(text.label).includes(word)).length === words.length
+        },
+
+        item: function (text, input) {
+          return Awesomplete.ITEM(text.label, '')
+        }
+      })
+
+      this.refs.input.addEventListener('input', async event => {
+        const q = event.target.value
+        if (q === '') {
+          this.address = ''
+        }
+        if (!q || q.length < 3) {
+          return
+        }
+
+        const addresses = await request(`https://api-adresse.data.gouv.fr/search/?q=${q}&limit=5`)
+
+        completer.list = addresses.features.map(a => {
+          return this.fromAddress(a.properties, a.geometry.coordinates.reverse())
+        })
+        if (completer.suggestions) {
+          this.address = completer.suggestions[0] &&
+          completer.suggestions[0].value
+        }
+      })
+
+      this.refs.input.addEventListener('awesomplete-selectcomplete', event => {
+        this.opts.onselect(address, latLng)
+      })
+    })
+
+    this.on('update' , () => {
+      console.log('value updated', this.opts.label)
+    })
+  </script>
+</select-address>
