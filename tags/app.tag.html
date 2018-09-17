@@ -1,24 +1,24 @@
 <app>
   <header>
-    <a id=beta href=https://beta.gouv.fr>
-      <img src=/images/marianne-betagouv.svg>
-    </a>
-    <a href="/">
-      <img id=logo src=/images/logo-eac.gif alt="Logo de la Plateforme EAC">
-      <h1>Plateforme EAC</h1>
-      <h2>L'Éducation artistique et culturelle à portée de main</h2>
-    </a>
+    <div class=justify>
+      <a id=logo href="/">
+        <img src=/images/logo-eac.gif alt="Logo de la Plateforme EAC">
+        <h1>Plateforme EAC</h1>
+        <h2>L'éducation artistique et culturelle à portée de main</h2>
+      </a>
+      <a id=beta href=https://beta.gouv.fr>
+        <img src=/images/marianne-betagouv.svg>
+      </a>
+    </div>
 
-    <section>
-      <p>Trouvez les activités artistiques et culturelles au plus proche de vous</p>
+    <section class=justify>
+      <p>Trouvez les activités artistiques et culturelles<br>au plus proche de vous</p>
       <search-form q={ this.q } school-id={ this.schoolId } />
+      <small><strong>Vous avez déjà un projet ?</strong> Vous pouvez <request-button>le soumettre à l'équipe</request-button> qui se charge de vous mettre en relation.</small>
     </section>
-    <small>Si vous avez déjà un projet, vous pouvez <request-button>le soumettre à l'équipe</request-button> qui se charge de vous mettre en relation.</small>
   </header>
 
-
-
-  <main ref=container></main>
+  <main ref=container class=justify></main>
 
   <footer>
     <nav>
@@ -29,7 +29,9 @@
     </nav>
 
     <section>
-      <a href=https://culture.gouv.fr><img src=/images/marianne-culture.jpg></a>
+      <a href=https://culture.gouv.fr title="Site du Ministère de la culture">
+        <img src=/images/marianne-culture.jpg alt="Ministère de la culture">
+      </a>
     </section>
   </footer>
 
@@ -125,6 +127,15 @@
 
 
   <style scoped>
+    .justify {
+      padding-left: calc((100% - 110rem) / 2);
+      padding-right: calc((100% - 110rem) / 2);
+    }
+
+    :scope {
+      color: #999;
+    }
+
     header {
       padding-top: 3rem;
       margin-bottom: 3rem;
@@ -145,42 +156,61 @@
       ) 5;
       background-color: #fbfbff;
     }
-    header section {
-      margin-top: 3rem;
-      border-top: 2px solid #f6f6f6;
-      padding: 8rem 1rem;
-      background-color: #fff;
-    }
-    header > a {
+    header div {
       display: grid;
       grid-template:
-        ". logo title ."
-        ". logo baseline ."
-        / 1fr 8rem 38rem 1fr
-        ;
+        'logo beta'
+        'search search';
+    }
+    header section {
+      grid-area: search;
+      margin-top: 3rem;
+      padding-top: 10rem;
+      padding-bottom: 10rem;
+      border-top: 2px solid #f6f6f6;
+      background-color: #fff;
+    }
+    header section p {
+      font-size: 2.3rem;
+      text-align: center;
+      font-weight: 200;
+      color: #555;
+    }
+    header #logo {
+      grid-area: logo;
+      display: grid;
+      grid-template:
+        "logo title"
+        "logo baseline"
+        / 9rem auto;
+      grid-column-gap: 2rem;
       color: inherit;
     }
-    header #beta {
-      display: block;
-      width: 100%;
-      max-width: 250px;
-      float: left;
-    }
-    header > a #logo {
+    header #logo img {
       grid-area: logo;
     }
-    header > a h1 {
+    header #logo h1 {
       grid-area: title;
-      font-size: 1.4em;
+      font-size: 1.3em;
       margin: .4em 0 0 1rem;
       align-self: end;
-      font-weight: normal;
+      color: #555;
     }
-    header > a h2 {
+    header #logo h2 {
       grid-area: baseline;
       font-size: 1em;
       margin: 0 0 1rem 1rem;
     }
+
+    header #beta {
+      grid-area: beta;
+      text-align: right;
+      align-self: center;
+    }
+    header #beta img {
+      max-height: 5rem;
+    }
+
     header > p {
       max-width: 50rem;
       text-align: center;
@@ -189,8 +219,16 @@
       margin: 2rem auto 0 auto;
     }
 
+    header small {
+      margin-top: 5rem;
+      display: block;
+      text-align: center;
+    }
+
     footer {
       background-color: #fff;
+      border-top: .2rem solid #eee;
+      margin-top: 3rem;
       padding: 5rem 2rem 2rem 2rem;
       display: grid;
       grid-template:
@@ -201,16 +239,23 @@
     }
     footer nav h2 {
       display: inline-block;
-      border-bottom: 1px solid;
-      font-size: 1.1em;
-      margin-bottom: .2em;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
       font-weight: 600;
     }
     footer nav a {
       display: block;
+      margin: .2rem 0;
       color: inherit;
-      list-style-type: disc;
+      font-size: .9em;
     }
+    footer nav a:before {
+      content: '> ';
+    }
+    footer nav a:hover {
+      text-decoration: underline;
+    }
+
     footer section {
       grid-area: section;
       justify-self: center;
@@ -218,9 +263,6 @@
     }
     footer section img {
       height: 100px;
-    }
-    footer nav a:hover {
-      text-decoration: underline;
     }
   </style>
 </app>

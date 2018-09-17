@@ -3,6 +3,7 @@
 @import url(../vendors/css/milligram.min.css);
 @import url(../vendors/css/leaflet.css);
 @import url(../vendors/css/awesomplete.css);
+@import url(./icons.css);
 
 /* milligram override */
 .button,
@@ -58,7 +59,7 @@ main {
   background-color: #fff;
   margin: 0 1em 1em 0;
   padding: 2em;
-  box-shadow: .3em .3em .2em #eee;
+  box-shadow: .1rem .1rem .3rem #ccc;
 }
 
 .tag {
