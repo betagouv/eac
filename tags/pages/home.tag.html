@@ -1,40 +1,39 @@
 <page-home>
-  <section>
-    <h3>Bienvenue sur la plateforme pour l'éducation artistique
-      et culturelle</h3>
-    <p>
-      Initiative conjointe des ministères de la culture et de
-      l'éducation nationale.
-    </p>
-    <p>
-      Pour que toujours plus d'enfants puissent rencontrer et expérimenter les arts,
-      le patrimoine et la culture scientifique&nbsp;; pour une jeunesse créative&nbsp;!
-    </p>
+  <article>
+    <h2>Bienvenue sur la plateforme<br> pour l'éducation artistique
+      <br>et culturelle</h2>
     <section>
-    <button class="button-outline" onclick={ () => page('/intro') }>
-      En savoir plus
-    </button>
-  </section>
-
-  <section>
-    <img src=/images/marianne-culture.jpg>
-    <img src=/images/marianne-education-nationale.png>
-  </section>
+      <p>
+        Initiative conjointe des ministères de la culture et de
+        l'éducation nationale.
+      </p>
+      <p>
+        Pour que toujours plus d'enfants puissent rencontrer et expérimenter les arts,
+        le patrimoine et la culture scientifique&nbsp;; pour une jeunesse créative&nbsp;!
+      </p>
+      <a class="button button-outline" href=/intro>En savoir plus</a>
+    </section>
+  </article>
 
   <style>
-    h3 {
-      text-align: center;
+    article {
+      display: grid;
+      grid-template-columns: auto 50%;
+      grid-gap: 12rem;
     }
 
-    section section {
-      text-align: center;
+    article h2 {
+      font-size: 2.7rem;
+      line-height: 1.6;
     }
-    section section button {
-      margin-bottom: 5rem;
+
+    article p {
+      margin: .5rem 0;
     }
-    section section img {
-      height: 120px;
-      margin: auto 1rem;
+
+    article a {
+      display: inline-block;
+      margin-top: 2rem;
     }
   </style>
 </page-home>

@@ -13,6 +13,7 @@ input[type="reset"],
 input[type="submit"] {
   background-color: #209fd6;
   border-color: #1b87b6;
+  font-size: 1.3rem;
 }
 
 .button.button-outline,
@@ -36,11 +37,6 @@ label {
 body {
   background-color: #fff;
   color: #666;
-}
-
-main {
-  max-width: 120rem;
-  margin: auto;
 }
 
 .loading {

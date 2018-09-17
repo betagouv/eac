@@ -20,7 +20,7 @@
 
   <main ref=container class=justify></main>
 
-  <footer>
+  <footer class=justify>
     <nav>
       <h2>Autour de cette plateforme</h2>
       <a href=mailto:plateforme.eac@culture.gouv.fr>Contacter l'équipe</a>
@@ -28,11 +28,14 @@
       <a href=https://github.com/betagouv/eac>Code source</a>
     </nav>
 
-    <section>
+    <aside>
+      <a href=https://education.gouv.fr title="Site du Ministère de l'éducation nationale">
+        <img src=/images/marianne-education-nationale.png alt="Ministère de l'éducation nationale">
+      </a>
       <a href=https://culture.gouv.fr title="Site du Ministère de la culture">
         <img src=/images/marianne-culture.jpg alt="Ministère de la culture">
       </a>
-    </section>
+    </aside>
   </footer>
 
 
@@ -138,7 +141,6 @@
 
     header {
       padding-top: 3rem;
-      margin-bottom: 3rem;
       border-bottom-style: solid;
       border-width: 0 0 3px 0; /* Safari fix */
       border-image: linear-gradient(
@@ -154,7 +156,7 @@
         #f7da34 calc((100%/6)*5),
         #dd0e29 75%
       ) 5;
-      background-color: #fbfbff;
+      /* background-color: #fbfbff; Logo has a white background :/ */
     }
     header div {
       display: grid;
@@ -208,7 +210,7 @@
       align-self: center;
     }
     header #beta img {
-      max-height: 5rem;
+      max-height: 4.5rem;
     }
 
     header > p {
@@ -225,14 +227,19 @@
       text-align: center;
     }
 
+    main {
+      padding-top: 10rem;
+      padding-bottom: 10rem;
+      background-color: #fbfbff;
+    }
+
     footer {
       background-color: #fff;
       border-top: .2rem solid #eee;
-      margin-top: 3rem;
-      padding: 5rem 2rem 2rem 2rem;
+      padding: 6rem;
       display: grid;
       grid-template:
-        '. nav section';
+        'nav section';
     }
     footer nav {
       grid-area: nav;
@@ -256,13 +263,14 @@
       text-decoration: underline;
     }
 
-    footer section {
+    footer aside {
       grid-area: section;
-      justify-self: center;
+      justify-self: end;
       align-self: end;
     }
-    footer section img {
+    footer aside img {
       height: 100px;
+      margin-left: 5rem;
     }
   </style>
 </app>
