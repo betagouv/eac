@@ -8,11 +8,13 @@
       <h1>Plateforme EAC</h1>
       <h2>L'Éducation artistique et culturelle à portée de main</h2>
     </a>
-    <p>
-      Trouvez les activités artistiques et culturelles au plus proche de vous
-    </p>
-    <search-form q={ this.q } school-id={ this.schoolId } />
+    <section>
+      <p>Trouvez les activités artistiques et culturelles au plus proche de vous</p>
+      <search-form q={ this.q } school-id={ this.schoolId } />
+    </section>
   </header>
+
+
 
   <main ref=container></main>
 
@@ -122,10 +124,10 @@
 
   <style scoped>
     header {
-      padding: 3rem;
+      padding-top: 3rem;
       margin-bottom: 3rem;
       border-bottom-style: solid;
-      border-width: 0 0 .5rem 0; /* Safari fix */
+      border-width: 0 0 3px 0; /* Safari fix */
       border-image: linear-gradient(
         to right,
         #4f2559 calc(100%/6),
@@ -139,6 +141,12 @@
         #f7da34 calc((100%/6)*5),
         #dd0e29 75%
       ) 5;
+      background-color: #fbfbff;
+    }
+    header section {
+      margin-top: 3rem;
+      border-top: 2px solid #f6f6f6;
+      padding: 8rem 1rem;
       background-color: #fff;
     }
     header > a {
