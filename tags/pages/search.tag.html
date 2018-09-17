@@ -7,7 +7,7 @@
       <color-tag each={ domain in this.domains } label={ domain } />
     </section>
 
-    <section if={ this.viewType == 'list' } id=results>
+    <section if={ this.viewType == 'list' } ref=results id=results>
       <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
       <div class=block>
         <h4 if={ !this.ready }> Chargement des résultats</h4>

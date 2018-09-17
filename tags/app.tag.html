@@ -10,11 +10,11 @@
         <img src=/images/marianne-betagouv.svg>
       </a>
     </div>
-
-    <section class=justify>
+    <section id=search class="{ justify: true, compact: this.pageName != 'home' }">
       <p>Trouvez les activités artistiques et culturelles<br>au plus proche de vous</p>
       <search-form q={ this.q } school-id={ this.schoolId } />
-      <small><strong>Vous avez déjà un projet ?</strong> Vous pouvez <request-button>le soumettre à l'équipe</request-button> qui se charge de vous mettre en relation.</small>
+      <small if={ this.pageName == 'home' }><strong>Vous avez déjà un projet ?</strong> Vous pouvez <request-button>le soumettre à l'équipe</request-button> qui se charge de vous mettre en relation.</small>
+      <small><request-button if={ this.pageName != 'home' }>Soumettre un projet à l'équipe</request-button></small>
     </section>
   </header>
 
@@ -44,6 +44,13 @@
 
     this.q = ''
 
+    this.changePage = (name, options) => {
+      this.pageName = name
+      this.refs.container.innerHTML = `<page-${name} ${options} />`
+      riot.mount(`page-${name}`)
+      this.update()
+    }
+
     if (window.location.hostname !== 'localhost') {
       let currentUrl = window.location.href
       const _paq = window._paq
@@ -68,15 +75,11 @@
     }
 
     page('/', (ctx) => {
-      this.refs.container.innerHTML = '<page-home />'
-      riot.mount('page-home')
-      this.update()
+      this.changePage('home')
     })
 
     page('/intro', (ctx) => {
-      this.refs.container.innerHTML = '<page-intro />'
-      riot.mount('page-intro')
-      this.update()
+      this.changePage('intro')
     })
 
     page('/search', (ctx) => {
@@ -84,42 +87,35 @@
       this.q = decodeURI(params.get('q') || '')
       this.schoolId = params.get('school') || ''
       const filters = encodeURI(params.get('filters') || '')
-      this.refs.container.innerHTML = `<page-search
+      this.changePage('search', `
         school-id="${this.schoolId}"
         q="${this.q}"
         filters="${filters}"
-        />`
-      riot.mount('page-search')
-      this.update()
+      `)
     })
 
     page('/actor/create', ctx => {
-      this.refs.container.innerHTML = `<page-actor-edit/>`
-      riot.mount('page-actor-edit')
-      this.update()
+      this.changePage('actor-edit')
     })
 
     page('/actor/:id/edit', ctx => {
-      this.refs.container.innerHTML = `<page-actor-edit actor-id="${ctx.params.id}"/>`
-      riot.mount('page-actor-edit')
-      this.update()
+      this.changePage('actor-edit', `actor-id="${ctx.params.id}"`)
     })
 
     page('/actor/:id', (ctx) => {
       this.schoolId = urlParams(ctx.querystring).get('school') || ''
-      this.refs.container.innerHTML = `<page-actor
+      this.changePage('actor', `
         school-id="${this.schoolId}"
         actor-id="${ctx.params.id}"
-        />`
-      riot.mount('page-actor')
-      this.update()
+      `)
     })
 
     page('/action/:id', (ctx) => {
       this.schoolId = urlParams(ctx.querystring).get('school') || ''
-      this.refs.container.innerHTML = `<page-action id="${ctx.params.id}" school-id="${this.schoolId}" />`
-      riot.mount('page-action')
-      this.update()
+      this.changePage('action', `
+        id="${ctx.params.id}"
+        school-id="${this.schoolId}"
+      `)
     })
 
     this.on('mount', () => {
@@ -261,6 +257,27 @@
     }
     footer nav a:hover {
       text-decoration: underline;
+    }
+
+    #search,
+    #search * {
+      transition: all .3s;
+    }
+    #search.compact {
+      padding-top: 0;
+      padding-bottom: 2rem;
+    }
+    #search.compact small {
+      margin-top: 0;
+      text-align: left;
+    }
+
+    #search p {
+      overflow: hidden;
+      height: 7.5rem;
+    }
+    #search.compact p {
+      height: 0;
     }
 
     footer aside {
