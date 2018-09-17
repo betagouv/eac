@@ -1,15 +1,13 @@
 <search-filters>
-  <details title=Domaine open>
-    <summary>Affiner par domaines</summary>
-    <label each={ domain in this.domains }>
-      <input type=checkbox
-             name=domains
-             value={ domain }
-             onchange={ this.submit }
-             checked={ this.filters.domains && this.filters.domains.includes(domain) }>
-      { domain }
-    </label>
-  </details>
+  <h4>Affiner par domaines</h4>
+  <label each={ domain in this.domains }>
+    <input type=checkbox
+            name=domains
+            value={ domain }
+            onchange={ this.submit }
+            checked={ this.filters.domains && this.filters.domains.includes(domain) }>
+    { domain }
+  </label>
 
   <script>
     /* global opts, page */

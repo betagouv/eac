@@ -1,27 +1,32 @@
 <page-search>
-    <section class="block {!this.ready && 'hidden' }" id=filters>
+    <section class={!this.ready && 'hidden' } id=filters>
       <search-filters filters={ this.filters } q={ this.q } school-id={ this.schoolId } actors={ this.actors } />
     </section>
 
-    <section id=tags>
+    <section if={ this.domains.length } id=tags>
       <color-tag each={ domain in this.domains } label={ domain } />
     </section>
 
+    <h4 if={ !this.ready }>Chargement des résultats en cours…</h4>
+    <virtual if={ this.ready }>
+      <h4 if={ this.q }><small>Résultats de la recherche pour</small> { this.q }</h4>
+      <h4 if={ !this.q && this.school.name }><small>Résultats autour de</small> { this.school.name } ({ this.school.city })</h4>
+      <h4 if={ !this.q && !this.school.name }>Les dernières actions en France</h4>
+    </virtual>
+    <div id=toggle><!-- wrapper for the grid -->
+      <button if={ this.viewType == 'list' } onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
+      <button if={ this.viewType == 'map' } onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
+    </div>
+
     <section if={ this.viewType == 'list' } ref=results id=results>
-      <button onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
-      <div class=block>
-        <h4 if={ !this.ready }> Chargement des résultats</h4>
-        <h4 if={ this.ready && this.q }>Résultats pour «&nbsp;{ this.q }&nbsp;»</h4>
-        <h4 if={ this.ready && !this.q && this.school.name }> Résultats autour de { this.school.name } ({ this.school.city })</h4>
-        <h4 if={ this.ready && !this.q && !this.school.name }> Résultats de la recherche</h4>
-        <p if={ this.ready && !this.actors.length }>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
+      <div class=block if={ this.ready && !this.actors.length }>
+        <p>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
       </div>
       <action-card class=block each={ action in this.withName(this.actions) } action={ action } school-id={ this.schoolId } />
       <actor-card class=block each={ actor in this.withName(this.actors) } actor={ actor } school-id={ this.schoolId } />
     </section>
 
     <section if={ this.viewType == 'map' } id=map>
-      <button onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
       <actors-map class=block actors={ this.actors } school-id={ this.schoolId } />
     </section>
 
@@ -82,11 +87,11 @@
   :scope {
       display: grid;
       grid-template:
-        'search search'
-        'tags tags'
-        'filters results'
-        'filters extra'
-        / minmax(auto, 35%) 1fr;
+        'title title title toggle'
+        'tags tags tags tags'
+        'filters results results results'
+        'filters extra extra extra'
+        / auto 1fr 1fr 1fr;
       grid-gap: 2rem;
     }
     .hidden {
@@ -102,9 +107,11 @@
     #filters {
       grid-area: filters;
       height: auto;
+      margin-top: -2rem;
     }
     #results {
       grid-area: results;
+      margin-top: -2rem;
     }
     #map {
       grid-area: results;
@@ -112,9 +119,19 @@
     #extra {
       grid-area: extra;
     }
+    #toggle {
+      grid-area: toggle;
+      justify-self: end;
+      align-self: center;
+    }
 
     h4 {
+      grid-area: title;
       margin-top: 1rem;
+    }
+    h4 small {
+      display: block;
+      font-size: 1.5rem;
     }
 
     search-filters {
