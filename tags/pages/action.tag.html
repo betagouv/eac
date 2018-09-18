@@ -1,6 +1,6 @@
 <page-action>
 
-  <article class=block>
+  <article>
     <h1>{ this.action.name }</h1>
     <marked class=description if={ this.action.description } text={ this.action.description }></marked>
     <p if={ !this.action.description && this.actor.name }>
@@ -14,11 +14,11 @@
     <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
   </article>
 
-  <section class=block>
+  <section>
     <h3>Informations complémentaires</h3>
     <ul>
-      <li if={ this.action.schoolLevels }>Niveaux concernés : { this.action.schoolLevels.join(', ') }</li>
-      <li if={ this.action.topics }>Matières concernées : { this.action.topics.join(', ') }</li>
+      <li if={ this.action.schoolLevels }>Niveaux concernés : { this.action.schoolLevels.join(', ') }</li>
+      <li if={ this.action.topics }>Matières concernées : { this.action.topics.join(', ') }</li>
       <li if={ this.action.capacity }>Capacité maximum de { this.action.capacity } élèves</li>
       <li if={ this.action.duration }>Durée estimée de { this.action.duration }</li>
       <li if={ this.action.cost }>Coût global approximatif de { this.action.cost }€</li>
@@ -30,18 +30,18 @@
     </ul>
   </section>
 
-  <aside>
-    <section class=block id=actor>
+  <aside class=block>
+    <section id=actor>
       <h3>Proposé par { this.actor.name }</h3>
       <img if={ this.actor.image } src={ this.actor.image }>
       <p if={ this.actor.description }>{ this.actor.description.substr(0, 200) }…</p>
       <a class=button href="{ this.actorUrl() }" title="Voir la fiche de { this.actor.name }">Voir sa fiche</a>
     </section>
 
-    <actor-contact class=block actor={ this.actor } />
-    <actor-map class=block actor={ this.actor } />
+    <actor-contact actor={ this.actor } />
+    <actor-map actor={ this.actor } />
 
-    <journey class=block if={ this.latLng && this.schoolLocation } from={ this.schoolLocation } to={ this.latLng }></journey>
+    <journey if={ this.latLng && this.schoolLocation } from={ this.schoolLocation } to={ this.latLng }></journey>
   </aside>
 
 
@@ -78,10 +78,15 @@
           ". aside"
           ". aside"
           / auto 45rem;
+        grid-gap: 5rem;
       }
       aside {
         grid-area: aside;
       }
+    }
+
+    x-ribbon {
+      margin-top: 5rem;
     }
 
     #actor {
@@ -90,6 +95,12 @@
     #actor img {
       display: block;
       margin: 0 auto;
+    }
+
+    aside > *:not(:last-child) {
+      border-bottom: .2rem solid #eee;
+      padding-bottom: 1rem;
+      margin-bottom: 4rem;
     }
   </style>
 </page-action>
