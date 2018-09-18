@@ -29,10 +29,11 @@
 
   <section id=actions if={ this.actor.actions && this.actor.actions.length }>
     <h3>{ this.actor.actions.length } projets proposés ou réalisés :</h3>
-    <article each={ action, i in this.actor.actions } class=block>
+    <article each={ action, i in this.actor.actions }>
       <h4>{ action.name }</h4>
       <marked-small text={ action.description.length < 150 ? action.description : action.description.substr(0, 150) + '…' }></marked-small>
-      <a href="{ this.actionUrl(action._id) }" title="Voir l'action « { action.name } »">Voir cette action en détail</a>
+      <a class="button button-clear">En savoir plus ></a>
+      <a class=hover href="{ this.actionUrl(action._id) }" title="Voir l'action « { action.name } »">Voir cette action en détail</a>
     </article>
   </section>
 
@@ -106,11 +107,12 @@
       position: relative;
       display: grid;
       margin-right: 2%;
-      padding-bottom: 1rem;
-      margin-bottom: 1rem;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
       border-bottom: 1px solid #ccc;
     }
-    #actions article a {
+    #actions article a.hover {
       position: absolute;
       display: block;
       text-indent: -9999px;
@@ -119,9 +121,18 @@
       left: 0;
       right: 0;
     }
+    #actions article a:not(.hover) {
+      text-align: right;
+      padding: 0;
+      margin-top: -3rem;
+    }
 
     article > nav {
       margin-bottom: 1rem;
+    }
+
+    #actions h4 {
+      margin-bottom: 0;
     }
 
     marked {
