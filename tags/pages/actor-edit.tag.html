@@ -19,7 +19,7 @@
         <h4>À quels domaines culturels se rapportent vos actions ?</h4>
         <div class=checkbox-list>
           <label each={ domain in this.domains }>
-            <input type=checkbox name=domains value={ domain } checked={ this.actor && this.actor.domains.includes(domain) }> { domain }
+            <input type=checkbox name=domains value={ domain } checked={ this.actor && this.includes(this.actor.domains, domain) }> { domain }
           </label>
         </div>
 
