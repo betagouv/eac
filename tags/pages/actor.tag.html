@@ -1,7 +1,7 @@
 <page-actor>
   <article>
     <h2>{ this.actor.name }</h2>
-    <nav class=tags if={ this.actor.domains.length }>
+    <nav class=tags if={ this.actor.domains && this.actor.domains.length }>
       <color-tag each={ tag in this.actor.domains } label={ tag } />
     </nav>
 
