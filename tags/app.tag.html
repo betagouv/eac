@@ -53,6 +53,7 @@
       this.refs.container.innerHTML = `<page-${name} ${options} />`
       riot.mount(`page-${name}`)
       this.update()
+      window.scrollTo(0, 0)
     }
 
     if (window.location.hostname !== 'localhost') {
