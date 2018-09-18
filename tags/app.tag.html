@@ -10,11 +10,14 @@
         <img src=/images/marianne-betagouv.svg>
       </a>
     </div>
-    <section id=search class="{ justify: true, compact: this.pageName != 'home' }">
-      <p>Trouvez les activités artistiques et culturelles<br>au plus proche de vous</p>
-      <search-form q={ this.q } school-id={ this.schoolId } />
-      <small if={ this.pageName == 'home' }><strong>Vous avez déjà un projet ?</strong> Vous pouvez <request-button>le soumettre à l'équipe</request-button> qui se charge de vous mettre en relation.</small>
-      <small><request-button if={ this.pageName != 'home' }>Soumettre un projet à l'équipe</request-button></small>
+    <section id=search class="justify { this.searchStyle }" ref=search style="height: { this.getSearchHeight() }">
+      <section>
+        <p>Trouvez les activités artistiques et culturelles<br>au plus proche de vous</p>
+        <search-form q={ this.q } school-id={ this.schoolId } />
+        <small if={ this.pageName == 'home' }><strong>Vous avez déjà un projet ?</strong> Vous pouvez <request-button>le soumettre à l'équipe</request-button> qui se charge de vous mettre en relation.</small>
+        <small><request-button if={ this.pageName != 'home' }>Soumettre un projet à l'équipe</request-button></small>
+      </section>
+      <a href="/search?q={ this.q }&schoolId={ this.schoolId }" class="button">< Faire une nouvelle recherche</a>
     </section>
   </header>
 
@@ -43,6 +46,7 @@
     /* global page, riot, urlParams, window */
 
     this.q = ''
+    this.searchStyle = 'full'
 
     this.changePage = (name, options) => {
       this.pageName = name
@@ -75,14 +79,17 @@
     }
 
     page('/', (ctx) => {
+    this.searchStyle = 'full'
       this.changePage('home')
     })
 
     page('/intro', (ctx) => {
+    this.searchStyle = 'full'
       this.changePage('intro')
     })
 
     page('/search', (ctx) => {
+    this.searchStyle = 'small'
       const params = urlParams(ctx.querystring)
       this.q = decodeURI(params.get('q') || '')
       this.schoolId = params.get('school') || ''
@@ -95,14 +102,17 @@
     })
 
     page('/actor/create', ctx => {
+    this.searchStyle = 'hidden'
       this.changePage('actor-edit')
     })
 
     page('/actor/:id/edit', ctx => {
+    this.searchStyle = 'hidden'
       this.changePage('actor-edit', `actor-id="${ctx.params.id}"`)
     })
 
     page('/actor/:id', (ctx) => {
+    this.searchStyle = 'hidden'
       this.schoolId = urlParams(ctx.querystring).get('school') || ''
       this.changePage('actor', `
         school-id="${this.schoolId}"
@@ -111,12 +121,17 @@
     })
 
     page('/action/:id', (ctx) => {
+    this.searchStyle = 'hidden'
       this.schoolId = urlParams(ctx.querystring).get('school') || ''
       this.changePage('action', `
         id="${ctx.params.id}"
         school-id="${this.schoolId}"
       `)
     })
+
+    this.getSearchHeight = () => {
+      return this.refs.search.getBoundingClientRect().height
+    }
 
     this.on('mount', () => {
       page()
@@ -160,7 +175,7 @@
         'logo beta'
         'search search';
     }
-    header section {
+    header > section {
       grid-area: search;
       margin-top: 3rem;
       padding-top: 10rem;
@@ -168,7 +183,7 @@
       border-top: 2px solid #f6f6f6;
       background-color: #fff;
     }
-    header section p {
+    header > section p {
       font-size: 2.3rem;
       text-align: center;
       font-weight: 200;
@@ -233,21 +248,39 @@
     #search * {
       transition: all .3s;
     }
-    #search.compact {
+    #search section {
+      overflow: hidden;
+    }
+    #search > .button {
+      display: none;
+      opacity: 0;
+      margin: 0 auto;
+    }
+
+    #search.small {
       padding-top: 0;
       padding-bottom: 2rem;
     }
-    #search.compact small {
+    #search.small small {
       margin-top: 0;
       text-align: left;
     }
 
-    #search p {
-      overflow: hidden;
-      height: 7.5rem;
-    }
-    #search.compact p {
+    #search.small p {
       height: 0;
+      overflow: hidden;
+    }
+
+    #search.hidden {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+    #search.hidden > section {
+      height: 0;
+    }
+    #search.hidden > .button {
+      display: inline-block;
+      opacity: 1;
     }
 
     :scope > footer {
