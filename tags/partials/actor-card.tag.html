@@ -10,6 +10,7 @@
         <a>{ domain }</a>
       </color-tag>
     </nav>
+    <a class="button button-clear" href=/actor/{ this.actor._id }?school={ this.schoolId }>En savoir plus ></a>
   </footer>
 
   <a href=/actor/{ this.actor._id }?school={ this.schoolId }></a>
@@ -57,15 +58,14 @@
 
     footer {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: auto 1fr auto;
       padding-top: 1rem;
       margin-top: 1rem;
       border-top: 1px solid #ccc;
       align-items: center;
     }
-
-    .tags {
-      text-align: right;
+    footer > a {
+      text-align: right !important;
     }
 
     geo {

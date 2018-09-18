@@ -9,11 +9,12 @@
 
     <h4 if={ !this.ready }>Chargement des résultats en cours…</h4>
     <virtual if={ this.ready }>
-      <h4 if={ this.q }><small>Résultats de la recherche pour</small> { this.q }</h4>
+      <h4 if={ this.q && !this.school.name }><small>Résultats de la recherche pour</small> { this.q }</h4>
+      <h4 if={ this.q && this.school.name }><small>Résultats de la recherche pour</small> { this.q } — { this.school.name }</h4>
       <h4 if={ !this.q && this.school.name }><small>Résultats autour de</small> { this.school.name } ({ this.school.city })</h4>
       <h4 if={ !this.q && !this.school.name }>Les dernières actions en France</h4>
     </virtual>
-    <div id=toggle><!-- wrapper for the grid -->
+    <div id=toggle if={ this.actions.length || this.actors.length }><!-- wrapper for the grid -->
       <button if={ this.viewType == 'list' } onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
       <button if={ this.viewType == 'map' } onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
     </div>
@@ -30,15 +31,15 @@
       <actors-map class=block actors={ this.actors } school-id={ this.schoolId } />
     </section>
 
-    <section if={ this.ready } id=extra class=block>
-      <h4>Vous n'avez rien trouvé d'intéressant&nbsp;?</h4>
+    <aside if={ this.ready }>
+      <h2>Vous n'avez rien trouvé d'intéressant&nbsp;?</h2>
       <actors-externals department={ this.department }></actors-externals>
       <p>
         Vous pouvez participer à améliorer la base de données en ajoutant un acteur
         culturel&nbsp;:
       </p>
-      <a href=/actor/create class=button>Ajouter un acteur culturel</a>
-    </section>
+      <a href=/actor/create class="button button-outline">Ajouter un acteur culturel</a>
+    </aside>
 
   <script>
     /* global api, normalizeString */
@@ -59,6 +60,7 @@
 
     this.on('mount', async () => {
       let params = this.filters.domains ? `?domains=${this.domains}` : ''
+      document.body.classList.remove('ready')
 
       if (this.schoolId) {
         this.school = await schoolById(this.schoolId)
@@ -75,6 +77,7 @@
 
       this.department = this.school.postalCode && this.school.postalCode.substr(0, 2)
       this.ready = true
+      document.body.classList.add('ready')
       this.update()
     })
 
@@ -90,9 +93,9 @@
         'title title title toggle'
         'tags tags tags tags'
         'filters results results results'
-        'filters extra extra extra'
+        'aside aside aside aside'
         / auto 1fr 1fr 1fr;
-      grid-gap: 2rem;
+      grid-gap: 2rem 8rem;
     }
     .hidden {
       display: none;
@@ -116,8 +119,12 @@
     #map {
       grid-area: results;
     }
-    #extra {
-      grid-area: extra;
+    aside {
+      grid-area: aside;
+      border-top: .2rem solid #eee;
+      padding-top: 8rem;
+      margin-top: 8rem;
+      text-align: center;
     }
     #toggle {
       grid-area: toggle;
@@ -155,9 +162,10 @@
       margin: 0 auto;
     }
 
-    actor-card {
+    actor-card,
+    action-card {
       padding-bottom: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 4rem !important;
       border-bottom: 1px solid #eee;
     }
 
@@ -166,7 +174,7 @@
       box-shadow: .1rem .1rem .5rem #eee;
       border-radius: .8rem;
       border: 1px solid #e6e6e6;
-      margin-right: 2rem;
+      margin-right: 1rem;
     }
   </style>
 </page-search>
