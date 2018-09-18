@@ -2,7 +2,12 @@
   <script>
     this.root.innerHTML = marked(this.opts.text, {sanitize: true})
   </script>
+
   <style scoped>
+    :scope {
+      display: block;
+    }
+
     h1 {
       font-size: 3rem;
     }
