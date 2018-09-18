@@ -37,7 +37,8 @@
       if (!filters[category]) filters[category] = []
       if (activate) {
         if (filters[category].indexOf(value) < 0) filters[category].push(value)
-      } else filters[category].splice(filters[category].indexOf(value), 1)
+      }
+      else filters[category].splice(filters[category].indexOf(value), 1)
       if (!filters[category].length) delete filters[category]
 
       page(`/search?q=${q}&school=${schoolId}&filters=${encodeURI(JSON.stringify(filters))}`)

@@ -1,5 +1,5 @@
 <select-address>
-  <input type=search ref=input placeholder="Ex : 1 rue grande, Cannes" value={ this.opts.label }>
+  <input type=search ref=input placeholder="Ex : 88 Rue des Arts 59100 Roubaix" value={ this.opts.label }>
 
   <script>
     /* global api, Awesomplete, normalizeString */
@@ -16,19 +16,11 @@
       let address = {}
       let latLng = []
 
-      console.log(
-        'default value', this.opts.label
-      )
       const completer = new Awesomplete(this.refs.input, {
         replace: function (suggestion) {
           this.input.value = suggestion.label
           address = suggestion.value.data
           latLng = suggestion.value.latLng
-        },
-
-        filter: function (text, input) {
-          const words = normalizeString(input).split(' ')
-          return words.filter(word => normalizeString(text.label).includes(word)).length === words.length
         },
 
         item: function (text, input) {
@@ -60,10 +52,6 @@
       this.refs.input.addEventListener('awesomplete-selectcomplete', event => {
         this.opts.onselect(address, latLng)
       })
-    })
-
-    this.on('update' , () => {
-      console.log('value updated', this.opts.label)
     })
   </script>
 </select-address>
