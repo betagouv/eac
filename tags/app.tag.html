@@ -25,10 +25,16 @@
 
   <footer class=justify>
     <nav>
-      <h2>Autour de cette plateforme</h2>
+      <h2>Au sujet de cette plateforme</h2>
       <a href=mailto:plateforme.eac@culture.gouv.fr>Contacter l'équipe</a>
       <a href=/intro>À propos du projet</a>
       <a href=https://github.com/betagouv/eac>Code source</a>
+    </nav>
+
+    <nav>
+      <h2>Ressources externes</h2>
+      <a href="http://www.culture.gouv.fr/Regions">Trouver sa DRAC</a>
+      <a href="http://www.culture.gouv.fr/Presse/Dossiers-de-presse/A-l-ecole-des-arts-et-de-la-culture-de-3-a-18-ans">Articles et conférences de presse</a>
     </nav>
 
     <aside>
@@ -290,10 +296,15 @@
       padding: 6rem;
       display: grid;
       grid-template:
-        'nav section';
+        'nav1 nav2 section'
+        / auto auto 1fr;
+      grid-gap: 0 5rem;
     }
-    :scope > footer nav {
-      grid-area: nav;
+    :scope > footer nav:first-of-type {
+      grid-area: nav1;
+    }
+    :scope > footer nav:last-of-type {
+      grid-area: nav2;
     }
     :scope > footer nav h2 {
       display: inline-block;
