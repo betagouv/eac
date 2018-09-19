@@ -1,11 +1,11 @@
 <select-school>
-  <input type=search ref=input placeholder="Ex : Lycée Jean Moulin Paris">
+  <input type=search ref=input placeholder="Ex : École Gosciny Cannes">
 
   <script>
     /* global api, Awesomplete, normalizeString */
 
     this.displaySchool = (school) => `${school.name} (${school.postalCode} ${school.city})`
-    
+
     this.fromAddress = (feature) => {
       return {
         label: `${feature.properties.label} (${feature.properties.postcode} ${feature.properties.city.toUpperCase()})`,
