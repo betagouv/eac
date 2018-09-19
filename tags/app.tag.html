@@ -255,9 +255,6 @@
     #search * {
       transition: all .3s;
     }
-    #search section {
-      overflow: hidden;
-    }
     #search > .button {
       display: none;
       opacity: 0;
@@ -282,7 +279,8 @@
       padding-top: 2rem;
       padding-bottom: 2rem;
     }
-    #search.hidden > section {
+    #search.hidden section {
+      overflow: hidden;
       height: 0;
     }
     #search.hidden > .button {
