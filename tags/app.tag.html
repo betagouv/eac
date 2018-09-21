@@ -92,24 +92,24 @@
     }
 
     page('/', (ctx) => {
-    this.searchStyle = 'full'
+      this.searchStyle = 'full'
       this.changePage('home')
     })
 
     page('/intro', (ctx) => {
-    this.searchStyle = 'full'
+      this.searchStyle = 'full'
       this.changePage('intro')
       document.getElementById('intro').scrollIntoView()
     })
 
     page('/territoires', (ctx) => {
-    this.searchStyle = 'full'
+      this.searchStyle = 'full'
       this.changePage('territories')
       document.getElementById('territories').scrollIntoView()
     })
 
     page('/search', (ctx) => {
-    this.searchStyle = 'small'
+      this.searchStyle = 'small'
       const params = urlParams(ctx.querystring)
       this.q = decodeURI(params.get('q') || '')
       this.schoolId = params.get('school') || ''
@@ -122,12 +122,12 @@
     })
 
     page('/actor/create', ctx => {
-    this.searchStyle = 'hidden'
+      this.searchStyle = 'hidden'
       this.changePage('actor-edit')
     })
 
     page('/actor/:id/edit', ctx => {
-    this.searchStyle = 'hidden'
+      this.searchStyle = 'hidden'
       this.changePage('actor-edit', `actor-id="${ctx.params.id}"`)
     })
 
