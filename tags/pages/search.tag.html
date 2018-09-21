@@ -20,7 +20,7 @@
     </div>
 
     <section if={ this.viewType == 'list' } ref=results id=results>
-      <div class=block if={ this.ready && !this.actors.length }>
+      <div class=block if={ this.ready && !this.actors.length && !this.actions.length }>
         <p>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
       </div>
       <action-card class=block each={ action in this.withName(this.actions) } action={ action } school-id={ this.schoolId } />
