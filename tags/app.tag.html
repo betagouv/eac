@@ -6,9 +6,10 @@
         <h1>Plateforme EAC</h1>
         <h2>L'éducation artistique et culturelle à portée de main</h2>
       </a>
-      <a id=beta href=https://beta.gouv.fr>
-        <img src=/images/marianne-betagouv.svg>
-      </a>
+      <div id=mariannes>
+        <a href=http://culture.gouv.fr><img src=/images/marianne-culture.jpg alt="Ministère de la culture">
+        <a href=http://education.gouv.fr><img src=/images/marianne-education-nationale.png alt="Ministère de l'éducation nationale">
+      </div>
     </div>
     <section id=search class="justify { this.searchStyle }" ref=search style="height: { this.getSearchHeight() }">
       <section>
@@ -46,11 +47,8 @@
     </nav>
 
     <aside>
-      <a href=https://education.gouv.fr title="Site du Ministère de l'éducation nationale">
-        <img src=/images/marianne-education-nationale.png alt="Ministère de l'éducation nationale">
-      </a>
-      <a href=https://culture.gouv.fr title="Site du Ministère de la culture">
-        <img src=/images/marianne-culture.jpg alt="Ministère de la culture">
+      <a href=https://beta.gouv.fr title="Site des startups d'état">
+        <img src=/images/marianne-betagouv.svg alt="BetaGouv">
       </a>
     </aside>
   </footer>
@@ -192,7 +190,7 @@
       padding-top: 3rem;
       padding-bottom: 3rem;
       grid-template:
-        'logo beta'
+        'logo mariannes'
         'search search';
       background-color: #fbfbff;
       border-bottom: .2rem solid #f6f6f6;
@@ -236,13 +234,19 @@
       margin: 0 0 1rem 1rem;
     }
 
-    header #beta {
-      grid-area: beta;
+    header #mariannes {
+      grid-area: mariannes;
       text-align: right;
       align-self: center;
+      height: 8rem;
     }
-    header #beta img {
-      max-height: 4.5rem;
+    header #mariannes a {
+      display: inline-block;
+      height: 100%;
+      margin-left: 2rem;
+    }
+    header #mariannes img {
+      height: 100%;
     }
 
     header > p {
@@ -366,10 +370,10 @@
     :scope > footer aside {
       grid-area: section;
       justify-self: end;
-      align-self: end;
+      align-self: center;
     }
     :scope > footer aside img {
-      height: 100px;
+      width: 25rem;
       margin-left: 5rem;
     }
   </style>
