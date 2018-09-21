@@ -68,12 +68,6 @@
           <label>Illustration de l'activité</label>
           <input type=text name="action[{ index }].medias" placeholder="Liste des liens vers des photos en ligne, vidéos Youtube et documents téléchargeables (séparés par une virgule)" value={ action.medias && action.medias.join(', ') }>
 
-          <label>Date de début</label>
-          <input type=date name="action[{ index }].dateRangeStart" value={ action.dateRange && action.dateRange[0] }>
-
-          <label>Date de fin</label>
-          <input type=date name="action[{ index }].dateRangeEnd" value={ action.dateRange && action.dateRange.length && action.dateRange[1] }>
-
           <label>Durée sur place</label>
           <input type=text name="action[{ index }].duration" value={ action.duration }>
 
@@ -172,7 +166,7 @@
           <label>Coût prévisionnel total pour cette action</label>
           <textarea rows=3 name="action[{ index }].cost">{ action.cost ? action.cost : '' }</textarea>
 
-          <label for=action-timetable>Horaires applicables</label>
+          <label for=action-timetable>Dates et horaires</label>
           <textarea name="action[{ index }].timetable" id=action-timetable>{ action.timetable }</textarea>
 
         </section>
@@ -260,7 +254,6 @@
           description: getActionProperty('description', i),
           medias: getActionProperty('medias', i) && getActionProperty('medias', i).split(',').map(s => s.trim()),
           website: getActionProperty('website', i),
-          dateRange: [getActionProperty('dateRangeStart', i), getActionProperty('dateRangeEnd', i)],
           capacity: getActionProperty('capacity', i),
           duration: getActionProperty('duration', i),
           timetable: getActionProperty('timetable', i),
