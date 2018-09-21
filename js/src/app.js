@@ -42,3 +42,19 @@ async function schoolById(id) {
   }
   return api(`/schools/${id}`)
 }
+
+function toDisplayText(t) {
+  return {
+    college: 'collège',
+    lycee: 'lycée',
+    elementaire: 'élémentaire',
+    francais: 'français',
+    mathematiques: 'mathématiques',
+    geographie: 'géographie',
+    svt: 'sciences de la vie et de la Terre',
+    eps: 'éducation physique et sportive',
+    civisme: 'éducation civique, juridique et sociale',
+    autre: 'autre(s)',
+    'langue-vivante': 'langue vivante',
+  }[t] || t
+}
