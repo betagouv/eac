@@ -17,16 +17,14 @@
   <section>
     <h3>Informations complémentaires</h3>
     <ul>
-      <li if={ this.action.schoolLevels }>Niveaux concernés : { this.action.schoolLevels.map(toDisplayText).join(', ') }</li>
-      <li if={ this.action.topics }>Matières concernées : { this.action.topics.map(toDisplayText).join(', ') }</li>
+      <li if={ this.action.schoolLevels && this.action.schoolLevels.length }>Niveaux concernés&nbsp;: { this.action.schoolLevels.map(toDisplayText).join(', ') }</li>
+      <li if={ this.action.topics && this.action.topics.length }>Matières concernées&nbsp;: { this.action.topics.map(toDisplayText).join(', ') }</li>
       <li if={ this.action.capacity }>Capacité maximum de { this.action.capacity } élèves</li>
       <li if={ this.action.duration }>Durée estimée de { this.action.duration }</li>
       <li if={ this.action.cost }>Coût global approximatif de { this.action.cost }€</li>
-      <virtual if={this.action.dateRange}>
-        <li if={ this.action.dateRange[0] && this.action.dateRange[1] }>Disponible entre le { this.action.dateRange[0] } et le { this.action.dateRange[1] }</li>
-        <li if={ this.action.dateRange[0] && !this.action.dateRange[1] }>Débute le { this.action.dateRange[0] }</li>
-        <li if={ !this.action.dateRange[0] && this.action.dateRange[1] }>Effective jusqu'au { this.action.dateRange[1] }</li>
-      </virtual>
+      <li if={ this.action.timetable }>Dates et horaires&nbsp;:
+        <p class=timetable>{ this.action.timetable }</p>
+      </li>
     </ul>
   </section>
 
@@ -101,6 +99,10 @@
       border-bottom: .2rem solid #eee;
       padding-bottom: 1rem;
       margin-bottom: 4rem;
+    }
+    .timetable {
+      white-space: pre-line;
+      margin-left: 1.5rem;
     }
   </style>
 </page-action>
