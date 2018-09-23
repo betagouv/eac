@@ -4,13 +4,6 @@
 
 Cette plateforme est en développement.
 
-Son objectif est d'être rapidement confrontée aux utilisatrices•eurs afin
-de mettre en adéquation l'outil à leurs usages.
-
-D'un point de vue technique, l'application s'efforce de rester [_simple_](https://menwithpens.ca/simple-and-easy-blogging/),
-modulable, jetable, en limitant les complexités et les facteurs tiers de [non-](https://github.com/webpack/webpack/issues)[fonctionnement](https://stackoverflow.com/search?q=webpack).
-
-
 ## Installation
 
 1. Téléchargez les sources : `git clone https://github.com/betagouv/eac.git` ;
@@ -35,9 +28,13 @@ Il est recommandé d'utiliser un navigateur à jour pour un meilleur affichage 
 
 ## Contribuer
 
-La plateforme est faite en [VanillaJS](http://vanilla-js.com/) saupoudrée de :
+La plateforme utilise :
 - [RiotJS](http://riot.js.org/) pour la partie webcomponents ;
 - [PageJS](https://visionmedia.github.io/page.js/) pour le routing client ;
-- [Awesomplete](https://github.com/LeaVerou/awesomplete) pour l'autocompletion.
+- [Awesomplete](https://github.com/LeaVerou/awesomplete) pour l'autocompletion ;
+- [Babel](https://babeljs.io/) pour transpiler le code en ES5 ;
+- [Express](https://expressjs.com/) pour servir les pages.
 
-Pour [nettoyer](https://standardjs.com/) les sources JS, lancer la commande `npm run lint`.
+Pour [nettoyer](https://standardjs.com/) les sources JS, lancer la commande `npm run lint`. Pour transpiler les fichiers `.js` et `.tags.html` en fichier `.js` ES5, lancer la commande `npm run build`.
+
+L'application est déployée chez [clever cloud](https://www.clever-cloud.com/en/).
