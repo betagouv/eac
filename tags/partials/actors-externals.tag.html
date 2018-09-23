@@ -1,9 +1,8 @@
 <actors-externals>
-  <p if={ this.inDepartment(['44', '49', '53', '72', '85', '26', '38']) }>
-    Si aucun résultat ne correspond à vos attentes, d'autres sites peuvent éventuellement
-    compléter votre recherche&nbsp;:
-  </p>
-  <nav>
+      <p>Consulter les actions culturelles du département culturelle de la région { this.regionData.label }.</p>
+      <a class="button button-outline" href={ this.regionData.url }>Voir les actions en { this.regionData.label }</a>
+
+  <nav if={ this.department }>
     <a if={ this.inDepartment(['26']) } target=_blank href=http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges>
       <img src=https://www.ladrome.fr/sites/all/themes/ladromeax/images/logo.png>
     </a>
@@ -15,15 +14,89 @@
     </a>
   </nav>
   <script>
-    this.inDepartment = (codes) => {
-      return this.opts.department && (!this.opts.department.length || codes.includes(this.opts.department))
+    this.department = this.opts.department
+    if (!this.department) {
+      return
     }
+
+    this.inDepartment = (codes) => {
+      return this.department && (!this.department.length || codes.includes(this.department))
+    }
+
+    const regionsData = [
+      {
+        label: 'Bretagne',
+        codes: ['22', '29', '35', '44', '56'],
+        url: 'http://www.culture.gouv.fr/Regions/Drac-Bretagne/Politique-et-actions-culturelles/Education-artistique-et-culturelle'
+      },
+      {
+        label: 'Auvergne-Rhône-Alpes',
+        codes: ['01', '03', '07', '15', '26', '38', '42', '43', '63', '69', '73', '74'],
+        url: 'http://www.culture.gouv.fr/Regions/Drac-Auvergne-Rhone-Alpes/Demarches-aides/Aides-financieres/Aides-action-culturelle-et-territoriale/Aides-aux-projets-d-action-culturelle'
+      },
+      {
+        label: 'Bourgogne-Franche-Comtéône-Alpes',
+        codes: ['21', '25', '39', '58', '70', '71', '89', '90'],
+        url: 'http://www.culture.gouv.fr/Regions/Drac-Auvergne-Rhone-Alpes/Demarches-aides/Aides-financieres/Aides-action-culturelle-et-territoriale/Aides-aux-projets-d-action-culturelle'
+      },
+      {
+        label: 'Centre-Val de Loires',
+        codes: ['18', '28', '36', '37', '41', '45'],
+        url: 'http://www.culture.gouv.fr/Regions/Drac-Centre-Val-de-Loire/Ressources/Cartographie/Education-artistique-et-culturelle-EAC'
+      },
+      {
+        label: 'Corse',
+        codes: ['2A', '2B'],
+        url: 'http://www.culture.gouv.fr/content/search?SearchText=education+artistique+et+culturelle&start-date=01-08-2018&SearchButton=&node_id=11178#search_results'
+      },
+      {
+        label: 'Grand Est',
+        codes: ['08', '10', '51', '52', '54', '55', '57', '67', '68', '88', '10', '10'],
+        url: 'http://www.culture.gouv.fr/content/search?SearchText=education+artistique+et+culturelle&start-date=01-08-2018&SearchButton=&node_id=10182#search_results'
+      },
+      {
+        label: 'Hauts-de-France',
+        codes: ['02', '59', '62', '60', '80'],
+        url: 'http://www.culture.gouv.fr/content/search?SearchText=education+artistique+et+culturelle&start-date=01-08-2018&SearchButton=&node_id=23958#search_results'
+      },
+      {
+        label: 'Île-de-France',
+        codes: ['75', '77', '78', '91', '93', '95'],
+        url: 'http://www.culture.gouv.fr/Regions/Drac-Ile-de-France/DRAC-INFOS/Plaquette-de-presentation-du-Haut-Conseil-de-l-education-artistique-et-culturelle'
+      },
+      {
+        label: 'Normandie',
+        codes: ['14', '27', '50', '61', '76'],
+        url: 'http://www.culture.gouv.fr/content/search?SearchText=education+artistique+et+culturelle&start-date=01-08-2018&SearchButton=&node_id=10099#search_results'
+      },
+      {
+        label: 'Nouvelle-Aquitaine',
+        codes: ['16', '17', '19', '33', '24', '33', '40', '47', '64', '79', '86', '87'],
+        url: 'http://www.culture.gouv.fr/content/search?SearchText=education+artistique+et+culturelle&start-date=01-08-2018&SearchButton=&node_id=10846#search_results'
+      },
+      {
+        label: 'Occitanie',
+        codes: ['09', '11', '12', '30', '31', '32', '34', '46', '48', '65', '66', '81', '82'],
+        url: 'http://www.culture.gouv.fr/Regions/Drac-Occitanie/Action-culturelle-et-territoriale/Education-artistique-et-culturelle'
+      },
+      {
+        label: 'Pays de la Loire',
+        codes: ['44', '49', '53', '72', '85'],
+        url: 'http://www.culture.gouv.fr/content/search?SearchText=education+artistique+et+culturelle&start-date=01-08-2018&SearchButton=&node_id=10348#search_results'
+      },
+      {
+        label: 'Provence-Alpes-Côte d\'Azur',
+        codes: ['04', '05', '06', '13', '83', '84'],
+        url: 'http://www.culture.gouv.fr/content/search?SearchText=education+artistique+et+culturelle&start-date=01-08-2018&SearchButton=&node_id=11095#search_results'
+      }
+    ]
+
+    this.regionData = regionsData.find((d) => d.codes.includes(this.department))
   </script>
 
   <style scoped>
     a {
       display: inline-block;
-      width: 30%;
       padding: 2rem;
       text-align: center;
     }

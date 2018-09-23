@@ -33,7 +33,7 @@
 
     <aside if={ this.ready }>
       <h2>Vous n'avez rien trouvé d'intéressant&nbsp;?</h2>
-      <actors-externals department={ this.department }></actors-externals>
+      <actors-externals department={ this.department } />
       <p>
         Vous pouvez <a href="mailto:plateforme.eac@culture.gouv.fr">nous contacter</a> ou participer à améliorer la base de données en ajoutant un acteur
         culturel&nbsp;:
@@ -76,7 +76,11 @@
         api(`/actions/search/${normalizeString(this.q)}${params}`)
       ])
 
-      this.department = this.school.postalCode && this.school.postalCode.substr(0, 2)
+      this.department = ''
+      if (this.school.postalCode) {
+        const prefix = this.school.postalCode.slice(0, -3)
+        this.department = prefix.length > 1 ? prefix : `0${prefix}`
+      }
       this.ready = true
       document.body.classList.add('ready')
       this.update()
