@@ -1,0 +1,78 @@
+<page-dashboard>
+  <h1>Tableau de pilotage</h1>
+  <div ref=map></div>
+  <section class=block>
+    <h2>Chiffres clés</h2>
+    <ul>
+      <li><strong>{ this.schoolsCount }</strong> établissements scolaires</li>
+      <li><strong>{ this.actorsCount }</strong> acteurs culturels</li>
+      <li><strong>{ this.actionsCount }</strong> actions culturelles</li>
+    </ul>
+    <a class="button button-outline" href="https://api.education-artistique-culturelle.fr/actors/search?format=csv">Télécharger les acteurs culturels</a>
+    <a class="button button-outline" href="https://api.education-artistique-culturelle.fr/actions/search?format=csv">Télécharger les actions culturelles</a>
+  </section>
+
+  <script>
+    this.schoolsCount = 0
+    this.actorsCount = 0
+    this.actionsCount = 0
+
+    const boudingBoxes = {
+      france: { zoom: 5, latLng: [47.100, 1.879], loadMarkers: false }
+    }
+
+    const boundingBox = boudingBoxes.france
+
+    this.on('mount', async () => {
+      const map = L.map(this.refs.map).setView(boundingBox.latLng, boundingBox.zoom)
+
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+      maxZoom: 15,
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      id: 'mapbox.streets'
+      }).addTo(map)
+
+      this.schoolsCount = await api('/schools/count')
+      this.actionsCount = await api('/actions/count')
+      this.actorsCount = await api('/actors/count')
+
+      if (boundingBox.loadMarkers !== false) {
+        const schools = await api('/schools/search?limit=99999')
+        const schoolIcon = L.icon({iconUrl: `/images/marker.svg`, iconSize: [40, 45]})
+        const schoolMarkers = schools.map(school => {
+          const marker = L.marker(school.loc.coordinates, {icon: schoolIcon})
+          marker.bindPopup(`<h4>${school.name} — ${school.postalCode} ${school.city}</h4>`)
+          return marker
+        })
+        L.featureGroup(schoolMarkers).addTo(map)
+      }
+      this.update()
+    })
+  </script>
+
+  <style>
+    :scope {
+      display: grid;
+      grid-template:
+        'title title'
+        'map output'
+      / minmax(60%, auto) 1fr;
+    }
+
+    h1 {
+      grid-area: title;
+    }
+
+    [ref=map] {
+      grid-area: map;
+      width: 100%;
+      height: 350px;
+    }
+
+    section {
+      grid-area: output;
+    }
+  </style>
+</page-dashboard>
