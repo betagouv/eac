@@ -55,14 +55,14 @@
         doc.setOptions({linebreaks: true})
         console.log(this.actor)
         doc.setData({
-          actorName: this.actor.name,
+          actorName: this.actor.name || '',
           actorAddress: `${this.actor.address} ${this.actor.postalCode} ${this.actor.city}`,
-          actorEmail: this.actor.contactEmail || this.actor.ownerEmail,
-          actorPhone: this.actor.contactPhone || this.actor.ownerPhone,
-          actorDomains: this.actor.domains.join(', '),
-          actorContactName: this.actor.contactName,
-          actionName: this.action.name,
-          actionDescription: this.action.description,
+          actorEmail: this.actor.contactEmail || this.actor.ownerEmail || '',
+          actorPhone: this.actor.contactPhone || this.actor.ownerPhone || '',
+          actorDomains: (this.actor.domains && this.actor.domains.join(', ')) || '',
+          actorContactName: this.actor.contactName || '',
+          actionName: this.action.name || '',
+          actionDescription: this.action.description || '',
         })
 
         try {
