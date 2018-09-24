@@ -1,73 +1,97 @@
 <download-template>
 
-  <button onclick={ this.download }>Télécharger la fiche projet</button>
+  <button class="button-outline" onclick={ this.initThenDownload }>Télécharger la fiche projet</button>
 
   <script>
-    async function download() {
-      function loadFile(url, callback) {
-        JSZipUtils.getBinaryContent(url, callback);
-      }
-      loadFile("/resources/eac-project-2018-2019.docx", function(error, content) {
-        if (error) { throw error };
-        var zip = new JSZip(content);
-        var doc = new Docxtemplater().loadZip(zip)
-        doc.setData({
-          actorName: 'John',
-          last_name: 'Doe',
-          phone: '0652455478',
-          description: 'New Website'
-        });
+    /* globals JSZipUtils, JSZip, Docxtemplater, saveAs, riot */
 
-        try {
-          doc.render()
-        } catch (error) {
-          var e = {
-            message: error.message,
-            name: error.name,
-            stack: error.stack,
-            properties: error.properties,
-          }
-          console.log(JSON.stringify({ error: e }));
-          throw error;
-        }
-
-        var out = doc.getZip().generate({
-          type: "blob",
-          mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        })
-        saveAs(out, "output.docx")
-      })
-    }
-
+    // Inject a script in document head.
     function loadScript(src) {
-      const s = document.createElement('script');
-      s.src = src;
-      s.type = "text/javascript";
-      document.getElementsByTagName('head')[0].appendChild(s);
-      s.async = false
+      const s = document.createElement('script')
+      s.src = src
+      s.type = 'text/javascript'
+      document.getElementsByTagName('head')[0].appendChild(s)
       s.onload = () => {
         loadedScripts.push(src)
         loadedScriptObserver.trigger('push')
       }
     }
 
-    function LoadedScriptObserver() {
+    // Observe script injection, then trigger template download.
+    function LoadedScriptObserver(tag) {
       riot.observable(this)
-      this.on('push', function() {
-        if (loadedScripts.length == 4) {
-          download()
+      this.on('push', () => {
+        // Start downloading after all scripts are loaded.
+        if (loadedScripts.length === scripts.length) {
+          tag.download()
         }
       })
     }
 
+    const templateFilename = '/resources/eac-project-2018-2019.docx'
     const loadedScripts = []
-    const loadedScriptObserver = new LoadedScriptObserver()
+    const scripts = [
+      '/vendors/js/jszip.min.js', 
+      '/vendors/js/jszip-utils.min.js', 
+      '/vendors/js/filesaver.min.js', 
+      '/vendors/js/docxtemplater-latest.min.js'
+    ]
+    const loadedScriptObserver = new LoadedScriptObserver(this)
 
-    this.download = () => {
-      loadScript('/vendors/js/jszip.min.js')
-      loadScript('/vendors/js/jszip-utils.min.js')
-      loadScript('/vendors/js/filesaver.min.js')
-      loadScript('/vendors/js/docxtemplater-latest.min.js')
+    this.actor = {}
+    this.action = {}
+
+    this.on('update', () => {
+      this.actor = this.opts.actor
+      this.action = this.opts.action
+    })
+
+    this.download = async () => {
+      JSZipUtils.getBinaryContent(templateFilename, (error, content) => {
+        if (error) {
+          throw error
+        }
+        const doc = new Docxtemplater().loadZip(JSZip(content))
+        doc.setOptions({linebreaks: true})
+        console.log(this.actor)
+        doc.setData({
+          actorName: this.actor.name,
+          actorAddress: `${this.actor.address} ${this.actor.postalCode} ${this.actor.city}`,
+          actorEmail: this.actor.contactEmail || this.actor.ownerEmail,
+          actorPhone: this.actor.contactPhone || this.actor.ownerPhone,
+          actorDomains: this.actor.domains.join(', '),
+          actorContactName: this.actor.contactName,
+          actionName: this.action.name,
+          actionDescription: this.action.description,
+        })
+
+        try {
+          doc.render()
+        } catch (error) {
+          const e = {
+            message: error.message,
+            name: error.name,
+            stack: error.stack,
+            properties: error.properties
+          }
+          console.log(JSON.stringify({ error: e }))
+          throw error
+        }
+
+        const out = doc.getZip().generate({
+          type: 'blob',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        })
+        saveAs(out, 'output.docx')
+      })
+    }
+
+    this.initThenDownload = () => {
+      if (loadedScripts.length === scripts.length) {
+        this.download()
+      } else {
+        scripts.map(loadScript)
+      }
     }
   </script>
 </download-template>
