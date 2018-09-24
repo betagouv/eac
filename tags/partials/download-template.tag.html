@@ -1,0 +1,95 @@
+<download-template>
+
+  <button class="button-outline" onclick={ this.initThenDownload }>Télécharger la fiche projet</button>
+
+  <script>
+    /* globals JSZipUtils, JSZip, Docxtemplater, saveAs, riot */
+
+    // Inject a script in document head.
+    function loadScript(src) {
+      const s = document.createElement('script')
+      s.src = src
+      document.head.appendChild(s)
+      s.onload = () => {
+        loadedScripts.push(src)
+        loadedScriptObserver.trigger('push')
+      }
+    }
+
+    // Observe script injection, then trigger template download.
+    function LoadedScriptObserver(tag) {
+      riot.observable(this)
+      this.on('push', () => {
+        // Start downloading after all scripts are loaded.
+        if (loadedScripts.length === scripts.length) {
+          tag.download()
+        }
+      })
+    }
+
+    const templateFilename = '/resources/eac-project-2018-2019.docx'
+    const loadedScripts = []
+    const scripts = [
+      '/vendors/js/jszip.min.js', 
+      '/vendors/js/jszip-utils.min.js', 
+      '/vendors/js/filesaver.min.js', 
+      '/vendors/js/docxtemplater-latest.min.js'
+    ]
+    const loadedScriptObserver = new LoadedScriptObserver(this)
+
+    this.actor = {}
+    this.action = {}
+
+    this.on('update', () => {
+      this.actor = this.opts.actor
+      this.action = this.opts.action
+    })
+
+    this.download = async () => {
+      JSZipUtils.getBinaryContent(templateFilename, (error, content) => {
+        if (error) {
+          throw error
+        }
+        const doc = new Docxtemplater().loadZip(JSZip(content))
+        doc.setOptions({linebreaks: true})
+        doc.setData({
+          actorName: this.actor.name || '',
+          actorAddress: `${this.actor.address} ${this.actor.postalCode} ${this.actor.city}`,
+          actorEmail: this.actor.contactEmail || this.actor.ownerEmail || '',
+          actorPhone: this.actor.contactPhone || this.actor.ownerPhone || '',
+          actorDomains: (this.actor.domains && this.actor.domains.join(', ')) || '',
+          actorContactName: this.actor.contactName || '',
+          actionName: this.action.name || '',
+          actionDescription: this.action.description || '',
+        })
+
+        try {
+          doc.render()
+        } catch (error) {
+          const e = {
+            message: error.message,
+            name: error.name,
+            stack: error.stack,
+            properties: error.properties
+          }
+          console.log(JSON.stringify({ error: e }))
+          throw error
+        }
+
+        const out = doc.getZip().generate({
+          type: 'blob',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        })
+        saveAs(out, 'output.docx')
+      })
+    }
+
+    this.initThenDownload = () => {
+      if (loadedScripts.length === scripts.length) {
+        this.download()
+      } else {
+        scripts.map(loadScript)
+      }
+    }
+  </script>
+</download-template>
