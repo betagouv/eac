@@ -53,7 +53,6 @@
         }
         const doc = new Docxtemplater().loadZip(JSZip(content))
         doc.setOptions({linebreaks: true})
-        console.log(this.actor)
         doc.setData({
           actorName: this.actor.name || '',
           actorAddress: `${this.actor.address} ${this.actor.postalCode} ${this.actor.city}`,
