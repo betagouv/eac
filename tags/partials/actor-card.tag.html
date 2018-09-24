@@ -1,6 +1,6 @@
 <actor-card>
 
-  <h3>{ this.actor.name } <small>(dept { this.actor.department })</small></h3>
+  <h3>{ this.actor.name } <small>(dept { postalCodeToDepartment(this.actor.postalCode || '') })</small></h3>
   <marked-small text={ this.actor.description.length < this.maxlength ? this.actor.description : this.actor.description.substr(0, this.maxlength) + '…' }></marked-small>
 
   <footer>

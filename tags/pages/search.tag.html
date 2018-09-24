@@ -78,8 +78,7 @@
 
       this.department = ''
       if (this.school.postalCode) {
-        const prefix = this.school.postalCode.slice(0, -3)
-        this.department = prefix.length > 1 ? prefix : `0${prefix}`
+        this.department = postalCodeToDepartment(this.school.postalCode || '')
       }
       this.ready = true
       document.body.classList.add('ready')

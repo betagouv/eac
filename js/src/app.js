@@ -58,3 +58,10 @@ function toDisplayText(t) {
     'langue-vivante': 'langue vivante',
   }[t] || t
 }
+
+function postalCodeToDepartment(postalCode) {
+  // See: https://regex101.com/r/7rscLP/2
+  const regexDepartment = /^(?:(97[12346])[0-9]{2}|(2[ab])[0-9]{3}|([0-9]{2})[0-9]{3}|([0-9]{1})[0-9]{3})$/i
+  const prefix = postalCode.replace(regexDepartment, '$1')
+  return prefix.length > 1 ? prefix : `0${prefix}`
+}
