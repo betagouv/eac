@@ -9,9 +9,9 @@
     <nav if={ this.medias }>
       <virtual each={ media in this.medias }>
         <p if={ !this.isImage(media) } >
-            <a href={ media.trim() } target=_blank>Consulter «&nbsp;{ media.split('/').splice(-1)[0] || media }&nbsp;»</a>
+            <a href={ media.trim() } target=_blank>Consulter «&nbsp;{ this.mediaLabel(media) }&nbsp;»</a>
         </p>
-        <img if={ this.isImage(media) } src={ media.trim() } alt={ media.split('/').splice(-1)[0] } />
+        <img if={ this.isImage(media) } src={ media.trim() } alt={this.mediaLabel(media) } />
       </virtual>
     </nav>
 
@@ -58,6 +58,7 @@
     this.actorUrl = () => `/actor/${this.actor._id}${this.opts.schoolId && `?school=${this.opts.schoolId}` }`
 
     this.isImage = (media) =>  /(?:jpg|jpeg|svg|png)$/.test(media)
+    this.mediaLabel = (media) => (media.split('/').splice(-1)[0] || media).substring(0, 48)
 
     this.on('mount', async () => {
       this.action = await api(`/actions/${this.opts.id}`)
