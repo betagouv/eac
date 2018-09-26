@@ -59,9 +59,16 @@ function toDisplayText(t) {
   }[t] || t
 }
 
-function postalCodeToDepartment(postalCode) {
-  // See: https://regex101.com/r/7rscLP/2
-  const regexDepartment = /^(?:(97[12346])[0-9]{2}|(2[ab])[0-9]{3}|([0-9]{2})[0-9]{3}|([0-9]{1})[0-9]{3})$/i
-  const prefix = postalCode.replace(regexDepartment, '$1')
-  return prefix.length > 1 ? prefix : `0${prefix}`
+function departmentFromPostalCode (postalCode) {
+  const postalPrefix = postalCode.slice(0, -3)
+  let department = postalPrefix.length < 2 ? `0${postalPrefix}` : postalPrefix
+  // Corse
+  if (department === '20') {
+    department = Number(postalCode[2]) < 2 ? '2A' : '2B'
+  }
+  // Dom-Tom
+  else if (['97', '98'].includes(department)) {
+    department = postalCode.slice(0, 3)
+  }
+  return department
 }

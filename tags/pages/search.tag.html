@@ -33,7 +33,7 @@
 
     <aside if={ this.ready }>
       <h2>Vous n'avez rien trouvé d'intéressant&nbsp;?</h2>
-      <actors-externals department={ this.department } />
+      <actors-externals if={ this.department } department={ this.department } />
       <p>
         Vous pouvez <a href="mailto:plateforme.eac@culture.gouv.fr">nous contacter</a> ou participer à améliorer la base de données en ajoutant un acteur
         culturel&nbsp;:
@@ -78,7 +78,7 @@
 
       this.department = ''
       if (this.school.postalCode) {
-        this.department = postalCodeToDepartment(this.school.postalCode || '')
+        this.department = departmentFromPostalCode(this.school.postalCode || '')
       }
       this.ready = true
       document.body.classList.add('ready')

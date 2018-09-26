@@ -1,6 +1,9 @@
 <actors-externals>
-      <p>Consulter les actions culturelles du département culturelle de la région { this.regionData.label }.</p>
-      <a class="button button-outline" href={ this.regionData.url }>Voir les actions en { this.regionData.label }</a>
+  <virtual if={ this.regionData }>
+    <p>Consulter les actions culturelles du département culturelle de la région { this.regionData.label }.</p>
+    <a class="button button-outline" href={ this.regionData.url }>Voir les actions en { this.regionData.label }</a>
+  </virtual>
+  
 
   <nav if={ this.department }>
     <a if={ this.inDepartment(['26']) } target=_blank href=http://www.ladrome.fr/nos-actions/culture/pratiques-artistiques-culturelles/actions-educatives-colleges/dispositifs-departementaux-culture-colleges>
