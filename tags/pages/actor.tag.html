@@ -20,8 +20,6 @@
       </ul>
     </virtual>
 
-    <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
-
     <p id=updated-at>
       <small>Dernière mise à jour le <time>{ this.actorFormatDate() }</time></small>
     </p>
@@ -45,6 +43,7 @@
   </section>
 
   <aside class=block>
+    <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
     <section if={ this.actor.image } id=image>
       <img src={ this.actor.image } alt="Photo de { this.actor.name }">
     </section>
@@ -154,7 +153,7 @@
       right: 0;
     }
 
-    aside > *:not(:last-child) {
+    aside > *:not(:last-child):not(x-ribbon) {
       border-bottom: .2rem solid #eee;
       padding-bottom: 1rem;
       margin-bottom: 4rem;

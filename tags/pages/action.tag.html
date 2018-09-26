@@ -16,7 +16,7 @@
     </nav>
 
     <a if={ this.action.website } href={ this.action.website } target=_blank>Voir la page internet de cette action</a>
-    <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
+    
   </article>
 
   <section>
@@ -35,12 +35,15 @@
   </section>
 
   <aside class=block>
+    <x-ribbon if={ this.actor.labels } text={ this.actor.labels && this.actor.labels.join(' / ') }></x-ribbon>
     <section id=actor>
       <h3>Proposé par { this.actor.name }</h3>
       <img if={ this.actor.image } src={ this.actor.image }>
       <p if={ this.actor.description }>{ this.actor.description.substr(0, 200) }…</p>
       <a class=button href="{ this.actorUrl() }" title="Voir la fiche de { this.actor.name }">Voir sa fiche</a>
+      
     </section>
+    
 
     <actor-contact actor={ this.actor } />
     <actor-map actor={ this.actor } />
@@ -92,10 +95,6 @@
       }
     }
 
-    x-ribbon {
-      margin-top: 5rem;
-    }
-
     #actor {
       position: relative;
     }
@@ -109,7 +108,7 @@
       margin: 2rem auto;
     }
 
-    aside > *:not(:last-child) {
+    aside > *:not(:last-child):not(x-ribbon) {
       border-bottom: .2rem solid #eee;
       padding-bottom: 1rem;
       margin-bottom: 4rem;
