@@ -149,6 +149,11 @@
       `)
     })
 
+    page('/dashboard', (ctx) => {
+      this.searchStyle = 'removed'
+      this.changePage('dashboard')
+    })
+
     this.getSearchHeight = () => {
       return this.refs.search.getBoundingClientRect().height
     }
@@ -314,6 +319,11 @@
       opacity: 1;
     }
     #search.hidden + #betabanner {
+      display: none;
+    }
+
+    #search.removed,
+    #search.removed + #betabanner {
       display: none;
     }
 
