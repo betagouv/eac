@@ -15,7 +15,8 @@ function api (uri, options) {
   return request(`${apiUrl}${uri}`, options)
 }
 
-function urlParams(queryString = location.search) {
+function urlParams(queryString) {
+  queryString = queryString || location.search.slice(1)
   const keyValues = queryString.startsWith('&') ? queryString.slice(1) : queryString
   return new Map(keyValues.split('&').map(kv => kv.split('=')))
 }
