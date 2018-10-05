@@ -1,5 +1,4 @@
 <like>
-  <hr>
   <virtual if={ this.status === 'initial' }>
     <button class=button onclick={ this.showForm }>
       Je recommande
@@ -10,7 +9,7 @@
       <h4>Vous êtes enseignant·e&nbsp;? Vous pouvez soutenir et encourager ce projet.</h4>
       <label>
         Indiquez votre adresse e-mail (elle ne sera pas rendue publique)
-        <input type=text required ref=email>
+        <input type=email required ref=email>
       </label>
       <label>
         <input type=checkbox>
@@ -35,7 +34,7 @@
     }
   </script>
   <style scoped>
-    input[type="text"], input[type="checkbox"] {
+    input[type="email"], input[type="checkbox"] {
       background-color: #fff;
     }
   </style>
