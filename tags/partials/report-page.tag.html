@@ -1,0 +1,22 @@
+<report-page>
+  <a href="mailto:plateforme.eac@culture.gouv.fr?subject=Une erreur sur la plateforme&body={ encodeURIComponent(this.emailBody) }">
+    <yield>
+  </a>
+
+  <script>
+    this.emailBody = `
+Bonjour,
+
+En visitant la page ${document.location.href}, j'ai constaté l'erreur suivante :
+
+[renseignez ici les détails de l'erreur]
+
+`
+  </script>
+
+  <style>
+    a {
+      color: inherit;
+    }
+  </style>
+</report-page>
