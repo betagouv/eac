@@ -1,0 +1,43 @@
+<like>
+  <hr>
+  <virtual if={ this.status==='initial' }>
+    <button class=button onclick={ this.showForm }>
+      Je recommande
+    </button>
+  </virtual>
+  <virtual if={ this.status==='form' }>
+    <form onsubmit={ this.submit }>
+      <h4>Vous êtes enseignant·e&nbsp;? Vous pouvez soutenir et encourager ce projet.</h4>
+      <label>
+        Indiquez votre adresse e-mail (elle ne sera pas rendue publique)
+        <input type=text required ref=email>
+      </label>
+      <label>
+        <input type="checkbox">
+        J'ai participé à ce projet et j'ai aimé
+      </label>
+      <button class="button" type=submit>
+        Je recommande
+      </button>
+    </form>
+  </virtual>
+  <virtual if={this.status==='thanks' }>
+    <h3>Merci&nbsp;!</h3>
+  </virtual>
+  <script>
+    this.status = 'initial'
+    this.showForm = () => { this.status = 'form' }
+    this.send = event => {
+      event.preventDefault()
+      if (this.refs.email.value) {
+        this.status = 'thanks' 
+      } 
+    }
+  </script>
+  <style scoped>
+    input[type="text"], input[type="checkbox"] {
+      background-color: #fff;
+    }
+  </style>
+
+</like>
