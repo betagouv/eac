@@ -1,10 +1,10 @@
-<actors-map>
+<resources-map>
   <div ref=map></div>
 
   <script>
     /* global schoolById, opts, L */
     this.schoolId = opts.schoolId
-    this.actors = opts.actors
+    this.resources = opts.resources
 
     this.on('mount', async () => {
       let school = null
@@ -18,7 +18,7 @@
       }
 
       const map = L.map(this.refs.map).setView(lngLat, zoom)
-      const actorMarker = L.icon({iconUrl: `/images/marker.svg`, iconSize: [40, 45]})
+      const resourceMarker = L.icon({iconUrl: `/images/marker.svg`, iconSize: [40, 45]})
 
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
@@ -28,15 +28,18 @@
         id: 'mapbox.streets'
       }).addTo(map)
 
-      const markers = this.actors
-        .filter(a => a.loc && a.loc.coordinates[0])
-        .map(a => {
-          const marker = L.marker(a.loc.coordinates, {icon: actorMarker})
-          marker.actor = a
+      const markers = this.resources
+        .filter(r => r.loc && r.loc.coordinates[0])
+        .map(r => {
+          const marker = L.marker(r.loc.coordinates, {icon: resourceMarker})
+          const isAction = Boolean(r.actor)
+          const description = r.description.length > 80 ? (r.description.substr(0, 300) + '…') : r.description
+          const url = `/${ isAction ? 'action' : 'actor' }/${r._id}`
+          marker.resource = r
           marker.bindPopup(`
-            <a href=/actor/${a._id}?school=${this.schoolId} title="Voir le détail">
-              <h4>${a.name}</h4>
-              <p>${a.description.length > 80 ? (a.description.substr(0, 300) + '…') : a.description}</p>
+            <a href=${url}?school=${this.schoolId} title="Voir le détail">
+              <h4>${r.name}</h4>
+              <p>${ description }</p>
               <p>Voir le détail</p>
             </a>
           `)
@@ -55,7 +58,7 @@
         .addTo(map)
     })
   </script>
-
+  
   <style scoped>
     :scope {
       display: block;
@@ -80,4 +83,4 @@
       width: 50px;
     }
   </style>
-</actors-map>
+</resources-map>
