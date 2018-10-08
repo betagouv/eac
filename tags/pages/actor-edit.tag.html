@@ -186,7 +186,7 @@
   </section>
 
   <script>
-    /* global request, api, page */
+    /* global confirm, api, page, FormData */
 
     const actorId = this.opts.actorId
     this.actor = {}
@@ -289,8 +289,7 @@
           fullAddress: this.address.data.label,
           loc: { type: 'Point', coordinates: this.address.latLng }
         })
-      }
-      else if (!this.actor.address) {
+      } else if (!this.actor.address) {
         this.errors.push("L'adresse postale n'est pas valide. Veuillez corriger ce champ.")
       }
 
