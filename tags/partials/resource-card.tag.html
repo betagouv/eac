@@ -1,0 +1,102 @@
+<resource-card>
+    <h3 class={ this.isAction ? 'action' : 'actor' }>{ this.resource.name } 
+      <small if={ this.department } >(dept. { departmentFromPostalCode(this.department) })</small>
+    </h3>
+    <virtual if={ this.isAction } >
+      <small>({ this.resource.actor.name } — { this.resource.actor.city }, { this.resource.actor.postalCode })</small>
+    </virtual>
+
+    <marked-small text={ this.description }></marked-small>
+  
+    <footer>
+      <geo if={ this.resource.distance === 0 }>&nbsp;&lt;&nbsp;1&nbsp;km</geo>
+      <geo if={ this.resource.distance }>{ Math.ceil(this.resource.distance) }&nbsp;km</geo>
+      <nav class=tags>
+        <color-tag class=tag each={ domain in this.resource.domains } label="{ domain }">
+          <a>{ domain }</a>
+        </color-tag>
+      </nav>
+      <a class="button button-clear" href={ this.url }?school={ this.schoolId }>En savoir plus ></a>
+    </footer>
+  
+    <a href={ this.url }?school={ this.schoolId }></a>
+  
+    <x-ribbon if={ this.labels } text={ this.labels.join(' / ') }></x-ribbon>
+  
+    <script>
+      /* global opts */
+      this.schoolId = opts.schoolId
+      this.resource = opts.resource
+      this.maxlength = this.opts.maxlength || 150
+      this.description = this.resource.description.length < this.maxlength ? this.resource.description : this.resource.description.substr(0, this.maxlength) + '…' 
+      this.isAction = Boolean(this.resource.actor)
+      this.url = `/${this.isAction ? 'action' : 'actor'}/${this.resource._id}`
+      this.department = this.isAction ? (this.resource.actor && this.resource.actor.postalCode) : this.resource.postalCode
+      this.labels = this.isAction ? this.resource.actor.labels : this.resource.labels
+    </script>
+  
+    <style scoped>
+      :scope {
+        position: relative;
+        display: block;
+      }
+      :scope > a {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+      :scope:hover {
+        color: #111;
+        transition: color .3s;
+      }
+  
+      h3 {
+        font-size: 1.4em;
+        margin: 1rem 0 0 0;
+      }
+      h3.actor {
+        margin-bottom: .5rem;
+      }
+      h3 small {
+        text-transform: none;
+        font-style: italic;
+        font-size: .8em;
+      }
+
+      small {
+        line-height: .8em;
+      }
+  
+      p {
+        margin: 0;
+      }
+
+      marked-small {
+        display: block;
+        margin-top: 1rem;
+      }
+  
+      footer {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        padding-top: 1rem;
+        margin-top: 1rem;
+        border-top: 1px solid #ccc;
+        align-items: center;
+        margin-bottom: -2rem;
+      }
+      footer > a {
+        text-align: right !important;
+      }
+  
+      geo {
+        font-size: 1.3rem;
+        background: url(/images/gps.icon.png) no-repeat;
+        background-size: 1.8rem;
+        padding-left: 2rem;
+      }
+    </style>
+</resource-card>
