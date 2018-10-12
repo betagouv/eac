@@ -33,7 +33,7 @@
     </ul>
     <download-template actor={ this.actor } action={ this.action } />
     <hr>
-    <like action={ this.action } />
+    <like if={ this.action.id }  action={ this.action } />
   </section>
 
   <aside class=block>

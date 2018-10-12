@@ -3,6 +3,9 @@
     <button class=button onclick={ this.showForm }>
       Je recommande
     </button>
+    <em if={ this.likesCount } class="like-counter">
+      { this.likesCount } enseignants recommandent cette action.
+    </em>
   </virtual>
   <virtual if={ this.status === 'form' }>
     <form onsubmit={ this.submit }>
@@ -26,7 +29,12 @@
   <script>
     /* globals api */
     this.status = 'initial'
+    this.likesCount = 0
     this.showForm = () => { this.status = 'form' }
+    this.on('mount', async () => {
+      this.likesCount = (await api(`/feedbacks?action=${this.opts.action.id}`)).length
+      this.update()
+    })
     this.submit = async event => {
       event.preventDefault()
       if (this.refs.email.value) {
@@ -50,6 +58,9 @@
   <style scoped>
     input[type="email"], input[type="checkbox"] {
       background-color: #fff;
+    }
+    .like-counter {
+      margin-left: 2rem;
     }
   </style>
 
