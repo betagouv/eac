@@ -55,7 +55,7 @@
     }
 
     this.ensureFilled = event => {
-      if(!this.completer.suggestions || !this.completer.suggestions.length) {
+      if(address.label || !this.completer.suggestions || !this.completer.suggestions.length) {
         return
       }
       const suggestion = this.completer.suggestions[0]
