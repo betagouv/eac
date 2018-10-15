@@ -32,6 +32,8 @@
       </li>
     </ul>
     <download-template actor={ this.actor } action={ this.action } />
+    <hr>
+    <like if={ this.action.id }  action={ this.action } />
   </section>
 
   <aside class=block>
@@ -53,14 +55,14 @@
 
 
   <script>
-    /* globals api */
+    /* globals api, schoolById */
     this.action = {}
     this.actor = {}
     this.medias = []
 
-    this.actorUrl = () => `/actor/${this.actor._id}${this.opts.schoolId && `?school=${this.opts.schoolId}` }`
+    this.actorUrl = () => `/actor/${this.actor._id}${this.opts.schoolId && `?school=${this.opts.schoolId}`}`
 
-    this.isImage = (media) =>  /(?:jpg|jpeg|svg|png)$/.test(media)
+    this.isImage = (media) => /(?:jpg|jpeg|svg|png)$/.test(media)
     this.mediaLabel = (media) => (media.split('/').splice(-1)[0] || media).substring(0, 48)
 
     this.on('mount', async () => {

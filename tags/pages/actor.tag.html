@@ -59,14 +59,18 @@
     <a href=/actor/{this.opts.actorId}/edit class=button>
       Mettre à jour les informations de cet acteur
     </a>
+
+    <report-page class="button button-outline">
+      Signaler une erreur sur cette page
+    </report-page>
   </section>
 
   <script>
-    /* global api */
+    /* global api, schoolById */
     this.actor = {}
 
     this.actorFormatDate = () => (new Date(this.actor.updatedAt)).toLocaleDateString('fr-FR')
-    this.actionUrl = (id) => `/action/${id}${this.opts.schoolId && `?school=${this.opts.schoolId}` }`
+    this.actionUrl = (id) => `/action/${id}${this.opts.schoolId && `?school=${this.opts.schoolId}`}`
 
     this.on('mount', async () => {
       this.actor = await api(`/actors/${this.opts.actorId}`)

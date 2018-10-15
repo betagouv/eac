@@ -132,7 +132,7 @@
     })
 
     page('/actor/:id', (ctx) => {
-    this.searchStyle = 'hidden'
+      this.searchStyle = 'hidden'
       this.schoolId = urlParams(ctx.querystring).get('school') || ''
       this.changePage('actor', `
         school-id="${this.schoolId}"
@@ -141,7 +141,7 @@
     })
 
     page('/action/:id', (ctx) => {
-    this.searchStyle = 'hidden'
+      this.searchStyle = 'hidden'
       this.schoolId = urlParams(ctx.querystring).get('school') || ''
       this.changePage('action', `
         id="${ctx.params.id}"

@@ -1,0 +1,67 @@
+<like>
+  <virtual if={ this.status === 'initial' }>
+    <button class=button onclick={ this.showForm }>
+      Je recommande
+    </button>
+    <em if={ this.likesCount } class="like-counter">
+      { this.likesCount } enseignants recommandent cette action.
+    </em>
+  </virtual>
+  <virtual if={ this.status === 'form' }>
+    <form onsubmit={ this.submit }>
+      <h4>Vous êtes enseignant·e&nbsp;? Vous pouvez soutenir et encourager ce projet.</h4>
+      <label>
+        Indiquez votre adresse e-mail (elle ne sera pas rendue publique)
+        <input type=email required ref=email>
+      </label>
+      <label>
+        <input type=checkbox ref=participation>
+        J'ai participé à ce projet et j'ai aimé
+      </label>
+      <button class=button type=submit>
+        Je recommande
+      </button>
+    </form>
+  </virtual>
+  <virtual if={ this.status === 'thanks' }>
+    <h3>Merci&nbsp;!</h3>
+  </virtual>
+  <script>
+    /* globals api */
+    this.status = 'initial'
+    this.likesCount = 0
+    this.showForm = () => { this.status = 'form' }
+    this.on('mount', async () => {
+      this.likesCount = (await api(`/feedbacks?action=${this.opts.action.id}`)).length
+      this.update()
+    })
+    this.submit = async event => {
+      event.preventDefault()
+      if (this.refs.email.value) {
+        await api(`/feedbacks`, {
+          method: 'POST',
+          body: JSON.stringify({
+            email: this.refs.email.value,
+            actionId: this.opts.action.id,
+            participation: Boolean(this.refs.participation.checked)
+          }),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+        this.status = 'thanks'
+        this.update()
+      }
+    }
+  </script>
+  <style scoped>
+    input[type="email"], input[type="checkbox"] {
+      background-color: #fff;
+    }
+    .like-counter {
+      margin-left: 2rem;
+    }
+  </style>
+
+</like>

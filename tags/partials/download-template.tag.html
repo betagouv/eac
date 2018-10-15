@@ -6,7 +6,7 @@
     /* globals JSZipUtils, JSZip, Docxtemplater, saveAs, riot */
 
     // Inject a script in document head.
-    function loadScript(src) {
+    function loadScript (src) {
       const s = document.createElement('script')
       s.src = src
       document.head.appendChild(s)
@@ -17,7 +17,7 @@
     }
 
     // Observe script injection, then trigger template download.
-    function LoadedScriptObserver(tag) {
+    function LoadedScriptObserver (tag) {
       riot.observable(this)
       this.on('push', () => {
         // Start downloading after all scripts are loaded.
@@ -30,9 +30,9 @@
     const templateFilename = '/resources/eac-project-2018-2019.docx'
     const loadedScripts = []
     const scripts = [
-      '/vendors/js/jszip.min.js', 
-      '/vendors/js/jszip-utils.min.js', 
-      '/vendors/js/filesaver.min.js', 
+      '/vendors/js/jszip.min.js',
+      '/vendors/js/jszip-utils.min.js',
+      '/vendors/js/filesaver.min.js',
       '/vendors/js/docxtemplater-latest.min.js'
     ]
     const loadedScriptObserver = new LoadedScriptObserver(this)
@@ -60,7 +60,7 @@
           actorDomains: (this.actor.domains && this.actor.domains.join(', ')) || '',
           actorContactName: this.actor.contactName || '',
           actionName: this.action.name || '',
-          actionDescription: this.action.description || '',
+          actionDescription: this.action.description || ''
         })
 
         try {

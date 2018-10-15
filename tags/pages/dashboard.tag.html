@@ -18,6 +18,7 @@
   </section>
 
   <script>
+    /* global api, urlParams, L */
     this.region = {departments: []}
     this.schoolsCount = 0
     this.actorsCount = 0
@@ -25,7 +26,7 @@
     const query = urlParams()
     let map = null
 
-    this.regions = [ 
+    this.regions = [
 
       { code: 'fra', label: 'France', zoom: 5, latLng: [47, 2], departments: [], loadMarkers: false },
       { code: 'ara', label: 'Auvergne-Rhône-Alpes', departments: ['01', '03', '07', '15', '26', '38', '42', '43', '63', '69', '73', '74'], zoom: 7, latLng: [45.37, 5] },
@@ -39,7 +40,7 @@
       { code: 'nor', label: 'Normandie', departments: ['14', '27', '50', '61', '76'], zoom: 7, latLng: [49, 0] },
       { code: 'naq', label: 'Nouvelle-Aquitaine', departments: ['16', '17', '19', '33', '24', '33', '40', '47', '64', '79', '86', '87'], zoom: 6, latLng: [44.95, 0] },
       { code: 'occ', label: 'Occitanie', departments: ['09', '11', '12', '30', '31', '32', '34', '46', '48', '65', '66', '81', '82'], zoom: 7, latLng: [43.66, 2] },
-      { code: 'pdl', label: 'Pays de la Loire', departments: ['44', '49', '53', '72', '85'], zoom: 7, latLng: [47.41, -.95] },
+      { code: 'pdl', label: 'Pays de la Loire', departments: ['44', '49', '53', '72', '85'], zoom: 7, latLng: [47.41, -0.95] },
       { code: 'pac', label: 'Provence-Alpes-Côte d\'Azur', departments: ['04', '05', '06', '13', '83', '84'], zoom: 7, latLng: [44.05, 5.85] }
     ]
 
@@ -70,7 +71,7 @@
           marker.bindPopup(`<h4>${school.name} — ${school.postalCode} ${school.city}</h4>`)
           return marker
         })
-        //L.featureGroup(schoolMarkers).addTo(map)
+        // L.featureGroup(schoolMarkers).addTo(map)
 
         const actors = await api(`/actors?limit=10&departments=${this.region.departments.join(',')}`)
         const actorIcon = L.icon({iconUrl: `/images/marker.svg`, iconSize: [40, 45]})
@@ -82,7 +83,7 @@
           marker.bindPopup(`<h4>${actor.name} — ${actor.postalCode} ${actor.city}</h4>`)
           return marker
         })
-        .filter((marker) => marker && marker._latlng)
+          .filter((marker) => marker && marker._latlng)
 
         actorMarkers && L.featureGroup(actorMarkers).addTo(map)
       }
@@ -97,11 +98,11 @@
       map = L.map(this.refs.map).setView(this.region.latLng, this.region.zoom)
 
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-      maxZoom: 15,
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        maxZoom: 15,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
           '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
           'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      id: 'mapbox.streets'
+        id: 'mapbox.streets'
       }).addTo(map)
       showRegion(regionCode)
     })
@@ -109,7 +110,7 @@
     this.selectRegion = (event) => {
       const regionCode = event.target.value || 'fra'
       window.history.pushState(null, `Tableau de pilotage en ${regionCode}`,
-                               `/dashboard?region=${regionCode}`)
+        `/dashboard?region=${regionCode}`)
       showRegion(regionCode)
     }
   </script>
