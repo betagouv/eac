@@ -252,6 +252,8 @@
 
       const data = new FormData(event.target)
 
+      this.errors = []
+
       function getActionProperty (name, index, isArray) {
         return data[isArray ? 'getAll' : 'get'](`action[${index}].${name}`)
       }
