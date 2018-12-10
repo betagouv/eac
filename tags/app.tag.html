@@ -15,8 +15,12 @@
       <section>
         <p>Trouvez les activités artistiques et culturelles<br>au plus proche de vous</p>
         <search-form q={ this.q } school-id={ this.schoolId } />
-        <small if={ this.pageName == 'home' }><strong>Vous avez déjà un projet ?</strong> Vous pouvez <request-button>le soumettre à l'équipe</request-button> qui se charge de vous mettre en relation.</small>
-        <small><request-button if={ this.pageName != 'home' }>Soumettre un projet à l'équipe</request-button></small>
+        <div id=contact-project if={ this.pageName == 'home' }>
+          <strong>Vous avez envie d'organiser un projet ?</strong>
+          <request-button>Contactez-nous</request-button>
+          pour que nous vous accompagnions dans sa réalisation !
+          <request-button if={ this.pageName != 'home' }>Soumettre un projet à l'équipe</request-button>
+        </div>
       </section>
       <a href="/search?q={ this.q }&school={ this.schoolId }" class="button">< Retourner aux résultats de recherche</a>
     </section>
@@ -342,6 +346,12 @@
     }
     #betabanner p {
       margin: 0;
+    }
+
+    #contact-project {
+      margin-top: 4rem;
+      margin-bottom: 4rem;
+      text-align: center;
     }
 
     :scope > footer {
