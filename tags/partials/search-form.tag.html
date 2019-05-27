@@ -5,15 +5,15 @@
     <label for=levels>Pour les élèves de</label>
     <select name=levels id=levels>
       <option></option>
-      <option value="maternelle">Maternelle</option>
-      <option value="primaire">Élémentaire</option>
-      <option value="college">Collège</option>
-      <option value="lycee">Lycée</option>
+      <option selected={this.currentLevels && this.currentLevels[0] === 'maternelle'} value="maternelle">Maternelle</option>
+      <option selected={this.currentLevels && this.currentLevels[0] === 'primaire,elementaire'} value="primaire,elementaire">Élémentaire</option>
+      <option selected={this.currentLevels && this.currentLevels[0] === 'college,colleges'} value="college,colleges">Collège</option>
+      <option selected={this.currentLevels && this.currentLevels[0] === 'lycee,lycees'} value="lycee,lycees">Lycée</option>
     </select>
     <label for=domains>Dans la thématique</label>
     <select name=domains id=domains>
       <option></option>
-      <option each={ domain in this.domains }>{domain}</option>
+      <option selected={this.currentDomains && this.currentDomains[0] === domain} each={ domain in this.domains }>{domain}</option>
     </select>
     <label for=search>À proximité de</label>
     <select-school ref=school name=school id=school school-id={ this.opts.schoolId } />
@@ -37,6 +37,15 @@
       "Patrimoine",
       "Théâtre"
     ];
+    this.on('mount', async () => {
+      let filters = {}
+      try {
+        filters = JSON.parse(this.opts.filters)
+      } catch(e) {}
+      this.currentDomains = filters.domains
+      this.currentLevels = filters.levels
+      this.update()
+    })
     /* global page */
     this.submit = (event) => {
       event.preventDefault()
