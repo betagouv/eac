@@ -22,10 +22,9 @@
             Renseignez les détails de votre projet pour connaitre les possibilités 
             de financenement et le soumettre à votre directeur d'établissement.
           </p>
-          <a href=/actor/create class="button">Je soumets mon projet</a>
+          <a href=/submit-project class="button">Je soumets mon projet</a>
         </div>
       </section>
-      <a href="/search?q={ this.q }&school={ this.schoolId }" class="button">< Retourner aux résultats de recherche</a>
     </section>
   </header>
 
@@ -127,6 +126,11 @@
       this.searchStyle = 'hidden'
       this.changePage('actor-edit')
     })
+
+    page('/submit-project', ctx => {
+      this.searchStyle = 'hidden'
+      this.changePage('submit-project')
+    })    
 
     page('/actor/:id/edit', ctx => {
       this.searchStyle = 'hidden'
@@ -309,8 +313,7 @@
     }
 
     #search.hidden {
-      padding-top: 2rem;
-      padding-bottom: 2rem;
+      display: hidden
     }
     #search.hidden section {
       overflow: hidden;

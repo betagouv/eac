@@ -1,0 +1,173 @@
+<page-submit-project>
+  <div class=container>
+    <section>
+      <h2>Soumettre un projet EAC</h2>
+      <form>
+        <fieldset class="block container">
+          <h3>Le projet</h3>
+          <div class=row>
+            <div class=column>
+              <label>Titre du projet</label>
+              <input type=text />
+              <label>Description</label>
+              <textarea />
+              </div>
+            <div class=column>    
+              <label>Acteur culturel</label>
+              <input type=text placeholder="ex: Théâtre du Soleil" />
+              <label>Autres acteurs, commentaires</label>
+              <textarea />
+            </div>
+          </div>
+          <div class=row>
+            <div class=column>
+              <label>Périmètre</label>
+              <select>
+                <option each={ peri in this.peris }>{ peri.text }</option>
+              </select>
+            </div>
+            <div class=column>
+              <label>Dominante(s) artistique(s) et culturelle(s)</label>
+              <select>
+                <option each={ domain in this.domains }>{ domain }</option>
+              </select>
+            </div>
+          </div>
+          <h3>Les participants</h3>
+          <div class=row>
+            <div class=column>
+              <label>Professeur coordonateur</label>
+              <input type=text placeholder="ex: Nicole Legrand" />
+            </div>
+            <div class=column>
+              <label>Classes engagées</label>
+              <input type=text placeholder="ex: 3eme B" />
+            </div>
+          </div>
+          <h3>L'atelier</h3>
+          <div class=row>
+            <div class=column>
+              Prévoyez-vous une pratique artistique ou scientifique en atelier ?
+            </div>
+            <div class=column>
+              <label style="display: inline;"><input type=radio name=on-site /> oui</label>
+              <label style="display: inline;"><input type=radio name=on-site /> non</label>
+            </div>
+          </div>
+          <label>Jour et plage horaire de l'atelier</label>
+          <input type=text />
+          <div class=row>
+            <div class=column>
+              <label>Nombre d'élèves de l'atelier</label>
+              <input type=text />
+            </div>
+            <div class=column>
+              <label>Nombre total de séances d'atelier</label>
+              <input type=text />
+            </div>
+            <div class=column>
+              <label>Nombre total d’heures d’intervention</label>
+              <input type=text />
+            </div>
+          </div>
+          <label>Commentaires</label>
+          <textarea />
+          <h3>Le contenu du projet</h3>
+          <label>Objectifs pédagogiques</label>
+          <textarea />
+          <label>Travail mené</label>
+          <textarea />
+          <label>Réalisation et restitution envisagées</label>
+          <textarea />
+          <h3>Le budget prévisionnel</h3>
+          <div class=row>
+            <div class=column>
+              <h4>Dépenses</h4>
+              Intervention(s) de professionnel(s) (desc + prix)
+              Sorties (desc + prix)
+              Frais de fonctionnement (desc + prix)
+              Frais de déplacement (desc + prix)
+            </div>
+            <div class=column>
+              <h4>Recettes</h4>
+              Ressources établissement
+              Ressources complémentaires des collectivités territoriales
+              Apport DRAC
+              Autres apports (hors DRAC)
+              Aide complémentaire demandée sur les moyens académiques
+            </div>
+          </div>
+          <h3>À propos de vous</h3>
+          <div class=row>
+            <div class=column>
+              <label>Nom</label>
+              <input type=text />
+            </div>
+            <div class=column>
+              <label>Prénom</label>
+              <input type=text />
+            </div>
+          </div>
+          <div class=row>
+            <div class=column>
+              <label>Email</label>
+              <input type=text />
+            </div>
+            <div class=column>
+              <label>Etablissment</label>
+              <input type=text />
+            </div>
+          </div>
+          <h3>Destinataire</h3>
+          <label>
+            <div class=row>
+              <div class=column>
+                <label>Nom</label>
+                <input type=text />
+              </div>
+              <div class=column>
+                <label>Prénom</label>
+                <input type=text />
+              </div>
+              <div class=column>
+                <label>Email</label>
+                <input type=text />
+              </div>
+            </div>
+          </label>
+        </fieldset>
+      </form>
+      <Link href="/teacher">
+      <button>Envoyer</button>
+      </Link>
+    </section>
+  </div>
+  <script>
+  this.domains = [
+    "Architecture",
+    "Art moderne et contemporain",
+    "Arts du cirque et de la rue",
+    "Arts numériques",
+    "Arts visuels",
+    "Danse",
+    "Développement durable",
+    "Livres",
+    "Musée",
+    "Musique",
+    "Opéra",
+    "Patrimoine",
+    "Théâtre"
+  ];
+  this.peris = [
+    { id: "2", text: "Bassin" },
+    { id: "3", text: "Circonscription" },
+    { id: "7", text: "Classe" },
+    { id: "6", text: "Cycle" },
+    { id: "1", text: "D\u00e9partement" },
+    { id: "8", text: "\u00c9tablissement" },
+    { id: "4", text: "Regroupement d\u0027\u00e9coles" },
+    { id: "5", text: "Regroupement de coll\u00e8ges" },
+    { id: "9", text: "Regroupement de lyc\u00e9es" }
+  ];
+  </script>
+</page-submit-project>
