@@ -1,28 +1,29 @@
 <page-home>
-  <article>
-    <h2>Bienvenue sur la plateforme<br> pour l'éducation artistique
-      <br>et culturelle</h2>
-    <section>
-      <p>
-        Initiative conjointe des ministères de la culture et de
-        l'éducation nationale.
-      </p>
-      <p>
-        Pour que toujours plus d'enfants puissent rencontrer et expérimenter les arts,
-        le patrimoine et la culture scientifique&nbsp;; pour une jeunesse créative&nbsp;!
-      </p>
-      <a class="button button-outline" href=/intro>En savoir plus</a>
-      <a href=/actor/create class="button button-outline">Ajouter un acteur culturel</a>
-    </section>
-  </article>
+  <div class=container>
+    <article>
+      <div class=row>
+        <div class="column c33">
+          <h2>Bienvenue sur la plateforme pour l'éducation artistique
+            et culturelle</h2>
+        </div>
+        <div class=column>
+          <section>
+            <p>
+              Initiative conjointe des ministères de la culture et de
+              l'éducation nationale.
+            </p>
+            <p>
+              Pour que toujours plus d'enfants puissent rencontrer et expérimenter les arts,
+              le patrimoine et la culture scientifique&nbsp;; pour une jeunesse créative&nbsp;!
+            </p>
+            <a class="button button-outline" href=/intro>En savoir plus</a> <a href=/actor/create class="button button-outline">Ajouter un acteur culturel</a>
+          </section>
+        </div>
+      </div>
+    </article>
+  </div>
 
   <style>
-    article {
-      display: grid;
-      grid-template-columns: auto 55%;
-      grid-gap: 5rem;
-    }
-
     article h2 {
       font-size: 2.7rem;
       line-height: 1.6;
@@ -33,11 +34,23 @@
     }
 
     article a {
-      display: inline-block;
-      margin-top: 2rem;
+      display: block;
     }
-    a:last-child {
-      margin-left: 2rem;
+
+    @media (min-width: 80.0rem) {
+      .column.c33 {
+        flex: 0 0 33.3333%;
+        max-width: 33.3333%;
+      }
+
+      article a {
+        display: inline-block;
+        margin-top: 2rem;
+      }
+
+      a:last-child {
+        margin-left: 2rem;
+      }
     }
   </style>
 </page-home>
