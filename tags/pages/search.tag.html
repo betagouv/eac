@@ -21,7 +21,9 @@
 
     <section if={ this.viewType=='list' } ref=results id=results>
       <div class=block if={ this.ready && !this.resources.length }>
-        <p>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
+        <p>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.
+         <a if={ this.q } href="/search?q={this.q}">Relancer la recherche sans les filtres</a>
+         </p>
       </div>
 
       <resource-card class=block each={ resource in this.withName(this.resources) } resource={ resource } school-id={ this.schoolId } />
@@ -74,6 +76,7 @@
         if (this.school.loc && this.school.loc.coordinates) {
           const coordinatesParam = ["from", `${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`]
           params.push(coordinatesParam)
+          params.push(["distance", 250])
         }
       }
 
