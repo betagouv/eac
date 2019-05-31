@@ -14,23 +14,18 @@
     <section id=search class="justify { this.searchStyle }" ref=search style="height: { this.getSearchHeight() }">
       <section>
         <p>Trouvez les activités artistiques et culturelles<br>au plus proche de vous</p>
-        <search-form q={ this.q } school-id={ this.schoolId } />
+        <search-form q={ this.q } school-id={ this.schoolId } filters={ this.filters } />
         <div id=contact-project if={ this.pageName == 'home' }>
-          <strong>Vous avez envie d'organiser un projet ?</strong>
-          <request-button>Contactez-nous</request-button>
-          pour que nous vous accompagnions dans sa réalisation !
-          <request-button if={ this.pageName != 'home' }>Soumettre un projet à l'équipe</request-button>
+          <h4>Simplifiez-vous l'organisation de votre projet EAC</h4>
+          <p>
+            Vous avez construit un projet EAC avec un acteur identifié&nbsp;? <br />
+            Renseignez les détails de votre projet pour connaitre les possibilités 
+            de financenement et le soumettre à votre directeur d'établissement.
+          </p>
+          <a href=/submit-project class="button">Je soumets mon projet</a>
         </div>
       </section>
-      <a href="/search?q={ this.q }&school={ this.schoolId }" class="button">< Retourner aux résultats de recherche</a>
     </section>
-    <footer id=betabanner class=justify>
-      <img src=https://api.gouv.fr/img/logo-generique-startup-carre.jpg alt="Phase Beta Startup">
-      <p>
-        Cette plateforme est en cours de développement dans <a href="/territoires">les territoires pilotes</a>. Nous vous invitons à <a href="mailto:plateforme.eac@culture.gouv.fr">prendre contact avec nous</a>
-        afin de rapporter toute suggestion ou dysfonctionnement.
-      </p>
-    </footer>
   </header>
 
   <main ref=container class=justify></main>
@@ -62,6 +57,7 @@
     /* global page, riot, urlParams, window */
 
     this.q = ''
+    this.filters = '';
     this.searchStyle = 'full'
 
     this.changePage = (name, options) => {
@@ -117,11 +113,12 @@
       const params = urlParams(ctx.querystring)
       this.q = decodeURI(params.get('q') || '')
       this.schoolId = params.get('school') || ''
-      const filters = encodeURI(params.get('filters') || '')
+      this.filters = params.get('filters') || ''
+      console.log(this.filters)
       this.changePage('search', `
         school-id="${this.schoolId}"
         q="${this.q}"
-        filters="${filters}"
+        filters="${encodeURI(this.filters)}"
       `)
     })
 
@@ -129,6 +126,11 @@
       this.searchStyle = 'hidden'
       this.changePage('actor-edit')
     })
+
+    page('/submit-project', ctx => {
+      this.searchStyle = 'hidden'
+      this.changePage('submit-project')
+    })    
 
     page('/actor/:id/edit', ctx => {
       this.searchStyle = 'hidden'
@@ -209,7 +211,7 @@
     header > section {
       grid-area: search;
       margin-top: 3rem;
-      padding-top: 10rem;
+      padding-top: 2rem;
       padding-bottom: 10rem;
       background-color: #fff;
     }
@@ -311,8 +313,7 @@
     }
 
     #search.hidden {
-      padding-top: 2rem;
-      padding-bottom: 2rem;
+      display: none;
     }
     #search.hidden section {
       overflow: hidden;
@@ -349,9 +350,14 @@
     }
 
     #contact-project {
+      margin: auto;
       margin-top: 4rem;
-      margin-bottom: 4rem;
       text-align: center;
+      max-width: 600px;
+      
+    }
+    #contact-project > p {
+      font-size: 1.6rem;
     }
 
     :scope > footer {

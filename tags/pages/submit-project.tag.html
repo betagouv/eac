@@ -1,0 +1,280 @@
+<page-submit-project>
+  <div class=container>
+    <section>
+      <h2>Soumettre un projet EAC</h2>
+      <p>
+      Vous pouvez soumettre votre projet d'éducation artistique et culturelle à votre 
+      directeur d'établissement pour connaitre les possibilités de financenement
+      à l'aide de ce formulaire. Aucun champ n'est obligatoire.
+      </p>
+      <form>
+        <fieldset class="block container">
+          <h3>Le projet</h3>
+          <div class=row>
+            <div class=column>
+              <label>Titre du projet</label>
+              <input type=text id="title" />
+              <label>Description</label>
+              <textarea id="description" />
+              </div>
+            <div class=column>    
+              <label>Acteur culturel</label>
+              <select-actor onselect={ () => {} } inputid="actor"></select-actor>
+              <label>Autres acteurs, commentaires</label>
+              <textarea id="otherActor" />
+            </div>
+          </div>
+          <div class=row>
+            <div class=column>
+              <label>Périmètre</label>
+              <select id="peri">
+                <option each={ peri in this.peris }>{ peri.text }</option>
+              </select>
+            </div>
+            <div class=column>
+              <label>Dominante artistique et culturelle</label>
+              <select id="domain">
+                <option each={ domain in this.domains }>{ domain }</option>
+              </select>
+            </div>
+          </div>
+          <h3>Les participants</h3>
+          <div class=row>
+            <div class=column>
+              <label>Professeur coordonateur</label>
+              <input id="coord" type=text placeholder="ex: Nicole Legrand" />
+            </div>
+            <div class=column>
+              <label>Classes engagées</label>
+              <input type=text id="classes" placeholder="ex: 3eme B" />
+            </div>
+          </div>
+          <h3>L'atelier</h3>
+          <div class=row>
+            <div class=column>
+              Prévoyez-vous une pratique artistique ou scientifique en atelier ?
+            </div>
+            <div class=column>
+              <label style="display: inline;"><input type=radio name=on-site onClick={ () => {this.onSite = true} } /> oui</label>
+              &nbsp;&nbsp;
+              <label style="display: inline;"><input type=radio name=on-site checked onClick={ () => {this.onSite = false} }/> non</label>
+            </div>
+          </div>
+          <virtual if={ this.onSite }>
+          <label>Jour et plage horaire de l'atelier</label>
+          <input type=text id="workshopSchedules" />
+          <div class=row>
+            <div class=column>
+              <label>Nombre d'élèves de l'atelier</label>
+              <input type=text id="workshopLearners"/>
+            </div>
+            <div class=column>
+              <label>Nombre total de séances d'atelier</label>
+              <input type=text id="workshopSessions"/>
+            </div>
+            <div class=column>
+              <label>Nombre total d’heures d’intervention</label>
+              <input type=text id="workshopHours"/>
+            </div>
+          </div>
+          <label>Commentaires</label>
+          <textarea id="workshopComments" />
+          </virtual>
+          <h3>Le contenu du projet</h3>
+          <label>Objectifs pédagogiques</label>
+          <textarea id="target" />
+          <label>Travail mené</label>
+          <textarea id="workDone" />
+          <label>Réalisation et restitution envisagées</label>
+          <textarea id="prod" />
+          <h3>Le budget prévisionnel</h3>
+          <div class=row>
+            <div class=column>
+              <label>Intervention(s) de professionnel(s)</label>
+              <div class=row>
+                <div class=column><input  id="proDesc" type=text placeholder="Description" /></div>
+                <div class=column><input  id="proPrice" type=text placeholder="Prix"/></div>
+              </div>
+              <label>Sorties</label>
+              <div class=row>
+                <div class=column><input  id="activityDesc" type=text placeholder="Description" /></div>
+                <div class=column><input  id="activityPrice" type=text placeholder="Prix" /></div>
+              </div>
+              <label>Frais de fonctionnement</label>
+              <div class=row>
+                <div class=column><input  id="operatingDesc" type=text placeholder="Description" /></div>
+                <div class=column><input  id="operatingPrice" type=text placeholder="Prix" /></div>
+              </div>
+              <label>Frais de déplacement</label>
+              <div class=row>
+                <div class=column><input id="travellingDesc"  type=text placeholder="Description" /></div>
+                <div class=column><input  id="travellingPrice" type=text placeholder="Prix"  /></div>
+              </div>
+            </div>
+          </div>
+          <h3>À propos de vous</h3>
+          <div class=row>
+            <div class=column>
+              <label>Nom</label>
+              <input id="senderName" type=text />
+            </div>
+            <div class=column>
+              <label>Prénom</label>
+              <input id="senderFirstName" type=text />
+            </div>
+          </div>
+          <div class=row>
+            <div class=column>
+              <label>Email</label>
+              <input id="senderEmail" type=text />
+            </div>
+            <div class=column>
+              <label>Etablissment</label>
+              <select-school />
+            </div>
+          </div>
+          <h3>Responsable d'établissement</small></h3>
+            <div class=row>
+              <div class=column>
+                <label>Nom</label>
+                <input id="destName" type=text />
+              </div>
+              <div class=column>
+                <label>Prénom</label>
+                <input id="destFirstName" type=text />
+              </div>
+              <div class=column>
+                <label>Email</label>
+                <input id="destEmail" type=text />
+              </div>
+            </div>
+          </label>
+        </fieldset>
+      </form>
+      <button onClick={ this.sendMail }>Envoyer</button> 
+    </section>
+  </div>
+  <script>
+  this.domains = [
+    "Architecture",
+    "Art moderne et contemporain",
+    "Arts du cirque et de la rue",
+    "Arts numériques",
+    "Arts visuels",
+    "Danse",
+    "Développement durable",
+    "Livres",
+    "Musée",
+    "Musique",
+    "Opéra",
+    "Patrimoine",
+    "Théâtre"
+  ];
+  this.peris = [
+    { id: "2", text: "Bassin" },
+    { id: "3", text: "Circonscription" },
+    { id: "7", text: "Classe" },
+    { id: "6", text: "Cycle" },
+    { id: "1", text: "D\u00e9partement" },
+    { id: "8", text: "\u00c9tablissement" },
+    { id: "4", text: "Regroupement d\u0027\u00e9coles" },
+    { id: "5", text: "Regroupement de coll\u00e8ges" },
+    { id: "9", text: "Regroupement de lyc\u00e9es" }
+  ];
+  this.onSite=false
+  this.sendMail = () => {
+    const values = {
+      title: document.getElementById("title").value,
+      description: document.getElementById("description").value,
+      actor: document.getElementById("actor").value,
+      otherActor: document.getElementById("otherActor").value,
+      peri: document.getElementById("peri").value,
+      domain: document.getElementById("domain").value,
+      coord: document.getElementById("coord").value,
+      classes: document.getElementById("classes").value,
+      workshopSchedules: this.onSite && document.getElementById("workshopSchedules").value,
+      workshopLearners: this.onSite && document.getElementById("workshopLearners").value,
+      workshopSessions: this.onSite && document.getElementById("workshopSessions").value,
+      workshopHours: this.onSite && document.getElementById("workshopHours").value,
+      workshopComments: this.onSite && document.getElementById("workshopComments").value,
+      target: document.getElementById("target").value,
+      workDone: document.getElementById("workDone").value,
+      prod: document.getElementById("prod").value,
+      proDesc: document.getElementById("proDesc").value,
+      proPrice: document.getElementById("proPrice").value,
+      activityDesc: document.getElementById("activityDesc").value,
+      activityPrice: document.getElementById("activityPrice").value,
+      operatingDesc: document.getElementById("operatingDesc").value,
+      operatingPrice: document.getElementById("operatingPrice").value,
+      travellingDesc: document.getElementById("travellingDesc").value,
+      travellingPrice: document.getElementById("travellingPrice").value,
+      senderName: document.getElementById("senderName").value,
+      senderFirstName: document.getElementById("senderFirstName").value,
+      senderEmail: document.getElementById("senderEmail").value,
+      senderSchool: document.getElementById("selectSchoolInput").value,
+      destEmail: document.getElementById("destEmail").value,
+      destFirstName: document.getElementById("destFirstName").value,
+      destName: document.getElementById("destName").value,
+    }
+    const body = encodeURIComponent(`Bonjour ${values.destFirstName} ${values.destName},
+
+Je souhaite organiser une action d'éducation artistique et culturelle dans le cadre suivant :
+
+# Le projet
+
+Titre : ${values.title}
+Description : ${values.description}
+Acteur culturel : ${values.actor}
+Autres acteurs, commentaires : ${values.otherActor}
+Périmètre : ${values.peri}
+Dominante artistique et culturelle : ${values.domain}
+
+# Les participants
+
+Professeur coordonateur : ${values.coord}
+Classes engagées : ${values.classes}
+
+# L'atelier
+
+Pratique en atelier : ${this.onSite ? "oui" : "non"}
+Jour et plage horaire de l'atelier : ${values.workshopSchedules || ""}
+Nombre d'élèves de l'atelier : ${values.workshopLearners || ""}
+Nombre total de séances d'atelier : ${values.workshopSessions || ""}
+Nombre total d’heures d’intervention : ${values.workshopHours || ""}
+Commentaires: ${values.workshopComments || ""}
+
+# Le contenu du projet
+
+Objectifs pédagogiques : ${values.target}
+Travail mené : ${values.workDone}
+Réalisation et restitution envisagées : ${values.prod}
+
+# Le budget prévisionnel
+
+Intervention(s) de professionnel(s) : ${values.proDesc} ${values.proPrice}
+Sorties : ${values.activityDesc} ${values.activityPrice}
+Frais de fonctionnement : ${values.operatingDesc} ${values.operatingPrice}
+Frais de déplacement : ${values.travellingDesc} ${values.travellingPrice}
+
+# À propos de l'émetteur
+
+Nom : ${values.senderName}
+Prénom : ${values.senderFirstName}
+Email : ${values.senderEmail}
+Etablissement : ${values.senderSchool}
+
+Cordialement,
+
+${values.senderFirstName} ${values.senderName}
+${values.senderEmail}
+`)
+
+    window.location.href = `mailto:${values.destEmail}?subject=Demande directe&body=${body}`
+  }
+  </script>
+  <style scoped>
+  fieldset h3:nth-child(n+2) {
+    margin-top: 2rem;
+  }
+  </style>
+</page-submit-project>
