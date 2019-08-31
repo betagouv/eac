@@ -1,33 +1,35 @@
 <page-search>
-    <section class={!this.ready && 'hidden' } id=filters>
-      <search-filters filters={ this.filters } q={ this.q } school-id={ this.schoolId } actors={ this.resources } />
-    </section>
-
-    <section if={ this.domains.length } id=tags>
-      <color-tag each={ domain in this.domains } label={ domain } />
-    </section>
-
+  <div class=container>
     <h4 if={ !this.ready }>Chargement des résultats en cours…</h4>
     <virtual if={ this.ready }>
-      <h4 if={ this.q && !this.school.name }><small>Résultats de la recherche pour</small> { this.q }</h4>
-      <h4 if={ this.q && this.school.name }><small>Résultats de la recherche pour</small> { this.q } — { this.school.name }</h4>
-      <h4 if={ !this.q && this.school.name }><small>Résultats autour de</small> { this.school.name } ({ this.school.city })</h4>
-      <h4 if={ !this.q && !this.school.name }>Les dernières actions en France</h4>
+      <div class=row>
+        <div class=column>
+          <h4 if={ this.q && !this.school.name }><small>Résultats de la recherche pour</small> { this.q }</h4>
+          <h4 if={ this.q && this.school.name }><small>Résultats de la recherche pour</small> { this.q } — { this.school.name }</h4>
+          <h4 if={ !this.q && this.school.name }><small>Résultats autour de</small> { this.school.name } ({ this.school.city })</h4>
+          <h4 if={ !this.q && !this.school.name }>Les dernières actions en France</h4>
+        </div>
+        <div class=column>
+          <div id=toggle if={ this.resources.length }>
+            <!-- wrapper for the grid -->
+            <button class="button button-outline" if={ this.viewType=='list' } onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
+            <button class="button button-outline" if={ this.viewType=='map' } onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
+          </div>
+        </div>
+      </div>
     </virtual>
-    <div id=toggle if={ this.resources.length }><!-- wrapper for the grid -->
-      <button if={ this.viewType == 'list' } onclick={ this.setViewType } value=map>Voir les résultats sur une carte</button>
-      <button if={ this.viewType == 'map' } onclick={ this.setViewType } value=list>Voir la liste des résultats</button>
-    </div>
 
-    <section if={ this.viewType == 'list' } ref=results id=results>
+    <section if={ this.viewType=='list' } ref=results id=results>
       <div class=block if={ this.ready && !this.resources.length }>
-        <p>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.</p>
+        <p>Aucun résultat ne correspond à cette recherche à proximité de votre établissement.
+         <a if={ this.q } href="/search?q={this.q}">Relancer la recherche sans les filtres</a>
+         </p>
       </div>
 
       <resource-card class=block each={ resource in this.withName(this.resources) } resource={ resource } school-id={ this.schoolId } />
     </section>
 
-    <section if={ this.viewType == 'map' } id=map>
+    <section if={ this.viewType=='map' } id=map>
       <resources-map class=block resources={ this.resources } school-id={ this.schoolId } />
     </section>
 
@@ -40,6 +42,7 @@
       </p>
       <a href=/actor/create class="button button-outline">Ajouter un acteur culturel</a>
     </aside>
+  </div>
 
   <script>
     /* global api, normalizeString, schoolById, departmentFromPostalCode */
@@ -59,20 +62,27 @@
     this.withName = (resources) => resources && resources.filter(r => r.name)
 
     this.on('mount', async () => {
-      let params = this.filters.domains ? `?domains=${this.domains}` : ''
       document.body.classList.remove('ready')
 
+      const params = []
+      if (this.filters.levels) {
+        params.push(["schoolLevels", this.filters.levels])
+      }
+      if (this.filters.domains) {
+        params.push(["domains", this.domains])
+      }
       if (this.schoolId) {
         this.school = await schoolById(this.schoolId)
         if (this.school.loc && this.school.loc.coordinates) {
-          params += (params ? '&' : '?')
-          params += `from=${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`
+          const coordinatesParam = ["from", `${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`]
+          params.push(coordinatesParam)
+          params.push(["distance", 250])
         }
       }
 
       const [actors, actions] = await Promise.all([
-        api(`/actors/search/${normalizeString(this.q)}${params}`),
-        api(`/actions/search/${normalizeString(this.q)}${params}`)
+        api(`/actors/search/${normalizeString(this.q)}${params.length ? `?${params.map(a => `${a[0]}=${encodeURI(a[1])}`).join("&")}` : ''}`),
+        api(`/actions/search/${normalizeString(this.q)}${params.length ? `?${params.map(a => `${a[0]}=${encodeURI(a[1])}`).join("&")}` : ''}`)
       ])
       this.resources = [...actors, ...actions]
       this.resources.sort((a, b) => {
@@ -107,55 +117,25 @@
   </script>
 
   <style scoped>
-  :scope {
-      display: grid;
-      grid-template:
-        'title title title toggle'
-        'tags tags tags tags'
-        'filters results results results'
-        'aside aside aside aside'
-        / auto 1fr 1fr 1fr;
-      grid-gap: 2rem 8rem;
-    }
     .hidden {
       display: none;
     }
-    #search {
-      grid-area: search;
-    }
+
     #tags {
-      grid-area: tags;
       height: 4rem;
     }
-    #filters {
-      grid-area: filters;
-      height: auto;
-      margin-top: -2rem;
-    }
-    #results {
-      grid-area: results;
-      margin-top: -2rem;
-    }
-    #map {
-      grid-area: results;
-    }
+
     aside {
-      grid-area: aside;
       border-top: .2rem solid #eee;
       padding-top: 8rem;
       margin-top: 8rem;
       text-align: center;
     }
-    #toggle {
-      grid-area: toggle;
-      justify-self: end;
-      align-self: center;
-    }
 
     h4 {
-      grid-area: title;
       margin-top: 1rem;
     }
+
     h4 small {
       display: block;
       font-size: 1.5rem;
@@ -173,6 +153,7 @@
       padding: 1em .7em;
       transition: box-shadow .3s;
     }
+
     input[type=search]:focus {
       box-shadow: .05em .05em .2em #bbb;
     }
@@ -195,6 +176,13 @@
       border-radius: .8rem;
       border: 1px solid #e6e6e6;
       margin-right: 1rem;
+    }
+    @media (min-width: 40.0rem) {
+      #toggle {
+        float:right;
+        margin-top: 2rem;
+        margin-right: 2rem;
+      }
     }
   </style>
 </page-search>

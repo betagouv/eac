@@ -3,9 +3,9 @@ Description=EAC client app
 After=network.target
 
 [Service]
-ExecStart=node --experimental-modules /home/eac/client/src/server.js
+ExecStart=node --experimental-modules /home/eac/client/server.js
 # Required on some systems
-WorkingDirectory=/home/eac/client/src
+WorkingDirectory=/home/eac/client
 Restart=always
 RestartSec=3
 # Output to syslog

@@ -4,7 +4,7 @@ const apiUrl = location.hostname === 'localhost'
 
 function request (url, options = {}) {
   const params = Object.assign(options, {
-    mode: 'cors',
+    mode: 'cors'
   })
   return fetch(url, params)
     .then(r => r.json())

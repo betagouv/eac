@@ -1,13 +1,64 @@
 <search-form>
+  <div class=container>
   <form onsubmit={ this.submit }>
-    <label for=q>Vous recherchez</label>
-    <input type=search name=q id=q value={ this.opts.q } placeholder="Ex : Danse hip hop" autofocus>
-    <label for=search>À proximité de</label>
-    <select-school ref=school name=school id=school school-id={ this.opts.schoolId } />
+    <div class=row>
+      <div class=column>
+        <label for=q>Vous recherchez</label>
+        <input type=search autocomplete="new-password" name=q id=q value={ this.opts.q } placeholder="Ex : Japon" autofocus>
+      </div>
+      <div class=column>
+        <label for=levels>Pour les élèves de</label>
+        <select name=levels id=levels>
+          <option></option>
+          <option selected={this.currentLevels && this.currentLevels[0]==='maternelle' } value="maternelle">Maternelle</option>
+          <option selected={this.currentLevels && this.currentLevels[0]==='primaire,elementaire' } value="primaire,elementaire">Élémentaire</option>
+          <option selected={this.currentLevels && this.currentLevels[0]==='college,colleges' } value="college,colleges">Collège</option>
+          <option selected={this.currentLevels && this.currentLevels[0]==='lycee,lycees' } value="lycee,lycees">Lycée</option>
+        </select>
+      </div>
+    </div>
+    <div class=row>
+      <div class=column>
+        <label for=domains>Dans la thématique</label>
+        <select name=domains id="domains">
+          <option></option>
+          <option selected={this.currentDomains && this.currentDomains[0]===domain} each={ domain in this.domains }>{domain}</option>
+        </select>
+      </div>
+      <div class=column>
+        <label for=search>À proximité de</label>
+        <select-school ref=school name=school id="school" school-id={ this.opts.schoolId } />
+      </div>
+    </div>
     <input class=button type=submit value=Rechercher>
   </form>
+  </div>
 
   <script>
+    this.domains = [
+      "Architecture",
+      "Art moderne et contemporain",
+      "Arts du cirque et de la rue",
+      "Arts numériques",
+      "Arts visuels",
+      "Danse",
+      "Développement durable",
+      "Livres",
+      "Musée",
+      "Musique",
+      "Opéra",
+      "Patrimoine",
+      "Théâtre"
+    ];
+    this.on('mount', async () => {
+      let filters = {}
+      try {
+        filters = JSON.parse(this.opts.filters)
+      } catch (e) {}
+      this.currentDomains = filters.domains
+      this.currentLevels = filters.levels
+      this.update()
+    })
     /* global page */
     this.submit = (event) => {
       event.preventDefault()
@@ -16,38 +67,31 @@
       if (schoolId) {
         params += `&school=${schoolId}`
       }
+      let filters = {}
+      if (event.target.domains.value) {
+        filters.domains = [event.target.domains.value]
+      }
+      if (event.target.levels.value) {
+        filters.levels = [event.target.levels.value]
+      }
+      if (filters.levels || filters.domains) {
+        params += `&filters=${encodeURI(JSON.stringify(filters))}`
+      }
       page(`/search${params}`)
     }
   </script>
 
   <style scoped>
     form {
-      display: grid;
-      grid-template:
-        'label-q label-school .'
-        'q school button'
-        / 2fr 1fr auto;
-      grid-column-gap: 3rem;
       max-width: 120rem;
       margin: 2rem auto 0 auto;
     }
     label {
       margin-bottom: 0;
     }
-    [for=q] {
-      grid-area: label-q;
-    }
-    #q {
-      grid-area: q;
-    }
-    [for=school] {
-      grid-area: label-school;
-    }
-    #school {
-      grid-area: school;
-    }
-    [type=submit] {
-      grid-area: button;
+    input[type=submit] {
+      margin: 2rem auto;
+      display: block;
     }
   </style>
 </search-form>

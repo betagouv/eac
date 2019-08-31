@@ -8,7 +8,7 @@
         les territoires et qui aide les enseignants à identifier et mettre en
         oeuvre ces projets.
         <strong>Pour que toujours plus d'enfants puissent rencontrer et expérimenter les arts
-            et la culture</strong>.
+          et la culture</strong>.
       </p>
 
       <p>
@@ -117,22 +117,32 @@
     </dd>
   </dl>
 
-  <div><!-- Dummy div for text alignement -->
+  <div>
     <a class="button button-outline" href="/">Retournez à la page d'accueil</a>
   </div>
 
   <style>
     dl {
-      display: grid;
-      grid-template-columns: auto 55%;
-      grid-gap: 5rem;
+      margin-left: 2rem;
+      margin-right: 2rem;
     }
+
+    @media (min-width: 40.0rem) {
+      dl {
+        display: grid;
+        grid-template-columns: auto 55%;
+        grid-gap: 5rem;
+      }
+    }
+
     dt {
       font-size: 2.4rem;
     }
+
     dd {
       margin: 0;
     }
+
     dd ul {
       margin: 0;
     }
@@ -146,7 +156,7 @@
       text-decoration: underline;
     }
 
-    :scope > div {
+    :scope>div {
       text-align: center;
       margin-top: 5rem;
     }
