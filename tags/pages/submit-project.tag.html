@@ -156,65 +156,65 @@
   </div>
   <script>
   this.domains = [
-    "Architecture",
-    "Art moderne et contemporain",
-    "Arts du cirque et de la rue",
-    "Arts numériques",
-    "Arts visuels",
-    "Danse",
-    "Développement durable",
-    "Livres",
-    "Musée",
-    "Musique",
-    "Opéra",
-    "Patrimoine",
-    "Théâtre"
-  ];
-  this.peris = [
-    { id: "2", text: "Bassin" },
-    { id: "3", text: "Circonscription" },
-    { id: "7", text: "Classe" },
-    { id: "6", text: "Cycle" },
-    { id: "1", text: "D\u00e9partement" },
-    { id: "8", text: "\u00c9tablissement" },
-    { id: "4", text: "Regroupement d\u0027\u00e9coles" },
-    { id: "5", text: "Regroupement de coll\u00e8ges" },
-    { id: "9", text: "Regroupement de lyc\u00e9es" }
-  ];
-  this.onSite=false
+    'Architecture',
+    'Art moderne et contemporain',
+    'Arts du cirque et de la rue',
+    'Arts numériques',
+    'Arts visuels',
+    'Danse',
+    'Développement durable',
+    'Livres',
+    'Musée',
+    'Musique',
+    'Opéra',
+    'Patrimoine',
+    'Théâtre'
+  ]
+this.peris = [
+    { id: '2', text: 'Bassin' },
+    { id: '3', text: 'Circonscription' },
+    { id: '7', text: 'Classe' },
+    { id: '6', text: 'Cycle' },
+    { id: '1', text: 'D\u00e9partement' },
+    { id: '8', text: '\u00c9tablissement' },
+    { id: '4', text: 'Regroupement d\u0027\u00e9coles' },
+    { id: '5', text: 'Regroupement de coll\u00e8ges' },
+    { id: '9', text: 'Regroupement de lyc\u00e9es' }
+  ]
+this.onSite = false
   this.sendMail = () => {
     const values = {
-      title: document.getElementById("title").value,
-      description: document.getElementById("description").value,
-      actor: document.getElementById("actor").value,
-      otherActor: document.getElementById("otherActor").value,
-      peri: document.getElementById("peri").value,
-      domain: document.getElementById("domain").value,
-      coord: document.getElementById("coord").value,
-      classes: document.getElementById("classes").value,
-      workshopSchedules: this.onSite && document.getElementById("workshopSchedules").value,
-      workshopLearners: this.onSite && document.getElementById("workshopLearners").value,
-      workshopSessions: this.onSite && document.getElementById("workshopSessions").value,
-      workshopHours: this.onSite && document.getElementById("workshopHours").value,
-      workshopComments: this.onSite && document.getElementById("workshopComments").value,
-      target: document.getElementById("target").value,
-      workDone: document.getElementById("workDone").value,
-      prod: document.getElementById("prod").value,
-      proDesc: document.getElementById("proDesc").value,
-      proPrice: document.getElementById("proPrice").value,
-      activityDesc: document.getElementById("activityDesc").value,
-      activityPrice: document.getElementById("activityPrice").value,
-      operatingDesc: document.getElementById("operatingDesc").value,
-      operatingPrice: document.getElementById("operatingPrice").value,
-      travellingDesc: document.getElementById("travellingDesc").value,
-      travellingPrice: document.getElementById("travellingPrice").value,
-      senderName: document.getElementById("senderName").value,
-      senderFirstName: document.getElementById("senderFirstName").value,
-      senderEmail: document.getElementById("senderEmail").value,
-      senderSchool: document.getElementById("selectSchoolInput").value,
-      destEmail: document.getElementById("destEmail").value,
-      destFirstName: document.getElementById("destFirstName").value,
-      destName: document.getElementById("destName").value,
+      title: document.getElementById('title').value,
+      description: document.getElementById('description').value,
+      actor: document.getElementById('actor').value,
+      otherActor: document.getElementById('otherActor').value,
+      peri: document.getElementById('peri').value,
+      domain: document.getElementById('domain').value,
+      coord: document.getElementById('coord').value,
+      classes: document.getElementById('classes').value,
+      workshopSchedules: this.onSite && document.getElementById('workshopSchedules').value,
+      workshopLearners: this.onSite && document.getElementById('workshopLearners').value,
+      workshopSessions: this.onSite && document.getElementById('workshopSessions').value,
+      workshopHours: this.onSite && document.getElementById('workshopHours').value,
+      workshopComments: this.onSite && document.getElementById('workshopComments').value,
+      target: document.getElementById('target').value,
+      workDone: document.getElementById('workDone').value,
+      prod: document.getElementById('prod').value,
+      proDesc: document.getElementById('proDesc').value,
+      proPrice: document.getElementById('proPrice').value,
+      activityDesc: document.getElementById('activityDesc').value,
+      activityPrice: document.getElementById('activityPrice').value,
+      operatingDesc: document.getElementById('operatingDesc').value,
+      operatingPrice: document.getElementById('operatingPrice').value,
+      travellingDesc: document.getElementById('travellingDesc').value,
+      travellingPrice: document.getElementById('travellingPrice').value,
+      senderName: document.getElementById('senderName').value,
+      senderFirstName: document.getElementById('senderFirstName').value,
+      senderEmail: document.getElementById('senderEmail').value,
+      senderSchool: document.getElementById('selectSchoolInput').value,
+      destEmail: document.getElementById('destEmail').value,
+      destFirstName: document.getElementById('destFirstName').value,
+      destName: document.getElementById('destName').value
     }
     const body = encodeURIComponent(`Bonjour ${values.destFirstName} ${values.destName},
 
@@ -236,12 +236,12 @@ Classes engagées : ${values.classes}
 
 # L'atelier
 
-Pratique en atelier : ${this.onSite ? "oui" : "non"}
-Jour et plage horaire de l'atelier : ${values.workshopSchedules || ""}
-Nombre d'élèves de l'atelier : ${values.workshopLearners || ""}
-Nombre total de séances d'atelier : ${values.workshopSessions || ""}
-Nombre total d’heures d’intervention : ${values.workshopHours || ""}
-Commentaires: ${values.workshopComments || ""}
+Pratique en atelier : ${this.onSite ? 'oui' : 'non'}
+Jour et plage horaire de l'atelier : ${values.workshopSchedules || ''}
+Nombre d'élèves de l'atelier : ${values.workshopLearners || ''}
+Nombre total de séances d'atelier : ${values.workshopSessions || ''}
+Nombre total d’heures d’intervention : ${values.workshopHours || ''}
+Commentaires: ${values.workshopComments || ''}
 
 # Le contenu du projet
 

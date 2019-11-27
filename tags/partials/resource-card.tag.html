@@ -28,7 +28,7 @@
       this.schoolId = opts.schoolId
       this.resource = opts.resource
       this.maxlength = this.opts.maxlength || 150
-      this.description = this.resource.description.length < this.maxlength ? this.resource.description : this.resource.description.substr(0, this.maxlength) + '…' 
+      this.description = this.resource.description.length < this.maxlength ? this.resource.description : this.resource.description.substr(0, this.maxlength) + '…'
       this.isAction = Boolean(this.resource.actor)
       this.url = `/${this.isAction ? 'action' : 'actor'}/${this.resource._id}`
       this.department = this.isAction ? (this.resource.actor && this.resource.actor.postalCode) : this.resource.postalCode

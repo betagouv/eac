@@ -36,21 +36,21 @@
 
   <script>
     this.domains = [
-      "Architecture",
-      "Art moderne et contemporain",
-      "Arts du cirque et de la rue",
-      "Arts numériques",
-      "Arts visuels",
-      "Danse",
-      "Développement durable",
-      "Livres",
-      "Musée",
-      "Musique",
-      "Opéra",
-      "Patrimoine",
-      "Théâtre"
-    ];
-    this.on('mount', async () => {
+      'Architecture',
+      'Art moderne et contemporain',
+      'Arts du cirque et de la rue',
+      'Arts numériques',
+      'Arts visuels',
+      'Danse',
+      'Développement durable',
+      'Livres',
+      'Musée',
+      'Musique',
+      'Opéra',
+      'Patrimoine',
+      'Théâtre'
+    ]
+this.on('mount', async () => {
       let filters = {}
       try {
         filters = JSON.parse(this.opts.filters)

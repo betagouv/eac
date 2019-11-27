@@ -34,12 +34,12 @@
           const marker = L.marker(r.loc.coordinates, {icon: resourceMarker})
           const isAction = Boolean(r.actor)
           const description = r.description.length > 80 ? (r.description.substr(0, 300) + '…') : r.description
-          const url = `/${ isAction ? 'action' : 'actor' }/${r._id}`
+          const url = `/${isAction ? 'action' : 'actor'}/${r._id}`
           marker.resource = r
           marker.bindPopup(`
             <a href=${url}?school=${this.schoolId} title="Voir le détail">
               <h4>${r.name}</h4>
-              <p>${ description }</p>
+              <p>${description}</p>
               <p>Voir le détail</p>
             </a>
           `)

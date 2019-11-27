@@ -18,11 +18,12 @@
 
 <!-- Piwik -->
 <script>
+  /* globals _paq */
   if (window.location.hostname !== 'localhost') {
     window._paq = window._paq || []
     _paq.push(['setDomains', ['*.education-artistique-culturelle.fr']])
-  _paq.push(['trackPageView'])
-  _paq.push(['enableLinkTracking']);
+    _paq.push(['trackPageView'])
+    _paq.push(['enableLinkTracking']);
     (function () {
       var u = '//stats.data.gouv.fr/'
       _paq.push(['setTrackerUrl', u + 'piwik.php'])
@@ -39,5 +40,6 @@
 <script src=/js/dist/app.js></script>
 
 <script>
+  /* globals riot */
   riot.mount('*')
 </script>

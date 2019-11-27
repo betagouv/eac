@@ -9,7 +9,6 @@
     "lint": "standard --fix --plugin html '**/*.html'",
     "watch": "concurrently \"DEBUG=express:* riot -w --ext html tags js/src/tags.js\" \"babel js/src --out-dir js/dist --watch\"",
     "build": "riot --ext html tags js/src/tags.js && babel js/src --out-dir js/dist && rm js/src/tags.js",
-    "postinstall": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,8 +34,8 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "forcedomain": "^1.0.0",
-    "nodemon": "^1.18.4",
+    "forcedomain": "^2.0.0",
+    "nodemon": "^2.0.1",
     "serve-static": "^1.13.2"
   }
 }

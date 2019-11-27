@@ -2,14 +2,13 @@
 
 (_Documentation in French_)
 
-Cette plateforme est en développement.
+Cette plateforme est en production.
 
 ## Installation
 
 1. Téléchargez les sources : `git clone https://github.com/betagouv/eac.git` ;
 2. installez les dépendances de développement : `npm install` ;
-3. lancez le _watcher_ qui transpile les fichiers `.js` et `.tags.html` en fichier `.js` ES5 : `npm run watch` ;
-4. lancez le serveur : `npm run dev` ;
+3. lancez le _watcher_ qui transpile les fichiers `.js` et `.tags.html` en fichier `.js` ES5 et le serveur : `npm start` ;
 5. ouvez le navigateur à la page `http://localhost:8080`.
 
 Elle dépend également de [l'API EAC](http://github.com/betagouv/eac-api) qui sert
@@ -37,4 +36,4 @@ La plateforme utilise :
 
 Pour [nettoyer](https://standardjs.com/) les sources JS, lancer la commande `npm run lint`. Pour transpiler les fichiers `.js` et `.tags.html` en fichier `.js` ES5, lancer la commande `npm run build`.
 
-L'application est déployée chez [clever cloud](https://www.clever-cloud.com/en/).
+L'application est déployée sur un server privé OVH.

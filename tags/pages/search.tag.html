@@ -66,23 +66,23 @@
 
       const params = []
       if (this.filters.levels) {
-        params.push(["schoolLevels", this.filters.levels])
+        params.push(['schoolLevels', this.filters.levels])
       }
       if (this.filters.domains) {
-        params.push(["domains", this.domains])
+        params.push(['domains', this.domains])
       }
       if (this.schoolId) {
         this.school = await schoolById(this.schoolId)
         if (this.school.loc && this.school.loc.coordinates) {
-          const coordinatesParam = ["from", `${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`]
+          const coordinatesParam = ['from', `${this.school.loc.coordinates[1]},${this.school.loc.coordinates[0]}`]
           params.push(coordinatesParam)
-          params.push(["distance", 250])
+          params.push(['distance', 250])
         }
       }
 
       const [actors, actions] = await Promise.all([
-        api(`/actors/search/${normalizeString(this.q)}${params.length ? `?${params.map(a => `${a[0]}=${encodeURI(a[1])}`).join("&")}` : ''}`),
-        api(`/actions/search/${normalizeString(this.q)}${params.length ? `?${params.map(a => `${a[0]}=${encodeURI(a[1])}`).join("&")}` : ''}`)
+        api(`/actors/search/${normalizeString(this.q)}${params.length ? `?${params.map(a => `${a[0]}=${encodeURI(a[1])}`).join('&')}` : ''}`),
+        api(`/actions/search/${normalizeString(this.q)}${params.length ? `?${params.map(a => `${a[0]}=${encodeURI(a[1])}`).join('&')}` : ''}`)
       ])
       this.resources = [...actors, ...actions]
       this.resources.sort((a, b) => {

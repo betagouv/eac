@@ -2,14 +2,13 @@
   <input type=search ref=input oninput={ this.complete } onblur={ this.ensureFilled } placeholder="Ex : 88 Rue des Arts 59100 Roubaix" value={ this.opts.label }>
 
   <script>
-    /* global api, Awesomplete, normalizeString */
+    /* global Awesomplete, normalizeString, request */
 
     this.completer = null
     let address = {}
     let latLng = []
 
     this.on('mount', async () => {
-
       this.completer = new Awesomplete(this.refs.input, {
         replace: function (suggestion) {
           this.input.value = suggestion.label
@@ -23,7 +22,7 @@
         filter: function (text, input) {
           const words = normalizeString(input).split(' ')
           return words.filter(word => normalizeString(text.label).includes(word)).length === words.length
-        },
+        }
       })
 
       this.refs.input.addEventListener('awesomplete-selectcomplete', event => {
@@ -43,9 +42,9 @@
 
       const addresses = await request(`https://api-adresse.data.gouv.fr/search/?q=${q}&limit=5`)
       this.completer.list = addresses.features.map(a => ({
-          label: a.properties.label,
-          value: {data: a.properties, latLng: a.geometry.coordinates.reverse()}
-        }
+        label: a.properties.label,
+        value: {data: a.properties, latLng: a.geometry.coordinates.reverse()}
+      }
       ))
 
       if (this.completer.suggestions) {
@@ -55,7 +54,7 @@
     }
 
     this.ensureFilled = event => {
-      if(address.label || !this.completer.suggestions || !this.completer.suggestions.length) {
+      if (address.label || !this.completer.suggestions || !this.completer.suggestions.length) {
         return
       }
       const suggestion = this.completer.suggestions[0]
